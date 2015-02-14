@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Arrays;
 
 /* ChickenSort is a quite stupid sorting algorithm
  * invented by Josh Snider and David Freelan in 2013.
@@ -39,10 +40,10 @@ public class ChickenSort {
 		return tComparisons;
 	}
 	
-	public static boolean isSorted(int[] aArray){
-		for(int tIndex = 0; tIndex < aArray.length - 1; tIndex++)
+	public static boolean isKSorted(int[] aArray, int aKval){
+		for(int tIndex = 0; tIndex < aArray.length - aKval; tIndex += aKval)
 		{
-			if(aArray[tIndex] > aArray[tIndex + 1])
+			if(aArray[tIndex] > aArray[tIndex + aKval])
 			{
 				return false;
 			}
@@ -50,16 +51,54 @@ public class ChickenSort {
 		return true;
 	}
 	
-	public static void main(String[] args){
-		int[] tArr = {5,4,3,2,1,0,-1,-2,-3,-4};
-		double tSum = 0;
-		int tCount = 0;
-		while(true)
+	public static boolean isSorted(int[] aArray){
+		return isKSorted(aArray, 1);
+	}
+	
+	public static int[] makeUnsortedArray(int aSize){
+		int[] tRetval = new int[aSize];
+		for(int tIndex = 0; tIndex < aSize; tIndex++)
 		{
-			tCount++;
-			tSum += ChickenSort.sort(tArr.clone());
-			System.out.println(tCount + ": " + tSum/tCount);
+			tRetval[tIndex] = aSize - tIndex;
+		}
+		return tRetval;
+	}
+	
+	public static void ksort(int[] aArray, int aKval){
+		//TODO DEBUG FIXME
+		while(!isKSorted(aArray, aKval)){
+			for(int tIndex = 0; tIndex < aArray.length - aKval; tIndex += aKval){
+				if(aArray[tIndex] > aArray[tIndex + aKval]){
+					int tSwap = aArray[tIndex + aKval];
+					aArray[tIndex + aKval] = aArray[tIndex];
+					aArray[tIndex] = tSwap;
+				}
+			}
 		}
 	}
 	
+	public static void printArray(int[] aArray){
+		System.out.print("[");
+		for(int tIndex = 0; tIndex < aArray.length - 1; tIndex++){
+			System.out.print(aArray[tIndex] + ", ");
+		}
+		System.out.println(aArray[aArray.length - 1] + "]");
+	}
+	
+	public static void main(String[] args){
+		
+		for(int tSize = 4; tSize < 256; tSize = tSize * 2)
+		{
+			for(int tSort = 2; tSort < tSize; tSort = tSort * 2){
+				double tSum = 0;
+				for(int tCount = 0; tCount < 10000; tCount++)
+				{
+					int[] tArray = makeUnsortedArray(tSize);
+					ksort(tArray, tSort);
+					tSum += sort(tArray);
+				}
+				System.out.println(tSize + ", " + tSort + ", " + tSum/10000);
+			}
+		}
+	}
 }
