@@ -8,17 +8,17 @@ class Quadtree
   public:
 
   /*
-  *
+  * Constructor
   */
   Quadtree(City &aCity);
 
   /*
-  *
+  * Destructor
   */
   ~Quadtree(); 
 
   /*
-  *
+  * Make a new Quadtree node from aCity and add it to the tree.
   */
   void
   AddCity(City &aCity);
