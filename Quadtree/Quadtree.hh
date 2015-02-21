@@ -1,7 +1,8 @@
 #ifndef _Quadtree_hh
 #define _Quadtree_hh
 
-class City;
+#include "City.hh"
+#include <vector>
 
 class Quadtree
 {
@@ -23,7 +24,20 @@ class Quadtree
   void
   AddCity(City &aCity);
 
+  /*
+  * Get the child in the given direction.
+  */
+  Quadtree**
+  GetChild(City::Direction aDirection);
+
+  /*
+  * Get the child in the given direction.
+  */
+  void
+  GetPointsInRange(std::vector<City> aCities, City &aCity, int aRange);
+
   private:
+
   City &_City;
   Quadtree *_NW;
   Quadtree *_NE;

@@ -44,7 +44,7 @@ City::operator!=(const City &aCity) const
 *
 */
 City::Direction
-City::GetDirection(City &aCity)
+City::GetDirection(City &aCity) const
 {
   if (_Lat < aCity._Lat)
   {
@@ -74,7 +74,7 @@ City::GetDirection(City &aCity)
 *
 */
 std::string
-City::GetName()
+City::GetName() const
 {
   return _Name;
 }
@@ -83,7 +83,7 @@ City::GetName()
 *
 */
 double
-City::GetDistance(City &aCity)
+City::GetDistance(City &aCity) const
 {
   double kEarthRadius = 6371.0;
   double tLat1 = _Lat * M_PI / 180.0;

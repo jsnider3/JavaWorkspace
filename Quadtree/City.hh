@@ -41,19 +41,19 @@ class City
   * Return what direction aCity is in.
   */
   Direction
-  GetDirection(City &aCity);
+  GetDirection(City &aCity) const;
 
   /*
   * Returns _Name.
   */
   std::string
-  GetName();
+  GetName() const;
 
   /*
   * Returns the distance to aCity.
   */
   double
-  GetDistance(City &aCity);
+  GetDistance(City &aCity) const;
 
   private:
   std::string _Name;

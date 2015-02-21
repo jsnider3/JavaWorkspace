@@ -3,7 +3,7 @@
 #include <iostream>
 
 /*
-* Constructor
+* 
 */
 Quadtree::Quadtree(City &aCity)
   :
@@ -21,7 +21,10 @@ Quadtree::Quadtree(City &aCity)
 */
 Quadtree::~Quadtree()
 {
-
+  delete _NW;
+  delete _NE;
+  delete _SW;
+  delete _SE;
 }
 
 /*
@@ -30,47 +33,62 @@ Quadtree::~Quadtree()
 void
 Quadtree::AddCity(City &aCity)
 {
-  switch (_City.GetDirection(aCity))
+  Quadtree **tDirection = GetChild(_City.GetDirection(aCity));
+  if (*tDirection == NULL)
+  {
+    *tDirection = new Quadtree(aCity);
+  }
+  else
+  {
+    (*tDirection)->AddCity(aCity);
+  }
+}
+
+/*
+*
+*/
+Quadtree**
+Quadtree::GetChild(City::Direction aDirection)
+{
+  switch (aDirection)
   {
     case City::eNORTH_WEST:
-      if (_NW == NULL)
-      {
-        _NW = new Quadtree(aCity);
-      }
-      else
-      {
-        _NW->AddCity(aCity);
-      }
-      break;
+      return &_NW;
     case City::eNORTH_EAST:
-       if (_NE == NULL)
-      {
-        _NE = new Quadtree(aCity);
-      }
-      else
-      {
-        _NE->AddCity(aCity);
-      }
-      break;
+      return &_NE;
     case City::eSOUTH_WEST:
-      if (_SW == NULL)
-      {
-        _SW = new Quadtree(aCity);
-      }
-      else
-      {
-        _SW->AddCity(aCity);
-      }
-      break;
+      return &_SW;
     case City::eSOUTH_EAST:
-      if (_SE == NULL)
-      {
-        _SE = new Quadtree(aCity);
-      }
-      else
-      {
-        _SE->AddCity(aCity);
-      }
-      break;
+    default:
+      return &_SE;
+  }
+}
+
+/*
+*
+*/
+//TODO Can be optimized.
+void
+Quadtree::GetPointsInRange(std::vector<City> aCities, City &aCity, int aRange)
+{
+  if (aCity.GetDistance(_City))
+  {
+    aCities.push_back(_City);
+  }
+  if (_NW != NULL)
+  {
+    _NW->GetPointsInRange(aCities, aCity, aRange);
+  }
+  if (_NE != NULL)
+  {
+    _NE->GetPointsInRange(aCities, aCity, aRange);
+  }
+  if (_SW != NULL)
+  {
+    _SW->GetPointsInRange(aCities, aCity, aRange);
+  }
+  if (_SE != NULL)
+  {
+    _SE->GetPointsInRange(aCities, aCity, aRange);
   }
 }
