@@ -34,7 +34,7 @@ class Quadtree
   * Get the child in the given direction.
   */
   void
-  GetPointsInRange(std::vector<City> aCities, City &aCity, int aRange);
+  GetPointsInRange(std::vector<City> *aCities, City &aCity, int aRange);
 
   private:
 

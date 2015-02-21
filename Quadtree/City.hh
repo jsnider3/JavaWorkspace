@@ -56,9 +56,9 @@ class City
   GetDistance(City &aCity) const;
 
   private:
-  std::string _Name;
-  int         _Lat;
-  int         _Lon;
+  const std::string _Name;
+  const int         _Lat;
+  const int         _Lon;
 
 };
 

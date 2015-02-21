@@ -59,7 +59,9 @@ Quadtree::GetChild(City::Direction aDirection)
     case City::eSOUTH_WEST:
       return &_SW;
     case City::eSOUTH_EAST:
+      return &_SE;
     default:
+      std::cout << "Fuck you" << std::endl;
       return &_SE;
   }
 }
@@ -69,11 +71,12 @@ Quadtree::GetChild(City::Direction aDirection)
 */
 //TODO Can be optimized.
 void
-Quadtree::GetPointsInRange(std::vector<City> aCities, City &aCity, int aRange)
+Quadtree::GetPointsInRange(std::vector<City> *aCities, City &aCity, int aRange)
 {
+  //std::cout << "Quadtree::GetPointsInRange() " << _City.GetName() << std::endl;
   if (aCity.GetDistance(_City))
   {
-    aCities.push_back(_City);
+    aCities->push_back(_City);
   }
   if (_NW != NULL)
   {
