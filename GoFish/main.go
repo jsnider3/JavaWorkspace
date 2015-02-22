@@ -27,6 +27,7 @@ func (self *GoFishGame) checkForBooks() {
         fmt.Println("Book of", tChar)
         self.removeOccurences(tChar, self._Turn)
         self._Scores[self._Turn]++
+        break
       }
     } else {
       tCount = 1
@@ -35,52 +36,51 @@ func (self *GoFishGame) checkForBooks() {
   }
 }
 
-func (self *GoFishGame) checkForVictory(aTurn int) (bool) {
-  return len(self._Hands[aTurn]) == 0
+func (self *GoFishGame) isGameOver(aTurn int) (bool) {
+  return self._Scores[0] + self._Scores[1] == 13
 }
 
-func (self *GoFishGame) drawCard() (string) {
-  tCard := self._Deck[0]
-  self._Deck = self._Deck[1:]
-  return tCard
+func (self *GoFishGame) drawCard() () {
+  if (!self.isDeckEmpty()) {
+    tCard := self._Deck[0]
+    self._Deck = self._Deck[1:]
+    fmt.Println("Drew", tCard)
+    self._Hands[self._Turn] = append(self._Hands[self._Turn], tCard)
+    //Check for books
+    self.checkForBooks()
+  }
 }
 
 func (self *GoFishGame) isDeckEmpty() (bool) {
   return len(self._Deck) == 0
 }
+
+func (self *GoFishGame) printGameOverMessage() {
+  fmt.Println("Final score is",self._Scores[0],"to",self._Scores[1])
+  if self._Scores[0] > self._Scores[1] {
+    fmt.Println("Player wins!")
+  } else if self._Scores[0] == self._Scores[1] {
+    fmt.Println("It's a tie.")
+  } else {
+    fmt.Println("Computer wins!")
+  }
+}
+
 func (self *GoFishGame) printHand() {
-  sort.Strings(self._Hands[self._Turn])
-  fmt.Println("Player", self._Turn, "has:", self._Hands[self._Turn])
-  fmt.Println("and a score of", self._Scores[self._Turn])
+  sort.Strings(self._Hands[0])
+  sort.Strings(self._Hands[1])
+  fmt.Println("You have:", self._Hands[0])
+  fmt.Println("and a score of",self._Scores[0])
+  fmt.Println("Computer score is",self._Scores[1])
+  fmt.Println("PC has:", self._Hands[1])
 }
 
 func (self *GoFishGame) computerTurn() {
-  self.printHand()
-  //while (!self._PlayerTurn)
-  {
-    //Check for books and victory
+  tOpponent := 0
+  tGameOver := self.isGameOver(self._Turn)
+  if (!tGameOver) {
     //What to guess?
-    //If the player has it.
-      //Take his cards
-    //else
-      //Draw a card
-      //Check for books and victory
-      self._Turn = 0  
-  }
-  //If computer won
-    //print something
-  //else
-    //self.playerTurn()
-}
-
-func (self *GoFishGame) playerTurn() {
-  tOpponent := (self._Turn + 1) % 2
-  self.checkForBooks()
-  self.printHand()
-  tVictory := self.checkForVictory(self._Turn)
-  if (!tVictory) {
-    //What to guess?
-    tCard := getUserCard()
+    tCard := self.getPickComputer()
     //Take it from other deck and put in ours.
     tCount := self.removeOccurences(tCard, tOpponent)
     if (tCount > 0) {
@@ -91,26 +91,64 @@ func (self *GoFishGame) playerTurn() {
       self.checkForBooks()
     } else {
       //Draw a card
-      if (!self.isDeckEmpty()) {
-        tDraw := self.drawCard()
-        fmt.Println("Drew", tDraw)
-        self._Hands[self._Turn] = append(self._Hands[self._Turn], tDraw)
-        //Check for books
-        self.checkForBooks()
-      }
+      self.drawCard()
       //End our turn.
       self._Turn = tOpponent  
     }
   }
-  tVictory = self.checkForVictory(self._Turn)
-  if (tVictory) {
-    fmt.Println("Player", self._Turn, "won!")
+  tGameOver = self.isGameOver(1)
+  if (tGameOver) {
+    self.printGameOverMessage()
+  } else if self._Turn == tOpponent {
+    self.playerTurn()
+  } else {
+    self.computerTurn()
+  }
+}
+
+func (self *GoFishGame) playerTurn() {
+  tOpponent := 1
+  self.printHand()
+  tGameOver := self.isGameOver(0)
+  if (!tGameOver) {
+    //What to guess?
+    tCard := self.getPickUser()
+    //Take it from other deck and put in ours.
+    tCount := self.removeOccurences(tCard, tOpponent)
+    if (tCount > 0) {
+      for tIndex := 0; tIndex < tCount; tIndex++ {
+        self._Hands[self._Turn] = append(self._Hands[self._Turn], tCard)
+      }
+      //Check for books
+      self.checkForBooks()
+    } else {
+      //Draw a card
+      self.drawCard()
+      //End our turn.
+      self._Turn = tOpponent  
+    }
+  }
+  tGameOver = self.isGameOver(0)
+  if (tGameOver) {
+    self.printGameOverMessage()
+  } else if self._Turn == tOpponent {
+    self.computerTurn()
   } else {
     self.playerTurn()
   }
 }
 
-func getUserCard() (string) {
+func (self *GoFishGame) getPickComputer() (string) {
+  tHand := self._Hands[1]
+  tChoice := "A"
+  if len(tHand) > 0 {
+    tChoice = tHand[rand.Intn(len(tHand))]
+  }
+  fmt.Println("Computer picks", tChoice)
+  return tChoice
+}
+
+func (self *GoFishGame) getPickUser() (string) {
   fmt.Println("What card do you want?")
   var tCard string
   fmt.Scanf("%s\n", &tCard)
