@@ -10,8 +10,10 @@ def SquareSum(aNum):
     tSum = tSum + tCount
   return tSum ** 2
 
-tSumSquare = SumSquares(100)
-tSquaredSum = SquareSum(100)
-print("Sum of squares is " + str(tSumSquare))
-print("Square of sum is " + str(tSquaredSum))
-print("Difference is " + str(tSumSquare - tSquaredSum))
+def PrimeFactors(aInt):
+  for tCount in xrange(2, aInt + 1):
+    if aInt % tCount == 0:
+      return [tCount] + PrimeFactors(aInt / tCount)    
+  return []
+
+print(max(PrimeFactors(600851475143)))
