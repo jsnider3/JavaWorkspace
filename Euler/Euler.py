@@ -11,10 +11,16 @@ def squareSum(aNum):
   return tSum ** 2
 
 def primeFactors(aInt):
+  if(aInt == 0):
+    return []
+  if(aInt == 1):
+    return [1]
   for tCount in xrange(2, aInt + 1):
-    if aInt % tCount == 0:
-      return primeFactors(aInt / tCount).append(tCount)    
-  return []
+    if (aInt % tCount) == 0:
+      tFactors = primeFactors(aInt / tCount)
+      tFactors.append(tCount)
+      return tFactors
+  return [aInt]
 
 def isPalindrome(aArg):
 	tStr = str(aArg)
@@ -74,5 +80,15 @@ def findLargestPalindromeProduct(aMin, aMax):
 				tLargest = tProduct
 		tFirst = tFirst - 1
 	return tLargest
-assert(isPalindrome(101))
-print(findLargestPalindromeProduct(100, 999))
+
+def lowestCommonMultiple(aNumbers):
+  tCommonFactors = []
+  for tNumber in aNumbers:
+    tFactors = primeFactors(tNumber)
+    for tFactor in tFactors:
+      while tCommonFactors.count(tFactor) < tFactors.count(tFactor):
+        tCommonFactors.append(tFactor)
+  return reduce(lambda x, y: x * y, tCommonFactors)
+
+#print(primeFactors(3))
+print(lowestCommonMultiple(xrange(2, 21)))
