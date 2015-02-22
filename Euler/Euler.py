@@ -81,6 +81,9 @@ def findLargestPalindromeProduct(aMin, aMax):
 		tFirst = tFirst - 1
 	return tLargest
 
+def listProduct(aList):
+  return reduce(lambda x, y: x * y, aList)
+
 def lowestCommonMultiple(aNumbers):
   tCommonFactors = []
   for tNumber in aNumbers:
@@ -88,7 +91,15 @@ def lowestCommonMultiple(aNumbers):
     for tFactor in tFactors:
       while tCommonFactors.count(tFactor) < tFactors.count(tFactor):
         tCommonFactors.append(tFactor)
-  return reduce(lambda x, y: x * y, tCommonFactors)
+  return listProduct(tCommonFactors)
 
-#print(primeFactors(3))
-print(lowestCommonMultiple(xrange(2, 21)))
+def findPythagTriplet(aSum):
+  tMax = int(aSum / 3) + 1
+  for tA in xrange(1, aSum):
+    for tB in xrange(tA + 1, aSum - tA + 1):
+      for tC in xrange(tB + 1, aSum - tA - tB + 1):
+        if tA ** 2 + tB ** 2 == tC ** 2:
+          if tA + tB + tC == 1000:
+            return [tA, tB, tC]
+
+print(listProduct(findPythagTriplet(1000)))
