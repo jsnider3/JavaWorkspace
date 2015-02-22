@@ -13,7 +13,7 @@ def squareSum(aNum):
 def primeFactors(aInt):
   for tCount in xrange(2, aInt + 1):
     if aInt % tCount == 0:
-      return [tCount] + primeFactors(aInt / tCount)    
+      return primeFactors(aInt / tCount).append(tCount)    
   return []
 
 def isPrime(aInt):
@@ -33,6 +33,12 @@ def nthPrime(aNth):
       tFound = tFound + 1
     tCount = tCount + 1
   return tPrime
-  
 
-print(nthPrime(10001))
+def primesLessThan(aMax):
+  tPrimes = []
+  for tCount in xrange(2, aMax):
+    if isPrime(tCount):
+      tPrimes.append(tCount)
+  return tPrimes  
+
+print(sum(primesLessThan(2000000)))
