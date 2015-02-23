@@ -11,6 +11,15 @@ def alphabetScore(aWord):
     tSum = tSum + tCharVal
   return tSum
 
+def champernowne(aDigit):
+  assert(aDigit > 0)
+  tCount = 1
+  tStr = ""
+  while len(tStr) < aDigit:
+    tStr = tStr + str(tCount)
+    tCount = tCount + 1
+  return int(tStr[aDigit - 1])
+
 def coprime(aFirst, aSecond):
   return greatestCommonDivisor(aFirst, aSecond) == 1 
 
@@ -28,8 +37,6 @@ def isArithmeticallyIncreasing(aList):
   return True
 
 def fibonacci (aTerm):
-  #tPhi = (1 + math.sqrt(5))/2
-  #return int((tPhi ** aTerm - (-tPhi) ** (-aTerm))/math.sqrt(5))
   tFirst = 0
   tSecond = 1
   tCount = 1
