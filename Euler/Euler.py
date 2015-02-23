@@ -67,6 +67,18 @@ def findPythagTriplet(aSum):
           if tA + tB + tC == 1000:
             return [tA, tB, tC]
 
+def firstIncorrectTerm(aApprox, aFunc):
+  tCount = 1
+  while aApprox(tCount) == aFunc(tCount):
+    tCount = tCount + 1
+  print((tCount,aApprox(tCount),aFunc(tCount)))
+  return aApprox(tCount)
+
+def fitPolynomial(aTerms):
+  tXes = range(1, len(aTerms) + 1)
+  return lambda x: int(.5 + numpy.polyval(
+                        numpy.polyfit(tXes, aTerms, len(aTerms) - 1), x))
+
 def greatestCommonDivisor(aFirst, aSecond):
   tMax = max(aFirst, aSecond)
   tMin = min(aFirst, aSecond)
