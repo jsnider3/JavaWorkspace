@@ -1,3 +1,5 @@
+import numpy
+
 def alphabetScore(aWord):
   aWord = aWord.lower()
   tSum = 0
@@ -118,6 +120,22 @@ def lowestCommonMultiple(aNumbers):
       while tCommonFactors.count(tFactor) < tFactors.count(tFactor):
         tCommonFactors.append(tFactor)
   return listProduct(tCommonFactors)
+
+def makeChange(aCoins, aTotal):
+  tNumCoins = len(aCoins)
+  tSolution = numpy.zeros((aTotal + 1, tNumCoins))
+  for tIndex in range(tNumCoins):
+    tSolution[0][tIndex] = 1
+  for tLoop in xrange(1, aTotal + 1):
+    for tIndex in range(tNumCoins):
+      tX = 0
+      if tLoop - aCoins[tIndex] >= 0:
+        tX = tSolution[tLoop - aCoins[tIndex]][tIndex]
+      tY = 0
+      if tIndex > 0:
+        tY = tSolution[tLoop][tIndex - 1]
+      tSolution[tLoop][tIndex] = tX + tY
+  return int(tSolution[aTotal][tNumCoins - 1])
 
 def nthPrime(aNth):
   assert(aNth > 0)
