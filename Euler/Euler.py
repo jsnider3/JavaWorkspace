@@ -36,6 +36,10 @@ def isArithmeticallyIncreasing(aList):
       return False
   return True
 
+def isSquare(aNum):
+  tSqrt = int(math.sqrt(aNum) + .5)
+  return aNum == tSqrt * tSqrt
+
 def fibonacci (aTerm):
   tFirst = 0
   tSecond = 1
@@ -111,6 +115,11 @@ def isAnagram(aFirst, aSecond):
     if tFirst.count(tChar) != tSecond.count(tChar):
       return False
   return True
+
+def isInt(aNum):
+  tInt = int(aNum + .5)
+  tDiff = abs(aNum - tInt)
+  return tDiff < .001
 
 def isPalindrome(aArg):
 	tStr = str(aArg)
@@ -207,6 +216,10 @@ def nthPrime(aNth):
     tCount = tCount + 1
   return tPrime
 
+def pointsOnSlope(aRise, aRun):
+  tPoints = 1 + greatestCommonDivisor(aRise, aRun)
+  return tPoints
+
 def primeFactors(aInt):
   if(aInt == 0):
     return []
@@ -230,6 +243,7 @@ def primesLessThan(aMax):
   return primesInRange(2, aMax)
 
 def resilience(aDenom):
+  #FIXME Infeasible.
   assert(aDenom > 1)
   tNumers = range(1, aDenom)
   tTests = map(lambda x: coprime(aDenom, x), tNumers)
