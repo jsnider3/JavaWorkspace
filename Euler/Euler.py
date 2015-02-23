@@ -7,6 +7,16 @@ def alphabetScore(aWord):
     tSum = tSum + tCharVal
   return tSum
 
+def isArithmeticallyIncreasing(aList):
+  assert(len(aList) > 1)
+  tList = sorted(aList)
+  tDiff = tList[1] - tList[0]
+  for tIndex in xrange(0, len(tList) - 1):
+    tNewDiff = tList[tIndex + 1] - tList[tIndex]
+    if tNewDiff != tDiff:
+      return False
+  return True
+
 def findLargestPalindromeProduct(aMin, aMax):
 	tFirst = aMax
 	tLargest = 1
@@ -26,6 +36,27 @@ def findPythagTriplet(aSum):
         if tA ** 2 + tB ** 2 == tC ** 2:
           if tA + tB + tC == 1000:
             return [tA, tB, tC]
+
+def groupIntoEquivalencyClasses(aList, aEquals):
+  tClasses = []
+  for tElem in aList:
+    tFound = False
+    for tClass in tClasses:
+      if aEquals(tClass[0], tElem):
+        tFound = True
+        tClass.append(tElem)
+        break
+    if not tFound:
+      tClasses.append([tElem])
+  return tClasses 
+
+def isAnagram(aFirst, aSecond):
+  tFirst = str(aFirst)
+  tSecond = str(aSecond)
+  for tChar in tFirst + tSecond:
+    if tFirst.count(tChar) != tSecond.count(tChar):
+      return False
+  return True
 
 def isPalindrome(aArg):
 	tStr = str(aArg)
@@ -58,6 +89,27 @@ def largestProductInSeries(aSeries, aLength):
 def listProduct(aList):
   return reduce(lambda x, y: x * y, aList)
 
+def longestArithmeticallyIncreasingSequence(aList):
+  if len(aList) < 2:
+    return aList
+  tMaxLen = 1
+  tMaxDiff = aList[1] - aList[0]
+  tMaxStart = aList[0]
+  for tLow in range(len(aList)):
+    for tHigh in xrange(tLow + 1, len(aList)):
+      tDiff = aList[tHigh] - aList[tLow]
+      tCount = 0
+      while aList[tLow] + tDiff * (tCount + 1) in aList:
+        tCount = tCount + 1
+      if tCount > tMaxLen:
+        tMaxLen = tCount
+        tMaxDiff = tDiff
+        tMaxStart = aList[tLow]
+  tSequence = []
+  for tCount in xrange(0, tMaxLen + 1):
+    tSequence.append(tMaxStart + tMaxDiff * tCount)
+  return tSequence
+
 def lowestCommonMultiple(aNumbers):
   tCommonFactors = []
   for tNumber in aNumbers:
@@ -66,6 +118,7 @@ def lowestCommonMultiple(aNumbers):
       while tCommonFactors.count(tFactor) < tFactors.count(tFactor):
         tCommonFactors.append(tFactor)
   return listProduct(tCommonFactors)
+
 def nthPrime(aNth):
   assert(aNth > 0)
   tPrime = 1
@@ -90,12 +143,15 @@ def primeFactors(aInt):
       return tFactors
   return [aInt]
 
-def primesLessThan(aMax):
+def primesInRange(aMin, aMax):
   tPrimes = []
-  for tCount in xrange(2, aMax):
+  for tCount in xrange(aMin, aMax):
     if isPrime(tCount):
       tPrimes.append(tCount)
   return tPrimes  
+
+def primesLessThan(aMax):
+  return primesInRange(2, aMax)
 
 def squareSum(aNum):
   tSum = 0
