@@ -1,3 +1,4 @@
+import math
 import numpy
 
 def alphabetScore(aWord):
@@ -9,6 +10,9 @@ def alphabetScore(aWord):
     tSum = tSum + tCharVal
   return tSum
 
+def digits(aNum):
+  return len(str(aNum))
+
 def isArithmeticallyIncreasing(aList):
   assert(len(aList) > 1)
   tList = sorted(aList)
@@ -18,6 +22,19 @@ def isArithmeticallyIncreasing(aList):
     if tNewDiff != tDiff:
       return False
   return True
+
+def fibonacci (aTerm):
+  #tPhi = (1 + math.sqrt(5))/2
+  #return int((tPhi ** aTerm - (-tPhi) ** (-aTerm))/math.sqrt(5))
+  tFirst = 0
+  tSecond = 1
+  tCount = 1
+  while tCount < aTerm:
+    tNext = tFirst + tSecond
+    tFirst = tSecond
+    tSecond = tNext
+    tCount = tCount + 1
+  return tSecond
 
 def findLargestPalindromeProduct(aMin, aMax):
 	tFirst = aMax
