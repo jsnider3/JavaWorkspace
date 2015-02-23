@@ -1,5 +1,6 @@
 import math
 import numpy
+import pdb
 
 def alphabetScore(aWord):
   aWord = aWord.lower()
@@ -9,6 +10,9 @@ def alphabetScore(aWord):
     assert(tCharVal > -1)
     tSum = tSum + tCharVal
   return tSum
+
+def coprime(aFirst, aSecond):
+  return greatestCommonDivisor(aFirst, aSecond) == 1 
 
 def digits(aNum):
   return len(str(aNum))
@@ -56,6 +60,18 @@ def findPythagTriplet(aSum):
           if tA + tB + tC == 1000:
             return [tA, tB, tC]
 
+def greatestCommonDivisor(aFirst, aSecond):
+  tMax = max(aFirst, aSecond)
+  tMin = min(aFirst, aSecond)
+  while tMin != 0:
+    assert(tMin > 0)
+    tTemp = tMin
+    tMin = tMax - tMin
+    tMax = tTemp    
+    if tMin > tMax:
+      tMax, tMin = tMin, tMax
+  return tMax
+
 def groupIntoEquivalencyClasses(aList, aEquals):
   tClasses = []
   for tElem in aList:
@@ -84,6 +100,12 @@ def isPalindrome(aArg):
 		if tStr[tIndex] != tStr[tLen - (tIndex + 1)]:
 			return False
 	return True
+
+def isPowerOf(aNum, aBase):
+  tCount = 0
+  while aBase ** tCount < aNum:
+    tCount = tCount + 1
+  return aBase ** tCount == aNum
 
 def isPrime(aInt):
   for tCount in xrange(2, int(aInt ** (.5) + 1)):
@@ -187,6 +209,13 @@ def primesInRange(aMin, aMax):
 
 def primesLessThan(aMax):
   return primesInRange(2, aMax)
+
+def resilience(aDenom):
+  assert(aDenom > 1)
+  tNumers = range(1, aDenom)
+  tTests = map(lambda x: coprime(aDenom, x), tNumers)
+  tTemp = len(filter(lambda x: x, tTests))
+  return float(tTemp) / (aDenom - 1)
 
 def squareSum(aNum):
   tSum = 0
