@@ -2,6 +2,36 @@ import math
 import numpy
 import pdb
 
+class Collatz:
+  def __init__(self):
+    self._Depths = {1 : 1}
+  
+  def next(self, aInt):
+    assert(aInt > 0)
+    if aInt % 2 == 0:
+      return aInt / 2
+    else:
+      return (3 * aInt + 1) / 2
+
+  def depth(self, aInt):
+    if aInt in self._Depths:
+      return self._Depths.get(aInt)
+    else:
+      self._Depths[aInt] = self.depth(self.next(aInt)) + 1
+      return self._Depths[aInt]
+
+  def maxDepth(self):
+    tMax = 1
+    tMaxNum = 1
+    for tEntry in self._Depths.items():
+      (tKey, tValue) = tEntry
+      if tValue > tMax:
+        tMax = tValue
+        tMaxNum = tKey
+    return tMaxNum
+
+#########################
+
 def alphabetScore(aWord):
   aWord = aWord.lower()
   tSum = 0
@@ -22,23 +52,6 @@ def champernowne(aDigit):
 
 def coprime(aFirst, aSecond):
   return greatestCommonDivisor(aFirst, aSecond) == 1 
-
-def digits(aNum):
-  return len(str(aNum))
-
-def isArithmeticallyIncreasing(aList):
-  assert(len(aList) > 1)
-  tList = sorted(aList)
-  tDiff = tList[1] - tList[0]
-  for tIndex in xrange(0, len(tList) - 1):
-    tNewDiff = tList[tIndex + 1] - tList[tIndex]
-    if tNewDiff != tDiff:
-      return False
-  return True
-
-def isSquare(aNum):
-  tSqrt = int(math.sqrt(aNum) + .5)
-  return aNum == tSqrt * tSqrt
 
 def fibonacci (aTerm):
   tFirst = 0
@@ -70,6 +83,15 @@ def findPythagTriplet(aSum):
         if tA ** 2 + tB ** 2 == tC ** 2:
           if tA + tB + tC == 1000:
             return [tA, tB, tC]
+
+def findRightTriangles(aPerim):
+  tTriangles = []
+  for tA in range(1, aPerim/3):
+    for tB in range(1, aPerim/2):
+      tC = math.sqrt(tA ** 2 + tB ** 2)
+      if tC.is_integer() and tA + tB + tC == aPerim:
+        tTriangles.append((tA, tB, tC))
+  return tTriangles
 
 def firstIncorrectTerm(aApprox, aFunc):
   tCount = 1
@@ -116,10 +138,15 @@ def isAnagram(aFirst, aSecond):
       return False
   return True
 
-def isInt(aNum):
-  tInt = int(aNum + .5)
-  tDiff = abs(aNum - tInt)
-  return tDiff < .001
+def isArithmeticallyIncreasing(aList):
+  assert(len(aList) > 1)
+  tList = sorted(aList)
+  tDiff = tList[1] - tList[0]
+  for tIndex in xrange(0, len(tList) - 1):
+    tNewDiff = tList[tIndex + 1] - tList[tIndex]
+    if tNewDiff != tDiff:
+      return False
+  return True
 
 def isPalindrome(aArg):
 	tStr = str(aArg)
@@ -140,6 +167,10 @@ def isPrime(aInt):
     if aInt % tCount == 0:
       return False
   return True
+
+def isSquare(aNum):
+  tSqrt = int(math.sqrt(aNum) + .5)
+  return aNum == tSqrt * tSqrt
 
 def largestProductInSeries(aSeries, aLength):
   assert(len(aSeries) >= aLength)
@@ -216,6 +247,9 @@ def nthPrime(aNth):
     tCount = tCount + 1
   return tPrime
 
+def numDigits(aNum):
+  return len(str(aNum))
+
 def pointsOnSlope(aRise, aRun):
   tPoints = 1 + greatestCommonDivisor(aRise, aRun)
   return tPoints
@@ -255,6 +289,13 @@ def squareSum(aNum):
   for tCount in xrange(1, aNum + 1):
     tSum = tSum + tCount
   return tSum ** 2
+
+def sumDigits(aInt):
+  tStr = str(aInt)
+  tSum = 0
+  for tChar in tStr:
+    tSum = tSum + int(tChar)
+  return tSum
 
 def sumSquares(aNum):
   tSum = 0
