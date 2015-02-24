@@ -1,3 +1,4 @@
+import datetime
 import math
 import numpy
 import pdb
@@ -163,10 +164,19 @@ def isPowerOf(aNum, aBase):
   return aBase ** tCount == aNum
 
 def isPrime(aInt):
+  if aInt < 2:
+    return False
   for tCount in xrange(2, int(aInt ** (.5) + 1)):
     if aInt % tCount == 0:
       return False
   return True
+
+def isRotation(aFirst, aSecond):
+  tFirst = str(aFirst)
+  tSecond = str(aSecond)
+  if len(tFirst) != len(tSecond):
+    return False
+  return tSecond in tFirst + tFirst
 
 def isSquare(aNum):
   tSqrt = int(math.sqrt(aNum) + .5)
@@ -284,6 +294,19 @@ def resilience(aDenom):
   tTemp = len(filter(lambda x: x, tTests))
   return float(tTemp) / (aDenom - 1)
 
+tMemoCuts = {}
+
+def rodCuts(aLength, aCutSize):
+  #FIXME Buggy
+  tCurry = (aLength, aCutSize)
+  if tCurry in tMemoCuts:
+    return tMemoCuts.get(tCurry)
+  tCuts = 1
+  for tIndex in range(aLength - aCutSize):
+    tCuts = tCuts + rodCuts(aLength - aCutSize, aCutSize)
+  tMemoCuts[tCurry] = tCuts
+  return tCuts
+
 def squareSum(aNum):
   tSum = 0
   for tCount in xrange(1, aNum + 1):
@@ -302,5 +325,12 @@ def sumSquares(aNum):
   for tCount in xrange(1, aNum + 1) :
     tSum = tSum + (tCount ** 2)
   return tSum
+
+def quadPrime(aA, aB):
+  tFunc = lambda x: x**2 + aA * x + aB
+  tCount = 0
+  while isPrime(tFunc(tCount)):
+    tCount = tCount + 1
+  return tCount
 
 print("REDACTED")
