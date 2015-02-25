@@ -33,6 +33,83 @@ class Collatz:
 
 #########################
 
+class Graph:
+  def __init__(self):
+    self._EdgeMap = {}
+
+  def dijkstra(self, aSource):
+    tDist = {}
+    tPrev = {}
+    tUnvisited = []
+    #TODO Fixme
+    for tKey in self._EdgeMap.keys():
+      tDist[tKey] = float("inf")
+      tPrev[tKey] = float("inf")
+      tUnvisited.append(tKey)
+    tDist[aSource] = 0
+    tDist[-2] = float("inf")
+    while tUnvisited:
+      tVisit = min(tUnvisited, key = lambda x: tDist[x])
+      tUnvisited.remove(tVisit)
+      tEdges = self._EdgeMap[tVisit]
+      for tEntry in tEdges.items():
+        (tNeighbor, tLeng) = tEntry
+        tWeight = tDist[tVisit] + tLeng
+        if tWeight < tDist[tNeighbor]:
+          tPrev[tNeighbor] = tVisit
+          tDist[tNeighbor] = tWeight
+    return (tDist, tPrev)
+
+  def dumpEdges(self):
+    print(self._EdgeMap)
+
+  @staticmethod
+  def fromMatrix(aMatrix):
+    tGraph = Graph()
+    tRows = len(tMatrix)
+    tNumVertices = tRows * len(tMatrix[0])
+    tFunc = lambda x, y: tRows * y + x
+    tGraph = Graph()
+    for tX in range(tRows):
+      for tY in range(tRows):
+        tVertex = tFunc(tX, tY)
+        tLeft = tFunc(tX - 1, tY)
+        tUp = tFunc(tX, tY - 1)
+        tRight = tFunc(tX + 1, tY)
+        tDown = tFunc(tX, tY + 1)
+        tWeight = tMatrix[tY][tX]
+        if tX > 0 and tLeft >= 0:
+          tGraph.setEdge(tLeft, tVertex, tWeight)
+        if tY > 0 and tUp >= 0:
+          tGraph.setEdge(tUp, tVertex, tWeight)
+        if tX < tRows - 1 and tRight < tNumVertices:
+          tGraph.setEdge(tRight, tVertex, tWeight)
+        if tY < tRows - 1 and tDown < tNumVertices:
+          tGraph.setEdge(tDown, tVertex, tWeight)
+    return tGraph
+  
+  def setEdge(self, aX, aY, aWeight):
+    if aX in self._EdgeMap:
+      self._EdgeMap[aX][aY] = int(aWeight)
+    else:
+      self._EdgeMap[aX] = {aY : int(aWeight)}
+
+  def shortestPath(self, aSource, aDest):
+    (tWeight, tTree) = self.dijkstra(aSource)
+    tPath = []
+    tPrev = aDest
+    tDist = tWeight[tPrev]
+    while tPrev != aSource:
+      tPath.append(tPrev)
+      tTemp = tPrev
+      tPrev = tTree[tPrev]
+      tDist = tWeight[tTemp]# - tWeight[tPrev]
+    tPath.append(tPrev)
+    tPath.reverse()
+    return tPath
+
+#########################
+
 def alphabetScore(aWord):
   aWord = aWord.lower()
   tSum = 0
@@ -98,7 +175,6 @@ def firstIncorrectTerm(aApprox, aFunc):
   tCount = 1
   while aApprox(tCount) == aFunc(tCount):
     tCount = tCount + 1
-  print((tCount,aApprox(tCount),aFunc(tCount)))
   return aApprox(tCount)
 
 def fitPolynomial(aTerms):
@@ -276,6 +352,13 @@ def primeFactors(aInt):
       return tFactors
   return [aInt]
 
+def primes():
+  tCount = 2
+  while True:
+    if isPrime(tCount):
+      yield tCount
+    tCount = tCount + 1
+
 def primesInRange(aMin, aMax):
   tPrimes = []
   for tCount in xrange(aMin, aMax):
@@ -334,3 +417,4 @@ def quadPrime(aA, aB):
   return tCount
 
 print("REDACTED")
+
