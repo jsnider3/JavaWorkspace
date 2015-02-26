@@ -1,4 +1,5 @@
 import datetime
+from functools import reduce
 import math
 import numpy
 import pdb
@@ -204,7 +205,7 @@ def findLargestPalindromeProduct(aMin, aMax):
 	tFirst = aMax
 	tLargest = 1
 	while tFirst >= aMin:
-		for tSecond in xrange(tFirst + 1, aMax + 1):
+		for tSecond in range(tFirst + 1, aMax + 1):
 			tProduct = tFirst * tSecond
 			if isPalindrome(tProduct) and tProduct > tLargest:				
 				tLargest = tProduct
@@ -213,9 +214,9 @@ def findLargestPalindromeProduct(aMin, aMax):
 
 def findPythagTriplet(aSum):
   tMax = int(aSum / 3) + 1
-  for tA in xrange(1, aSum):
-    for tB in xrange(tA + 1, aSum - tA + 1):
-      for tC in xrange(tB + 1, aSum - tA - tB + 1):
+  for tA in range(1, aSum):
+    for tB in range(tA + 1, aSum - tA + 1):
+      for tC in range(tB + 1, aSum - tA - tB + 1):
         if tA ** 2 + tB ** 2 == tC ** 2:
           if tA + tB + tC == 1000:
             return [tA, tB, tC]
@@ -286,19 +287,24 @@ def isArithmeticallyIncreasing(aList):
   assert(len(aList) > 1)
   tList = sorted(aList)
   tDiff = tList[1] - tList[0]
-  for tIndex in xrange(0, len(tList) - 1):
+  for tIndex in range(0, len(tList) - 1):
     tNewDiff = tList[tIndex + 1] - tList[tIndex]
     if tNewDiff != tDiff:
       return False
   return True
 
+def isPandigital(aNum):
+  #TODO Test
+  tStr = str(aNum)
+  return all([str(tDigit) in tStr for tDigit in range(1, len(tStr) + 1)])
+
 def isPalindrome(aArg):
-	tStr = str(aArg)
-	tLen = len(tStr)
-	for tIndex in range(tLen):
-		if tStr[tIndex] != tStr[tLen - (tIndex + 1)]:
-			return False
-	return True
+  tStr = str(aArg)
+  return tStr == tStr[::-1]
+
+def isPalindromeBaseTwo(aArg):
+  tStr = "{0:b}".format(aArg)
+  return tStr == tStr[::-1]
 
 def isPowerOf(aNum, aBase):
   tCount = 0
@@ -309,7 +315,7 @@ def isPowerOf(aNum, aBase):
 def isPrime(aInt):
   if aInt < 2:
     return False
-  for tCount in xrange(2, int(aInt ** (.5) + 1)):
+  for tCount in range(2, int(aInt ** (.5) + 1)):
     if aInt % tCount == 0:
       return False
   return True
@@ -421,6 +427,21 @@ def numberSpiralSum(aRow):
 def numDigits(aNum):
   return len(str(aNum))
 
+def numDivisors(aNum):
+  tCount = 0
+  for tNum in range(1, aNum//2):
+    if aNum % tNum == 0:
+      tCount += 1
+  return tCount
+
+def numFactors(aNum):
+  tPrimeFactors = primeFactors(aNum)
+  tSet = set(tPrimeFactors)
+  tFactors = 0
+  for tFactor in tSet:
+    tFactors += tPrimeFactors.count(tFactor)
+  return tFactors
+
 def pointsOnSlope(aRise, aRun):
   tPoints = 1 + greatestCommonDivisor(aRise, aRun)
   return tPoints
@@ -430,9 +451,9 @@ def primeFactors(aInt):
     return []
   if(aInt == 1):
     return [1]
-  for tCount in xrange(2, aInt + 1):
+  for tCount in range(2, aInt + 1):
     if (aInt % tCount) == 0:
-      tFactors = primeFactors(aInt / tCount)
+      tFactors = primeFactors(aInt // tCount)
       tFactors.append(tCount)
       return tFactors
   return [aInt]
@@ -447,7 +468,7 @@ def primes():
 
 def primesInRange(aMin, aMax):
   tPrimes = []
-  for tCount in xrange(aMin, aMax):
+  for tCount in range(aMin, aMax):
     if isPrime(tCount):
       tPrimes.append(tCount)
   return tPrimes  
@@ -513,5 +534,39 @@ def triangleMaxPath(aTriangle):
         tMax[tCol] = tCurRow[tCol] + max(tMax[tCol], tMax[tCol + 1])
   tTriangle.reverse()
   return tMax[0]
+
+def triangles():
+  tCount = 0
+  tSum = 0
+  while True:
+    tSum += tCount
+    tCount += 1
+    yield tSum
+
+def largestGridProduct(aGrid):
+  #FIXME: That's not how lists of lists work in python.
+  tRows = len(aGrid)
+  tMaxProduct = -float("inf")
+  for tY in range(tRows):
+    tRow = aGrid[tY]
+    tCols = len(tRow)
+    for tX in range(tCols):
+      if tY < tRows - 4:
+        tProduct = listProduct([aGrid[tY][tX], aGrid[tY+1][tX],
+                               aGrid[tY+2][tX], aGrid[tY+3][tX]])
+        tMaxProduct = max(tMaxProduct, tProduct)
+      if tX < tCols - 4:
+        tProduct = listProduct([aGrid[tY][tX], aGrid[tY][tX+1],
+                               aGrid[tY][tX+2], aGrid[tY][tX+3]])
+        tMaxProduct = max(tMaxProduct, tProduct)
+      if tY < tRows - 4 and tX < tCols - 4:
+        tProduct = listProduct([aGrid[tY][tX], aGrid[tY+1][tX+1],
+                               aGrid[tY+2][tX+2], aGrid[tY+3][tX+3]])
+        tMaxProduct = max(tMaxProduct, tProduct)
+      if tY < tRows - 4 and tX - 4 >= 0:
+        tProduct = listProduct([aGrid[tY][tX], aGrid[tY+1][tX-1],
+                               aGrid[tY+2][tX-2], aGrid[tY+3][tX-3]])
+        tMaxProduct = max(tMaxProduct, tProduct)
+  return tMaxProduct
 
 print("REDACTED")
