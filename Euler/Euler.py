@@ -325,6 +325,14 @@ def isSquare(aNum):
   tSqrt = int(math.sqrt(aNum) + .5)
   return aNum == tSqrt * tSqrt
 
+def isTriangular(aInt):
+  if aInt < 0:
+    return False
+  tGuess = int((aInt) ** (.5))
+  while nthTriangular(tGuess) < aInt:
+    tGuess += 1
+  return nthTriangular(tGuess) == aInt
+
 def largestProductInSeries(aSeries, aLength):
   assert(len(aSeries) >= aLength)
   tProduct = 1
@@ -399,6 +407,16 @@ def nthPrime(aNth):
       tFound = tFound + 1
     tCount = tCount + 1
   return tPrime
+
+def nthTriangular(aInt):
+  return int(.5 * aInt * (aInt + 1))
+
+def numberSpiralSum(aRow):
+  if aRow == 0:
+    return 1
+  else:
+    n = 2 * aRow + 1
+    return 4*(n ** 2) - 12*(aRow)
 
 def numDigits(aNum):
   return len(str(aNum))
