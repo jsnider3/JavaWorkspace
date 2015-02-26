@@ -36,13 +36,14 @@ class Collatz:
 class Graph:
   def __init__(self):
     self._EdgeMap = {}
+    self._Vertices = set([])
 
   def dijkstra(self, aSource):
     tDist = {}
     tPrev = {}
     tUnvisited = []
     #TODO Fixme
-    for tKey in self._EdgeMap.keys():
+    for tKey in self._Vertices:
       tDist[tKey] = float("inf")
       tPrev[tKey] = float("inf")
       tUnvisited.append(tKey)
@@ -88,11 +89,68 @@ class Graph:
           tGraph.setEdge(tDown, tVertex, tWeight)
     return tGraph
   
+  @staticmethod
+  def fromTriangle(aTriangle):
+    tCount = 0
+    tRows = len(aTriangle)
+    tGraph = Graph()
+    for tRow in range(tRows):
+      tColumns = len(aTriangle[tRow])
+      if tRow != tRows - 1:
+        tNextRow = aTriangle[tRow + 1]
+        for tX in range(tColumns):
+          tVertex = tCount + tX
+          tLeftChild = tVertex + tColumns
+          tGraph.setEdge(tVertex, tLeftChild, tNextRow[tX])
+          tGraph.setEdge(tVertex, tLeftChild + 1, tNextRow[tX + 1])
+      else:
+        for tX in range(tColumns):
+          tVertex = tCount + tX
+          tGraph.setEdge(tVertex, -1, 0) 
+      tCount += tColumns
+    return tGraph
+
+  def longestDAGPath(self, aSource, aDest):
+    tDist = {}
+    tPrev = {}
+    tUnvisited = []
+    for tKey in self._Vertices:
+      tDist[tKey] = - float("inf")
+      #tPrev[tKey] = - float("inf")
+      tUnvisited.append(tKey)
+    tDist[aSource] = 0
+    while tUnvisited:
+      tVisit = max(tUnvisited, key = lambda x: tDist[x])
+      tUnvisited.remove(tVisit)
+      tEdges = self._EdgeMap[tVisit]
+      for tEntry in tEdges.items():
+        (tNeighbor, tLeng) = tEntry
+        tWeight = -(tDist[tVisit] + tLeng)
+        if tWeight > tDist[tNeighbor]:
+          tPrev[tNeighbor] = tVisit
+          tDist[tNeighbor] = tWeight
+    (tWeight, tTree) = (tDist, tPrev)
+    tPath = []
+    tPrev = aDest
+    tDist = tWeight[tPrev]
+    while tPrev != aSource:
+      tPath.append(tPrev)
+      tTemp = tPrev
+      tPrev = tTree[tPrev]
+      tDist = tWeight[tTemp]
+    tPath.append(tPrev)
+    tPath.reverse()
+    return tPath
+
   def setEdge(self, aX, aY, aWeight):
+    self._Vertices.add(aX)
+    self._Vertices.add(aY)
     if aX in self._EdgeMap:
       self._EdgeMap[aX][aY] = int(aWeight)
     else:
       self._EdgeMap[aX] = {aY : int(aWeight)}
+    if not aY in self._EdgeMap:
+      self._EdgeMap[aY] = {}
 
   def shortestPath(self, aSource, aDest):
     (tWeight, tTree) = self.dijkstra(aSource)
@@ -103,7 +161,7 @@ class Graph:
       tPath.append(tPrev)
       tTemp = tPrev
       tPrev = tTree[tPrev]
-      tDist = tWeight[tTemp]# - tWeight[tPrev]
+      tDist = tWeight[tTemp]
     tPath.append(tPrev)
     tPath.reverse()
     return tPath
@@ -181,6 +239,15 @@ def fitPolynomial(aTerms):
   tXes = range(1, len(aTerms) + 1)
   return lambda x: int(.5 + numpy.polyval(
                         numpy.polyfit(tXes, aTerms, len(aTerms) - 1), x))
+
+
+def flatIndex(aTwoDShape, aIndex):
+  tIndex = aIndex
+  for tRow in aTwoDShape: 
+    if tIndex < len(tRow):
+      return tRow[tIndex]
+    else:
+      tIndex -= len(tRow)
 
 def greatestCommonDivisor(aFirst, aSecond):
   tMax = max(aFirst, aSecond)
@@ -353,11 +420,12 @@ def primeFactors(aInt):
   return [aInt]
 
 def primes():
-  tCount = 2
+  yield 2
+  tCount = 3
   while True:
     if isPrime(tCount):
       yield tCount
-    tCount = tCount + 1
+    tCount += 2
 
 def primesInRange(aMin, aMax):
   tPrimes = []
@@ -368,6 +436,13 @@ def primesInRange(aMin, aMax):
 
 def primesLessThan(aMax):
   return primesInRange(2, aMax)
+
+def quadPrime(aA, aB):
+  tFunc = lambda x: x**2 + aA * x + aB
+  tCount = 0
+  while isPrime(tFunc(tCount)):
+    tCount = tCount + 1
+  return tCount
 
 def resilience(aDenom):
   #FIXME Infeasible.
@@ -409,12 +484,16 @@ def sumSquares(aNum):
     tSum = tSum + (tCount ** 2)
   return tSum
 
-def quadPrime(aA, aB):
-  tFunc = lambda x: x**2 + aA * x + aB
-  tCount = 0
-  while isPrime(tFunc(tCount)):
-    tCount = tCount + 1
-  return tCount
+def triangleMaxPath(aTriangle):
+  tTriangle = list(reversed(aTriangle))
+  tMax = tTriangle[0][:]
+  for tRow in range(len(tTriangle)):
+    if tRow > 0:
+      tCurRow = tTriangle[tRow]
+      print(tRow)
+      for tCol in range(len(tCurRow)):
+        tMax[tCol] = tCurRow[tCol] + max(tMax[tCol], tMax[tCol + 1])
+  tTriangle.reverse()
+  return tMax[0]
 
 print("REDACTED")
-
