@@ -201,12 +201,17 @@ class Primes(object):
       tCount += 2
 
   @staticmethod
+#  @functools.lru_cache()
   def factors(aInt):
-    if(aInt == 0):
+    if aInt == 0 :
       return []
-    if(aInt == 1):
-      return [1]
-    for tCount in range(2, aInt + 1):
+    if aInt == 1 :
+      return []
+    if aInt % 2 == 0:
+      tFactors = Primes.factors(aInt // 2)
+      tFactors.append(2)
+      return tFactors
+    for tCount in range(3, aInt + 1, 2):
       if (aInt % tCount) == 0:
         tFactors = Primes.factors(aInt // tCount)
         tFactors.append(tCount)
@@ -223,16 +228,15 @@ class Primes(object):
   def less_than(aMax):
     return in_range(2, aMax)
   
-  @staticmethod  
+  @staticmethod 
   def num_divisors(aNum):
     tPrimeFactors = Primes.factors(aNum)
     tSet = set(tPrimeFactors)
-    tFactors = 0
+    tFactors = 1
     for tFactor in tSet:
-      if tFactors == 0:
-        tFactors = tPrimeFactors.count(tFactor) + 1
-      else:
-        tFactors *= tPrimeFactors.count(tFactor) + 1
+      tFactors *= tPrimeFactors.count(tFactor) + 1
+    print(tPrimeFactors)
+    print(aNum, tFactors)
     return tFactors
 
 #########################
