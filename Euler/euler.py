@@ -1,7 +1,6 @@
-import datetime
+import functools
 import math
 import numpy
-import pdb
 
 class Collatz:
   def __init__(self):
@@ -223,10 +222,22 @@ class Primes(object):
 
   def less_than(aMax):
     return in_range(2, aMax)
+  
+  @staticmethod  
+  def num_divisors(aNum):
+    tPrimeFactors = Primes.factors(aNum)
+    tSet = set(tPrimeFactors)
+    tFactors = 0
+    for tFactor in tSet:
+      if tFactors == 0:
+        tFactors = tPrimeFactors.count(tFactor) + 1
+      else:
+        tFactors *= tPrimeFactors.count(tFactor) + 1
+    return tFactors
 
 #########################
 
-def Triangulars(object):
+class Triangulars(object):
 
   def __contains__(self, aInt):
     if aInt < 0:
@@ -257,6 +268,45 @@ def alphabet_score(aWord):
     assert(tCharVal > -1)
     tSum = tSum + tCharVal
   return tSum
+
+def british_number_string(aNum):
+  tNum = int(aNum)
+  tStr = str(tNum)
+  tWords = []
+  tTens = {"1" : "ten", "2" : "twenty", "3" : "thirty", "4" : "forty",
+           "5" : "fifty", "6" : "sixty", "7" : "seventy", "8" : "eighty",
+           "9" : "ninety", "11" : "eleven", "12" : "twelve", "13" : "thirteen",
+           "14" : "fourteen", "15" : "fifteen", "16" : "sixteen", 
+           "17" : "seventeen", "18" : "eighteen", "19" : "ninteen"}
+  tOnes = {"1" : "one", "2" : "two", "3" : "three", "4" : "four",
+           "5" : "five", "6" : "six", "7" : "seven", "8" : "eight",
+           "9" : "nine"}
+  if len(tStr) == 4:
+    tWords.append(tOnes[tStr[0]])
+    tWords.append("thousand")
+    tStr = tStr[1:]
+  if len(tStr) == 3:
+    if tStr[0] in tOnes:
+      tWords.append(tOnes[tStr[0]])
+      tWords.append("hundred")
+    if tStr[1:] != "00":
+      tWords.append("and")
+    tStr = tStr[1:]
+  if len(tStr) == 2:
+    if tStr in tTens:
+      tWords.append(tTens[tStr])
+      tStr = tStr[2:]
+    else:
+      if tStr[0] in tTens:
+        tWords.append(tTens[tStr[0]])
+      tStr = tStr[1:]
+  if len(tStr) == 1:
+    if tStr[0] in tOnes:
+      tWords.append(tOnes[tStr[0]])
+    tStr = tStr[1:]
+  tStr = "".join(tWords)
+  print(tStr)
+  return tStr
 
 def champernowne(aDigit):
   assert(aDigit > 0)
@@ -329,6 +379,12 @@ def flat_index(aTwoDShape, aIndex):
     else:
       tIndex -= len(tRow)
 
+def get_amicable_pair(low):
+  high = sum(proper_divisors(low))
+  if low < high and sum(proper_divisors(high)) == low:
+    return (low, high)
+  return None
+
 def greatest_common_divisor(aFirst, aSecond):
   tMax = max(aFirst, aSecond)
   tMin = min(aFirst, aSecond)
@@ -375,7 +431,7 @@ def is_arithmetically_increasing(aList):
 def is_pandigital(aNum):
   #As a side note, 8 and 9 digit pandigitals are never prime.
   tStr = str(aNum)
-  return all([str(tDigit) in tStr for tDigit in range(1, len(tStr) + 1)])
+  return all((str(tDigit) in tStr for tDigit in range(1, len(tStr) + 1)))
 
 def is_palindrome(aArg, base=10):
   tStr = str(aArg)
@@ -470,23 +526,19 @@ def number_spiral_sum(aRow):
 def num_digits(aNum):
   return len(str(aNum))
 
-def num_factors(aNum):
-  tPrimeFactors = Primes.factors(aNum)
-  tSet = set(tPrimeFactors)
-  tFactors = 0
-  for tFactor in tSet:
-    if tFactors == 0:
-      tFactors = tPrimeFactors.count(tFactor) + 1
-    else:
-      tFactors *= tPrimeFactors.count(tFactor) + 1
-  return tFactors
-
 def points_on_slope(aRise, aRun):
   tPoints = 1 + greatest_common_divisor(aRise, aRun)
   return tPoints
 
 def product(aList):
   return reduce(lambda x, y: x * y, aList)
+
+def proper_divisors(num):
+  divisors = []
+  for x in range(1, num):
+    if num % x == 0:
+      divisors.append(x)
+  return divisors
 
 def quad_prime(aA, aB):
   tFunc = lambda x: x**2 + aA * x + aB
@@ -503,17 +555,13 @@ def resilience(aDenom):
   tTemp = len(filter(lambda x: x, tTests))
   return float(tTemp) / (aDenom - 1)
 
-tMemoCuts = {}
-
+@functools.lru_cache(maxsize=None)
 def rod_cuts(aLength, aCutSize):
   tCurry = (aLength, aCutSize)
-  if tCurry in tMemoCuts:
-    return tMemoCuts.get(tCurry)
   tCuts = 1
   for tIndex in range(aLength - aCutSize):
-    #TODO This is wrong, somehow.
+    #TODO This is wrong obviously.
     tCuts = tCuts + rod_cuts(aLength - aCutSize, aCutSize)
-  tMemoCuts[tCurry] = tCuts
   return tCuts
 
 def square_sum(aNum):
@@ -573,50 +621,8 @@ def largest_grid_product(aGrid):
         tMaxProduct = max(tMaxProduct, tProduct)
   return tMaxProduct
 
-def british_number_string(aNum):
-  tNum = int(aNum)
-  tStr = str(tNum)
-  tWords = []
-  tTens = {"1" : "ten", "2" : "twenty", "3" : "thirty", "4" : "forty",
-           "5" : "fifty", "6" : "sixty", "7" : "seventy", "8" : "eighty",
-           "9" : "ninety", "11" : "eleven", "12" : "twelve", "13" : "thirteen",
-           "14" : "fourteen", "15" : "fifteen", "16" : "sixteen", 
-           "17" : "seventeen", "18" : "eighteen", "19" : "ninteen"}
-  tOnes = {"1" : "one", "2" : "two", "3" : "three", "4" : "four",
-           "5" : "five", "6" : "six", "7" : "seven", "8" : "eight",
-           "9" : "nine"}
-  if len(tStr) == 4:
-    tWords.append(tOnes[tStr[0]])
-    tWords.append("thousand")
-    tStr = tStr[1:]
-  if len(tStr) == 3:
-    if tStr[0] in tOnes:
-      tWords.append(tOnes[tStr[0]])
-      tWords.append("hundred")
-    if tStr[1:] != "00":
-      tWords.append("and")
-    tStr = tStr[1:]
-  if len(tStr) == 2:
-    if tStr in tTens:
-      tWords.append(tTens[tStr])
-      tStr = tStr[2:]
-    else:
-      if tStr[0] in tTens:
-        tWords.append(tTens[tStr[0]])
-      tStr = tStr[1:]
-  if len(tStr) == 1:
-    if tStr[0] in tOnes:
-      tWords.append(tOnes[tStr[0]])
-    tStr = tStr[1:]
-  tStr = "".join(tWords)
-  print(tStr)
-  return tStr
-
 def main():
   print("REDACTED")
-  for x in Primes():
-    print(x)
-  print(sum(map(len, map(british_number_string, range(1, 1001)))))
 
 if __name__ == "__main__":
   main()
