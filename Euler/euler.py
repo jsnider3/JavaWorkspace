@@ -1,8 +1,33 @@
+import fractions
 import functools
 import math
 import numpy
+import sys
 
-class Collatz:
+class Abundants(object):
+  _List = []
+
+  def __contains__(self, key):
+    if key in self._List:
+      return True
+    abundant = sum(proper_divisors(key)) > key
+    if abundant:
+      self._List.append(key)
+      self._List.sort()
+    return abundant
+
+  def __iter__(self):
+    for num in self._List:
+      yield num
+    count = self._List[-1:]
+    while True:
+      count += 1
+      if count in self:
+        yield count
+
+#########################
+
+class Collatz(object):
   def __init__(self):
     self._Depths = {1 : 1}
   
@@ -33,7 +58,7 @@ class Collatz:
 
 #########################
 
-class Graph:
+class Graph(object):
   def __init__(self):
     self._EdgeMap = {}
     self._Vertices = set([])
@@ -168,11 +193,48 @@ class Graph:
 
 #########################
 
+class Hexagonals(object):
+
+  def __contains__(self, aInt):
+    guess = (math.sqrt(8 * aInt + 1) + 1)/4
+    return guess.is_integer()
+
+  def __getitem__(self, n):
+    return n * (2*n - 1)
+
+  def __iter__(self):
+    count = 1
+    while True:
+      yield self[count]
+      count += 1
+
+#########################
+
+class Pentagonals(object):
+
+  def __contains__(self, aInt):
+    return math.sqrt(24 * aInt + 1).is_integer()
+
+  def __getitem__(self, n):
+    return n * (3*n - 1)/2
+
+  def __iter__(self):
+    count = 1
+    while True:
+      yield self[count]
+      count += 1
+
+#########################
+
 class Primes(object):
+
+  _List = [2]
 
   def __contains__(self, aInt):
     if aInt < 2:
       return False
+    if aInt == 2:
+      return True
     if aInt % 2 == 0:
       return False
     for tCount in range(3, int(aInt ** (.5) + 1), 2):
@@ -180,53 +242,61 @@ class Primes(object):
         return False
     return True
 
-  def __getitem__(aNth):
+  def __getitem__(self, aNth):
+    #TODO Refactor for speed
     assert(aNth > 0)
-    tPrime = 1
-    tCount = 2
-    tFound = 0
+    tPrime = 2
+    tCount = 3
+    tFound = 1
     while tFound < aNth:
       if tCount in self:
         tPrime = tCount
-        tFound = tFound + 1
-      tCount = tCount + 1
+        tFound += 1
+      tCount += 1
     return tPrime
   
   def __iter__(self):
-    yield 2
     tCount = 3
+    for num in self._List:
+      yield num
+      tCount = num + 1
     while True:
       if tCount in self:
+        if not tCount in self._List:
+          self._List.append(tCount)
         yield tCount
       tCount += 2
 
   @staticmethod
-#  @functools.lru_cache()
   def factors(aInt):
     if aInt == 0 :
       return []
     if aInt == 1 :
       return []
-    if aInt % 2 == 0:
-      tFactors = Primes.factors(aInt // 2)
-      tFactors.append(2)
-      return tFactors
-    for tCount in range(3, aInt + 1, 2):
+    for tCount in Primes().less_than(int(aInt ** .5) + 1):
       if (aInt % tCount) == 0:
         tFactors = Primes.factors(aInt // tCount)
         tFactors.append(tCount)
         return tFactors
     return [aInt]
 
-  def in_range(aMin, aMax):
-    tPrimes = []
+  def in_range(self, aMin, aMax):
     for tCount in range(aMin, aMax):
       if tCount in self:
-        tPrimes.append(tCount)
-    return tPrimes  
+        yield tCount
 
-  def less_than(aMax):
-    return in_range(2, aMax)
+  def is_circular(self, aPrime):
+    assert(aPrime in self)
+    tStr = str(aPrime)
+    tStr = tStr[-1] + tStr[:-1]
+    while int(tStr) != aPrime:
+      if not int(tStr) in self:
+        return False
+      tStr = tStr[-1] + tStr[:-1]
+    return True
+
+  def less_than(self,aMax):
+    return self.in_range(2, aMax)
   
   @staticmethod 
   def num_divisors(aNum):
@@ -235,9 +305,24 @@ class Primes(object):
     tFactors = 1
     for tFactor in tSet:
       tFactors *= tPrimeFactors.count(tFactor) + 1
-    print(tPrimeFactors)
-    print(aNum, tFactors)
     return tFactors
+
+  def truncatable(self, aNum):
+    if not aNum in self:
+      return False
+    tStr = str(aNum)
+    if "2" in tStr or "4" in tStr or "6" in tStr or "8" in tStr:
+      return False
+    while tStr:
+      if not int(tStr) in self:
+        return False
+      tStr = tStr[1:]
+    tNum = aNum
+    while tNum:
+      if not tNum in self:
+        return False
+      tNum = tNum // 10
+    return True
 
 #########################
 
@@ -321,8 +406,25 @@ def champernowne(aDigit):
     tCount = tCount + 1
   return int(tStr[aDigit - 1])
 
+def choose(n, r):
+  return math.factorial(n)/(math.factorial(r) * math.factorial(n - r))
+
 def coprime(aFirst, aSecond):
-  return greatest_common_divisor(aFirst, aSecond) == 1 
+  return fractions.gcd(aFirst, aSecond) == 1 
+
+def digits_exp(aInt, aPwr):
+  tStr = str(aInt)
+  tSum = 0
+  for tChar in tStr:
+    tSum = tSum + int(tChar)**aPwr
+  return tSum
+
+def digit_fac(aInt):
+  tStr = str(aInt)
+  tSum = 0
+  for tChar in tStr:
+    tSum = tSum + math.factorial(int(tChar))
+  return tSum
 
 def fibonacci(aTerm):
   tFirst = 0
@@ -389,18 +491,6 @@ def get_amicable_pair(low):
     return (low, high)
   return None
 
-def greatest_common_divisor(aFirst, aSecond):
-  tMax = max(aFirst, aSecond)
-  tMin = min(aFirst, aSecond)
-  while tMin != 0:
-    assert(tMin > 0)
-    tTemp = tMin
-    tMin = tMax - tMin
-    tMax = tTemp    
-    if tMin > tMax:
-      tMax, tMin = tMin, tMax
-  return tMax
-
 def group_into_equivalency_classes(aList, aEquals):
   tClasses = []
   for tElem in aList:
@@ -459,6 +549,31 @@ def is_rotation(aFirst, aSecond):
 def is_square(aNum):
   tSqrt = int(math.sqrt(aNum) + .5)
   return aNum == tSqrt * tSqrt
+
+def largest_grid_product(aGrid):
+  tRows = len(aGrid)
+  tMaxProduct = -float("inf")
+  for tY in range(tRows):
+    tRow = aGrid[tY]
+    tCols = len(tRow)
+    for tX in range(tCols):
+      if tY < tRows - 4:
+        tProduct = product([aGrid[tY][tX], aGrid[tY+1][tX],
+                               aGrid[tY+2][tX], aGrid[tY+3][tX]])
+        tMaxProduct = max(tMaxProduct, tProduct)
+      if tX < tCols - 4:
+        tProduct = product([aGrid[tY][tX], aGrid[tY][tX+1],
+                               aGrid[tY][tX+2], aGrid[tY][tX+3]])
+        tMaxProduct = max(tMaxProduct, tProduct)
+      if tY < tRows - 4 and tX < tCols - 4:
+        tProduct = product([aGrid[tY][tX], aGrid[tY+1][tX+1],
+                               aGrid[tY+2][tX+2], aGrid[tY+3][tX+3]])
+        tMaxProduct = max(tMaxProduct, tProduct)
+      if tY < tRows - 4 and tX - 4 >= 0:
+        tProduct = product([aGrid[tY][tX], aGrid[tY+1][tX-1],
+                               aGrid[tY+2][tX-2], aGrid[tY+3][tX-3]])
+        tMaxProduct = max(tMaxProduct, tProduct)
+  return tMaxProduct
 
 def largest_product_in_series(aSeries, aLength):
   assert(len(aSeries) >= aLength)
@@ -531,11 +646,11 @@ def num_digits(aNum):
   return len(str(aNum))
 
 def points_on_slope(aRise, aRun):
-  tPoints = 1 + greatest_common_divisor(aRise, aRun)
+  tPoints = 1 + fractions.gcd(aRise, aRun)
   return tPoints
 
 def product(aList):
-  return reduce(lambda x, y: x * y, aList)
+  return functools.reduce(lambda x, y: x * y, aList)
 
 def proper_divisors(num):
   divisors = []
@@ -551,13 +666,27 @@ def quad_prime(aA, aB):
     tCount = tCount + 1
   return tCount
 
+def eulerphi(aNum):
+  #TODO Wrong for 12, probably wrong for others.
+  #phi = aNum
+  #for i in range(2, aNum + 1):
+  #  if i in Primes() and aNum % i == 0:
+  #    phi *= 1 - 1/i 
+  '''Factors = primeFacs(aNum)
+  tFactors = set(tFactors)
+  phi =  int(aNum * product(map(lambda x: 1 - 1 / x, tFactors))) 
+  return phi'''
+  coprimes = 0
+  for i in range(1, aNum + 1):
+    if coprime(aNum, i):
+      coprimes += 1
+  return coprimes #int(phi)
+
 def resilience(aDenom):
-  #FIXME Infeasible.
   assert(aDenom > 1)
-  tNumers = range(1, aDenom)
-  tTests = map(lambda x: coprime(aDenom, x), tNumers)
-  tTemp = len(filter(lambda x: x, tTests))
-  return float(tTemp) / (aDenom - 1)
+  resil = eulerphi(aDenom) / (aDenom - 1)
+  print(aDenom, resil)
+  return resil
 
 @functools.lru_cache(maxsize=None)
 def rod_cuts(aLength, aCutSize):
@@ -568,18 +697,36 @@ def rod_cuts(aLength, aCutSize):
     tCuts = tCuts + rod_cuts(aLength - aCutSize, aCutSize)
   return tCuts
 
+@functools.lru_cache(maxsize=None)
+def primeFacs(aNum):
+  return Primes.factors(aNum)
+
+def shared_members(iters):
+  '''Given a list of iterators which generate 
+    monotonically increasing numbers yield their shared 
+    numbers.'''
+  members = []
+  for seq in iters:
+    members.append(next(seq))
+  while True:
+    for x in range(len(iters) - 1):
+      while members[x] < members[-1]:
+        members[x] = next(iters[x])
+    for x in range(len(iters) - 1):
+      if members[-1] < members[x]:
+        members[-1] = next(iters[-1])
+    if all(map(lambda x: members[-1] == x, members[:-1])):
+      yield members[-1]
+      members[-1] = next(iters[-1]) 
+
 def square_sum(aNum):
   tSum = 0
   for tCount in range(1, aNum + 1):
     tSum = tSum + tCount
   return tSum ** 2
 
-def sum_digits(aInt):
-  tStr = str(aInt)
-  tSum = 0
-  for tChar in tStr:
-    tSum = tSum + int(tChar)
-  return tSum
+def sum_digits(num):
+  return digits_exp(num, 1)
 
 def sum_squares(aNum):
   tSum = 0
@@ -599,34 +746,8 @@ def triangle_max_path(aTriangle):
   tTriangle.reverse()
   return tMax[0]
 
-def largest_grid_product(aGrid):
-  tRows = len(aGrid)
-  tMaxProduct = -float("inf")
-  for tY in range(tRows):
-    tRow = aGrid[tY]
-    tCols = len(tRow)
-    for tX in range(tCols):
-      if tY < tRows - 4:
-        tProduct = product([aGrid[tY][tX], aGrid[tY+1][tX],
-                               aGrid[tY+2][tX], aGrid[tY+3][tX]])
-        tMaxProduct = max(tMaxProduct, tProduct)
-      if tX < tCols - 4:
-        tProduct = product([aGrid[tY][tX], aGrid[tY][tX+1],
-                               aGrid[tY][tX+2], aGrid[tY][tX+3]])
-        tMaxProduct = max(tMaxProduct, tProduct)
-      if tY < tRows - 4 and tX < tCols - 4:
-        tProduct = product([aGrid[tY][tX], aGrid[tY+1][tX+1],
-                               aGrid[tY+2][tX+2], aGrid[tY+3][tX+3]])
-        tMaxProduct = max(tMaxProduct, tProduct)
-      if tY < tRows - 4 and tX - 4 >= 0:
-        tProduct = product([aGrid[tY][tX], aGrid[tY+1][tX-1],
-                               aGrid[tY+2][tX-2], aGrid[tY+3][tX-3]])
-        tMaxProduct = max(tMaxProduct, tProduct)
-  return tMaxProduct
-
 def main():
   print("REDACTED")
-  print(sum(map(len, map(british_number_string, range(1, 1001)))))
 
 if __name__ == "__main__":
   main()
