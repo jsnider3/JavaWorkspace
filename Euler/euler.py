@@ -2,6 +2,7 @@ import fractions
 import functools
 import math
 import numpy
+#import pdb
 import sys
 
 class Abundants(object):
@@ -228,42 +229,62 @@ class Pentagonals(object):
 
 class Primes(object):
 
-  _List = [2]
+  _List = set([2, 3])
 
   def __contains__(self, aInt):
     if aInt < 2:
       return False
-    if aInt == 2:
+    if aInt in self._List:
       return True
     if aInt % 2 == 0:
       return False
-    for tCount in range(3, int(aInt ** (.5) + 1), 2):
+    for tCount in self._List:
+      if aInt % tCount == 0:
+        return False
+    for tCount in range(max(self._List), int(aInt ** (.5) + 1), 2):
       if aInt % tCount == 0:
         return False
     return True
 
-  def __getitem__(self, aNth):
-    #TODO Refactor for speed
-    assert(aNth > 0)
-    tPrime = 2
+  def __getitem__(self, key):
+    if isinstance(key, int):
+      return self.getitem_int(key)
+    elif isinstance(key, slice):
+      print(key)
+      if key.start < 1 or key.stop < 1:
+        raise TypeError("Invalid index.")
+      else:
+        return [self.getitem_int(i) for i in 
+                range(*key.indices(max(key.start, key.stop)))]
+    else:
+      raise TypeError("Invalid index.")
+
+  def getitem_int(self, key):
+    #TODO Slow af.
+    if key < 1:
+      raise IndexError("There is no prime[{0}]".format(key))
+    elif key == 1:
+      return 2
+    tPrime = 3
     tCount = 3
     tFound = 1
-    while tFound < aNth:
+    while tFound < key:
       if tCount in self:
         tPrime = tCount
         tFound += 1
-      tCount += 1
+        self._List.add(tPrime)
+      tCount += 2
     return tPrime
   
   def __iter__(self):
     tCount = 3
     for num in self._List:
       yield num
-      tCount = num + 1
+    tCount = max(self._List) + 2
     while True:
       if tCount in self:
         if not tCount in self._List:
-          self._List.append(tCount)
+          self._List.add(tCount)
         yield tCount
       tCount += 2
 
@@ -407,7 +428,10 @@ def champernowne(aDigit):
   return int(tStr[aDigit - 1])
 
 def choose(n, r):
-  return math.factorial(n)/(math.factorial(r) * math.factorial(n - r))
+  if n < r:
+    return 0
+  else:
+    return math.factorial(n)/(math.factorial(r) * math.factorial(n - r))
 
 def coprime(aFirst, aSecond):
   return fractions.gcd(aFirst, aSecond) == 1 
@@ -491,12 +515,12 @@ def get_amicable_pair(low):
     return (low, high)
   return None
 
-def group_into_equivalency_classes(aList, aEquals):
+def group_into_equivalency_classes(aList, equals):
   tClasses = []
   for tElem in aList:
     tFound = False
     for tClass in tClasses:
-      if aEquals(tClass[0], tElem):
+      if equals(tClass[0], tElem):
         tFound = True
         tClass.append(tElem)
         break
@@ -659,12 +683,12 @@ def proper_divisors(num):
       divisors.append(x)
   return divisors
 
-def quad_prime(aA, aB):
-  tFunc = lambda x: x**2 + aA * x + aB
-  tCount = 0
-  while isPrime(tFunc(tCount)):
-    tCount = tCount + 1
-  return tCount
+def quad_prime(a, b):
+  func = lambda x: x**2 + a * x + b
+  count = 0
+  while func(count) in Primes():
+    count += 1
+  return count
 
 def eulerphi(aNum):
   #TODO Wrong for 12, probably wrong for others.
@@ -688,7 +712,7 @@ def resilience(aDenom):
   print(aDenom, resil)
   return resil
 
-@functools.lru_cache(maxsize=None)
+#@functools.lru_cache(maxsize=None)
 def rod_cuts(aLength, aCutSize):
   tCurry = (aLength, aCutSize)
   tCuts = 1
@@ -697,7 +721,7 @@ def rod_cuts(aLength, aCutSize):
     tCuts = tCuts + rod_cuts(aLength - aCutSize, aCutSize)
   return tCuts
 
-@functools.lru_cache(maxsize=None)
+#@functools.lru_cache(maxsize=None)
 def primeFacs(aNum):
   return Primes.factors(aNum)
 

@@ -8,7 +8,7 @@ class Tests(unittest.TestCase):
     count = 0
     for n in range(1, 101):
       for r in range(1, n + 1):
-        if choose(n, r) > 1000000: 
+        if euler.choose(n, r) > 1000000: 
           count += 1
     assert(count == 4075)
 
@@ -39,6 +39,10 @@ class Tests(unittest.TestCase):
     correct = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
     taketen = list(taketen)
     assert(taketen == correct)
+    for x in range(1, 11):
+      assert(primes[x] == correct[x - 1])
+    assert(taketen == primes[1:11])
+    assert(primes[10001] == 104743)
 
   def test_shared_members(self):
     iters = [iter(euler.Triangulars()), iter(euler.Pentagonals()),
