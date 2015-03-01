@@ -1,8 +1,9 @@
 import fractions
 import functools
 import math
-import numpy
+#import numpy
 #import pdb
+from primes import Primes
 import sys
 
 class Abundants(object):
@@ -224,126 +225,6 @@ class Pentagonals(object):
     while True:
       yield self[count]
       count += 1
-
-#########################
-
-class Primes(object):
-
-  _List = set([2, 3])
-
-  def __contains__(self, aInt):
-    if aInt < 2:
-      return False
-    if aInt in self._List:
-      return True
-    if aInt % 2 == 0:
-      return False
-    for tCount in self._List:
-      if aInt % tCount == 0:
-        return False
-    for tCount in range(max(self._List), int(aInt ** (.5) + 1), 2):
-      if aInt % tCount == 0:
-        return False
-    return True
-
-  def __getitem__(self, key):
-    if isinstance(key, int):
-      return self.getitem_int(key)
-    elif isinstance(key, slice):
-      print(key)
-      if key.start < 1 or key.stop < 1:
-        raise TypeError("Invalid index.")
-      else:
-        return [self.getitem_int(i) for i in 
-                range(*key.indices(max(key.start, key.stop)))]
-    else:
-      raise TypeError("Invalid index.")
-
-  def getitem_int(self, key):
-    #TODO Slow af.
-    if key < 1:
-      raise IndexError("There is no prime[{0}]".format(key))
-    elif key == 1:
-      return 2
-    tPrime = 3
-    tCount = 3
-    tFound = 1
-    while tFound < key:
-      if tCount in self:
-        tPrime = tCount
-        tFound += 1
-        self._List.add(tPrime)
-      tCount += 2
-    return tPrime
-  
-  def __iter__(self):
-    tCount = 3
-    for num in self._List:
-      yield num
-    tCount = max(self._List) + 2
-    while True:
-      if tCount in self:
-        if not tCount in self._List:
-          self._List.add(tCount)
-        yield tCount
-      tCount += 2
-
-  @staticmethod
-  def factors(aInt):
-    if aInt == 0 :
-      return []
-    if aInt == 1 :
-      return []
-    for tCount in Primes().less_than(int(aInt ** .5) + 1):
-      if (aInt % tCount) == 0:
-        tFactors = Primes.factors(aInt // tCount)
-        tFactors.append(tCount)
-        return tFactors
-    return [aInt]
-
-  def in_range(self, aMin, aMax):
-    for tCount in range(aMin, aMax):
-      if tCount in self:
-        yield tCount
-
-  def is_circular(self, aPrime):
-    assert(aPrime in self)
-    tStr = str(aPrime)
-    tStr = tStr[-1] + tStr[:-1]
-    while int(tStr) != aPrime:
-      if not int(tStr) in self:
-        return False
-      tStr = tStr[-1] + tStr[:-1]
-    return True
-
-  def less_than(self,aMax):
-    return self.in_range(2, aMax)
-  
-  @staticmethod 
-  def num_divisors(aNum):
-    tPrimeFactors = Primes.factors(aNum)
-    tSet = set(tPrimeFactors)
-    tFactors = 1
-    for tFactor in tSet:
-      tFactors *= tPrimeFactors.count(tFactor) + 1
-    return tFactors
-
-  def truncatable(self, aNum):
-    if not aNum in self:
-      return False
-    tStr = str(aNum)
-    if "2" in tStr or "4" in tStr or "6" in tStr or "8" in tStr:
-      return False
-    while tStr:
-      if not int(tStr) in self:
-        return False
-      tStr = tStr[1:]
-    tNum = aNum
-    while tNum:
-      if not tNum in self:
-        return False
-      tNum = tNum // 10
-    return True
 
 #########################
 

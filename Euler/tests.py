@@ -26,6 +26,12 @@ class Tests(unittest.TestCase):
     assert(primes.is_circular(971))
     assert(not primes.is_circular(999953))
 
+  def test_consecutive_sum_max(self):
+    primes = euler.Primes()
+    assert(2 == primes.consecutive_sum_max(5))
+    assert(0 == primes.consecutive_sum_max(11))
+    assert(6 == primes.consecutive_sum_max(41))
+
   def test_pentagonals(self):
     pents = euler.Pentagonals()
     taketen = itertools.islice(pents, 0, 10, 1)
@@ -35,13 +41,12 @@ class Tests(unittest.TestCase):
 
   def test_primes(self):
     primes = euler.Primes()
-    taketen = itertools.islice(primes, 0, 10, 1)
+    taketen = primes[1:11]
     correct = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
     taketen = list(taketen)
     assert(taketen == correct)
     for x in range(1, 11):
       assert(primes[x] == correct[x - 1])
-    assert(taketen == primes[1:11])
     assert(primes[10001] == 104743)
 
   def test_shared_members(self):
