@@ -47,7 +47,18 @@ class Tests(unittest.TestCase):
     assert(taketen == correct)
     for x in range(1, 11):
       assert(primes[x] == correct[x - 1])
-    assert(primes[10001] == 104743)
+    #assert(primes[10001] == 104743)
+  
+  def test_romans(self):
+    #roman = euler.Roman_Numeral("VI")
+    #assert int(roman) == 6
+    roman = euler.Roman_Numeral("IV")
+    print(int(roman))
+    assert int(roman) == 4
+    roman = euler.Roman_Numeral("XIV")
+    assert int(roman) == 14
+    roman = euler.Roman_Numeral("VIII")
+    assert int(roman) == 8
 
   def test_shared_members(self):
     iters = [iter(euler.Triangulars()), iter(euler.Pentagonals()),

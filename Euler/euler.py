@@ -3,10 +3,9 @@ import fractions
 import functools
 import math
 import numpy
-#import pdb
+import pdb
 from graph import Graph
 from primes import Primes
-#import sys
 
 class Abundants(object):
   ''' Generate the abundant numbers
@@ -105,6 +104,75 @@ class Pentagonals(object):
 
 #########################
 
+class Roman_Numeral(object):
+  ''' Store roman numerals. As per
+      https://projecteuler.net/about=roman_numerals'''
+    
+  values = [(1000, "M"), (900, "CM"), (500, "D"), (400, "CD"),
+            (100, "C"), (90, "XC"), (50, "L"), (40, "XL"),
+            (10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I")] 
+  
+  rev_dict = [(v, k) for (k, v) in values]
+
+  def __init__(self, text):
+    self.text = text.strip()
+
+  def __int__(self):
+    ''' Convert self into
+        a normal int. '''
+    text = self.text
+    num = 0
+    while text:
+      for v, k in self.rev_dict:
+        if text.find(v) == 0:
+          text = text[len(v):]
+          num += k
+          break
+    return num
+
+  def __len__(self):
+    return len(self.text)
+
+  @classmethod 
+  def from_int(cls, num):
+    ''' Greedy algorithm both works and is minimal!
+       Matroids for the win! '''
+    text = ""
+    #print(cls.values)
+    for val, roman_num in cls.values:
+      while num >= val:
+        text += roman_num
+        num -= val
+    return Roman_Numeral(text)
+
+  def minimize(self):
+    ''' Represent self using as few
+        letters as possible. '''
+    num = int(self)
+    return Roman_Numeral.from_int(num).text
+
+#########################
+
+class Square_Chain(object):
+  ''' Create a tree representation of the sequence in Euler #92.'''
+  def __init__(self):
+    self._End = {1 : 1, 89 : 89}
+
+  @staticmethod
+  def next(num):
+    ''' Return what follows num in the sequence. '''
+    return digits_exp(num, 2)
+
+  def get_end(self, num):
+    ''' Return the final result of num. '''
+    if num in self._End:
+      return self._End.get(num)
+    else:
+      self._End[num] = self.get_end(self.next(num))
+      return self._End[num]
+
+#########################
+
 class Triangulars(object):
   ''' Provides iterators and accessors for
       the triangular numbers. '''
@@ -130,25 +198,6 @@ class Triangulars(object):
 
 #########################
 
-class Square_Chain(object):
-  ''' Create a tree representation of the sequence in Euler #92.'''
-  def __init__(self):
-    self._End = {1 : 1, 89 : 89}
-
-  @staticmethod
-  def next(num):
-    ''' Return what follows num in the sequence. '''
-    return digits_exp(num, 2)
-
-  def get_end(self, num):
-    ''' Return the final result of num. '''
-    if num in self._End:
-      return self._End.get(num)
-    else:
-      self._End[num] = self.get_end(self.next(num))
-      return self._End[num]
-
-#########################
 def alphabet_score(word):
   ''' Sum the difference between
       each character + 1 and. '''
@@ -255,14 +304,14 @@ def fibonacci(term):
     count = count + 1
   return second
 
-def find_largest_palindrome_product(aMin, aMax):
+def find_largest_palindrome_product(low, high):
   ''' Find the largest number P, which is a
       palindrome. Given P == A * B and
-      aMin <= A < B <= aMax. '''
-  first = aMax
+      low <= A < B <= high. '''
+  first = high
   largest = 1
-  while first >= aMin:
-    for second in range(first + 1, aMax + 1):
+  while first >= low:
+    for second in range(first + 1, high + 1):
       prod = first * second
       if is_palindrome(prod) and prod > largest:
         largest = prod
@@ -627,6 +676,12 @@ def triangle_max_path(aTriangle):
 def main():
   ''' main '''
   print("REDACTED")
+  romans = open('./inputs/p089_roman.txt')
+  nums = [Roman_Numeral(strn) for strn in romans.readlines()]
+  romans.close()
+  before = sum([len(x) for x in nums])
+  after = sum([len(x.minimize()) for x in nums])
+  print(before-after)
   '''sums = 0
   for num in range(1, 17):
     print(num, hexadecimal_strings(num, 3))

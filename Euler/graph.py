@@ -1,4 +1,4 @@
-'''wrapper for Graph class'''
+
 
 class Graph(object):
   ''' Class for graphs, containing vertices linked by
