@@ -1,6 +1,7 @@
 ''' Utilities for my Project Euler solutions.'''
 import fractions
 import functools
+import itertools
 import math
 import numpy
 import pdb
@@ -99,11 +100,11 @@ class Pandigitals(object):
     return all((str(digit) in strn for digit in range(1, len(strn) + 1)))
 
   def __iter__(self):
-    count = 1
-    while num_digits(count) < 10:
-      if count in self:
-        yield count
-      count += 1
+    #TODO This can be done for efficiently with itertools
+    for x in range(1, 10):
+      nums = list(range(1, x + 1))
+      for pan in itertools.permutations(nums):
+        yield tuple_to_num(pan)
 
   def __reversed__(self):
     count = 987654321
@@ -705,6 +706,22 @@ def square_sum(aNum):
     total += count
   return total ** 2
 
+def substring_div43(num):
+  ''' As defined by Euler 43. '''
+  if num_digits(num) != 10:
+    return False
+  strn = str(num)
+  if (int(strn[1:4]) % 2 == 0 and
+     int(strn[2:5]) % 3 == 0 and
+     int(strn[3:6]) % 5 == 0 and
+     int(strn[4:7]) % 7 == 0 and
+     int(strn[5:8]) % 11 == 0 and
+     int(strn[6:9]) % 13 == 0 and
+     int(strn[7:10]) % 17 == 0):
+    return True
+  else:
+    return False
+
 def sum_squares(num):
   ''' Return the sum of the squares of [1, aNum] '''
   total = 0
@@ -724,14 +741,17 @@ def triangle_max_path(aTriangle):
   triangle.reverse()
   return tMax[0]
 
+def tuple_to_num(tupe):
+  ''' Take a tuple of form (1, 2, 3, ... )
+      and make it the number 123... '''
+  tupe = list(tupe)
+  tupe = [str(c) for c in tupe]
+  tupe = "".join(tupe)
+  return int(tupe)
+
 def main():
   ''' main '''
   print("REDACTED")
-  pan = Pandigitals()
-  for num in reversed(pan):
-    if pan.is_pandigital_multiple(num):
-      print(num)
-
   '''sums = 0
   for num in range(1, 17):
     print(num, hexadecimal_strings(num, 3))

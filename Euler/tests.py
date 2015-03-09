@@ -88,6 +88,9 @@ class Tests(unittest.TestCase):
     taketen = list(taketen)
     assert(taketen == correct)
 
+  def test_various(self):
+    assert euler.substring_div43(1406357289)
+
 if __name__ == '__main__':
   unittest.main()
 
