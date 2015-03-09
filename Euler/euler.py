@@ -86,6 +86,64 @@ class Hexagonals(object):
 
 #########################
 
+class Pandigitals(object):
+  ''' Provides utilities for
+      working with the 
+      pandigitals. '''
+
+  def __contains__(self, num):
+    ''' Check that an n-digit number contains the digits [1, n]
+      once and only once. As a side note, 8 and 9 digit
+      pandigitals are never prime. '''
+    strn = str(num)
+    return all((str(digit) in strn for digit in range(1, len(strn) + 1)))
+
+  def __iter__(self):
+    count = 1
+    while num_digits(count) < 10:
+      if count in self:
+        yield count
+      count += 1
+
+  def __reversed__(self):
+    count = 987654321
+    while count:
+      if count in self:
+        yield count
+      count -= 1
+
+  def get_pandigital_product(self, num):
+    ''' See Project Euler 32 '''
+    for n in range(1, int(num**.5) + 1):
+      m = num // n
+      if num == n * m:
+        if str(num) + str(n) + str(m) in self:
+          return (n, m, num)
+    return None
+
+  def is_pandigital_multiple(self, num):
+    ''' As defined in Project Euler 38 '''
+    if num in self:
+      strn = str(num)
+      for n in range(1, num_digits(num)//2 + 1):
+        if self.multiple_helper(strn[n:], int(strn[:n]), 2):
+          return True
+    return False
+
+  def multiple_helper(self, strn, start, mult):
+    ''' Helper for is_pandigital_multiple. '''
+    if strn == "":
+      return True
+    for x in range(1, len(strn) + 1):
+      guess = int(strn[:x])
+      if guess == start * mult:
+        return self.multiple_helper(strn[x:], start, mult + 1)
+      elif guess > start * mult:
+        return False
+
+#########################
+
+
 class Pentagonals(object):
   ''' Provides iterators and accessors for
       the pentagonal numbers. '''
@@ -413,13 +471,6 @@ def is_arithmetically_increasing(aList):
       return False
   return True
 
-def is_pandigital(num):
-  ''' Check that an n-digit number contains the digits [1, n]
-      once and only once. As a side note, 8 and 9 digit
-      pandigitals are never prime. '''
-  strn = str(num)
-  return all((str(digit) in strn for digit in range(1, len(strn) + 1)))
-
 def is_palindrome(arg, base=10):
   ''' Check that arg is a palindrome.
       Works for numbers in either base 10 or base 2. '''
@@ -676,12 +727,11 @@ def triangle_max_path(aTriangle):
 def main():
   ''' main '''
   print("REDACTED")
-  romans = open('./inputs/p089_roman.txt')
-  nums = [Roman_Numeral(strn) for strn in romans.readlines()]
-  romans.close()
-  before = sum([len(x) for x in nums])
-  after = sum([len(x.minimize()) for x in nums])
-  print(before-after)
+  pan = Pandigitals()
+  for num in reversed(pan):
+    if pan.is_pandigital_multiple(num):
+      print(num)
+
   '''sums = 0
   for num in range(1, 17):
     print(num, hexadecimal_strings(num, 3))

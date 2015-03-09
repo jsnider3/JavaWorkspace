@@ -49,11 +49,24 @@ class Tests(unittest.TestCase):
       assert(primes[x] == correct[x - 1])
     #assert(primes[10001] == 104743)
   
+  def test_pandigitals(self):
+    pan = euler.Pandigitals()
+    assert pan.get_pandigital_product(7254)
+    assert pan.is_pandigital_multiple(192384576)
+    assert pan.is_pandigital_multiple(932718654)
+    count = 0
+    for n in range(100, 100000):
+      prod = pan.get_pandigital_product(n)
+      if prod is not None:
+        strn = str(prod[0]) + str(prod[1]) + str(prod[2])
+        if len(strn) == 9:
+          count += n
+    assert count == 45228
+
   def test_romans(self):
-    #roman = euler.Roman_Numeral("VI")
-    #assert int(roman) == 6
+    roman = euler.Roman_Numeral("VI")
+    assert int(roman) == 6
     roman = euler.Roman_Numeral("IV")
-    print(int(roman))
     assert int(roman) == 4
     roman = euler.Roman_Numeral("XIV")
     assert int(roman) == 14
