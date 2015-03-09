@@ -77,7 +77,7 @@ class Hexagonals(object):
     return guess.is_integer()
 
   def __getitem__(self, n):
-    return n * (2*n - 1)
+    return n * (2 * n - 1)
 
   def __iter__(self):
     count = 1
@@ -87,6 +87,16 @@ class Hexagonals(object):
 
 #########################
 
+class Naturals(object):
+  ''' Provides iterators for
+      the naturals. '''
+  def __iter__(self):
+    count = 1
+    while count:
+      yield count
+      count += 1
+
+#########################
 class Pandigitals(object):
   ''' Provides utilities for
       working with the 
@@ -458,6 +468,17 @@ def is_anagram(first, second):
   for tChar in first + second:
     if first.count(tChar) != second.count(tChar):
       return False
+  return True
+
+def is_anagram_series(base, length):
+  ''' Are base, base*2, ..., base*length
+      anagrams of each other. '''
+  nums = []
+  for x in range(1, length + 1):
+    nxt = base * x
+    if nums and not is_anagram(nxt, nums[-1]):
+      return False
+    nums.append(base * x)
   return True
 
 def is_arithmetically_increasing(aList):
