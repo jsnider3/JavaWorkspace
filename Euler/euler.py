@@ -5,6 +5,7 @@ import itertools
 import math
 import numpy
 import pdb
+import string
 from graph import Graph
 from primes import Primes
 
@@ -90,6 +91,10 @@ class Hexagonals(object):
 class Naturals(object):
   ''' Provides iterators for
       the naturals. '''
+
+  def __contains(self, num):
+    return num > 0 and int(num) == num    
+
   def __iter__(self):
     count = 1
     while count:
@@ -278,6 +283,10 @@ def alphabet_score(word):
     total += val
   return total
 
+def ascii_sum(strn):
+  ''' Sum the ascii values in a string'''
+  return sum([ord(x) for x in strn])
+
 def british_number_string(num):
   ''' Convert a number to a string
       in the british way. '''
@@ -428,6 +437,15 @@ def flat_index(aTwoDShape, aIndex):
       return row[index]
     else:
       index -= len(row)
+
+def freq_counts(lst):
+  freqs = {}
+  for foo in lst:
+    if not foo in freqs:
+      freqs[foo] = 1
+    else:
+      freqs[foo] = freqs[foo] + 1
+  return freqs
 
 def get_amicable_pair(low):
   ''' If low is the smallest number of an amicable pair
@@ -769,6 +787,15 @@ def tuple_to_num(tupe):
   tupe = [str(c) for c in tupe]
   tupe = "".join(tupe)
   return int(tupe)
+
+def xor_file(text, key):
+  key_ind = 0
+  result = []
+  for t in text:
+    result.append(t ^ key[key_ind])
+    key_ind += 1
+    key_ind %= len(key)
+  return result
 
 def main():
   ''' main '''
