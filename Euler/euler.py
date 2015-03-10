@@ -247,17 +247,37 @@ class Square_Chain(object):
 
 #########################
 
+class Squares(object):
+  ''' Provides iterators and accessors for
+      the triangular numbers. '''
+  
+  def __contains__(self, num):
+    ''' Check if num is a square number. '''
+    root = int(math.sqrt(num) + .5)
+    return num == root * root
+
+  def __getitem__(self, num):
+    return int(num ** 2)
+
+  def __iter__(self):
+    count = 1
+    while True:
+      yield count ** 2
+      count += 1
+
+#########################
+
 class Triangulars(object):
   ''' Provides iterators and accessors for
       the triangular numbers. '''
 
-  def __contains__(self, aInt):
-    if aInt < 0:
+  def __contains__(self, num):
+    if num < 0:
       return False
-    guess = int((aInt) ** (.5))
-    while self[guess] < aInt:
+    guess = int((num) ** (.5))
+    while self[guess] < num:
       guess += 1
-    return self[guess] == aInt
+    return self[guess] == num
 
   def __getitem__(self, aInt):
     return int(.5 * aInt * (aInt + 1))
@@ -455,6 +475,18 @@ def get_amicable_pair(low):
     return (low, high)
   return None
 
+def goldbach(num):
+  ''' Does num have the property 
+      described in Euler 46. '''
+  primes = Primes()
+  assert not num in primes
+  assert num % 2
+  for square in Squares():
+    if num - 2 * square in primes:
+      return True
+    elif num < 2 * square:
+      return False
+
 def group_into_equivalency_classes(aList, equals):
   ''' Use aList and the given comparator to make
       a list of equivalency classes. '''
@@ -535,11 +567,6 @@ def is_rotation(first, second):
   if len(first) != len(second):
     return False
   return second in first + first
-
-def is_square(num):
-  ''' Check if num is a square number. '''
-  root = int(math.sqrt(num) + .5)
-  return num == root * root
 
 def largest_grid_product(grid):
   rows = len(grid)
@@ -800,6 +827,7 @@ def xor_file(text, key):
 def main():
   ''' main '''
   print("REDACTED")
+  count = 9
   '''sums = 0
   for num in range(1, 17):
     print(num, hexadecimal_strings(num, 3))

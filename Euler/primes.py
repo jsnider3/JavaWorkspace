@@ -84,7 +84,6 @@ class Primes(object):
       if count in self:
         if not count in self._List:
           self._List.add(count)
-        assert count is not None
         yield count
       count += 2
 
