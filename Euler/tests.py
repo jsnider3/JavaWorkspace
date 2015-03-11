@@ -64,13 +64,13 @@ class Tests(unittest.TestCase):
     assert count == 45228
 
   def test_romans(self):
-    roman = euler.Roman_Numeral("VI")
+    roman = euler.RomanNumeral("VI")
     assert int(roman) == 6
-    roman = euler.Roman_Numeral("IV")
+    roman = euler.RomanNumeral("IV")
     assert int(roman) == 4
-    roman = euler.Roman_Numeral("XIV")
+    roman = euler.RomanNumeral("XIV")
     assert int(roman) == 14
-    roman = euler.Roman_Numeral("VIII")
+    roman = euler.RomanNumeral("VIII")
     assert int(roman) == 8
 
   def test_shared_members(self):

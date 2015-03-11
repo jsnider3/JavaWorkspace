@@ -212,7 +212,7 @@ class Pentagonals(object):
 
 #########################
 
-class Roman_Numeral(object):
+class RomanNumeral(object):
   ''' Store roman numerals. As per
       https://projecteuler.net/about=roman_numerals'''
     
@@ -267,7 +267,7 @@ class Roman_Numeral(object):
 
 #########################
 
-class Square_Chain(object):
+class SquareChain(object):
   ''' Create a tree representation of the sequence in Euler #92.'''
   def __init__(self):
     self._End = {1 : 1, 89 : 89}
@@ -500,11 +500,11 @@ def flat_index(aTwoDShape, aIndex):
 
 def freq_counts(lst):
   freqs = {}
-  for foo in lst:
-    if not foo in freqs:
-      freqs[foo] = 1
+  for elem in lst:
+    if not elem in freqs:
+      freqs[elem] = 1
     else:
-      freqs[foo] = freqs[foo] + 1
+      freqs[elem] += + 1
   return freqs
 
 def get_amicable_pair(low):
