@@ -69,6 +69,40 @@ class Collatz(object):
 
 #########################
 
+class Convergents(object):
+  ''' See Euler 65. '''
+
+  def __init__(self, start, denoms):
+    self.start = start
+    self.denoms = iter(denoms)
+    self.stack = []
+
+  def __iter__(self):
+    yield fractions.Fraction(numerator=self.start, denominator=1)
+    pdb.set_trace()
+    while True:
+      self.stack.append(next(self.denoms))
+      convergent = fractions.Fraction()
+      for d in reversed(self.stack):
+        convergent = 1 / (d + convergent)
+      yield self.start + convergent
+  
+  @staticmethod
+  def of_e():
+    def e_denoms():
+      loops = 1
+      lst = [1, 2, 1]
+      while True:
+        for n in lst:
+          if n == 1:
+            yield 1
+          else:
+            yield 2 * loops
+        loops += 1
+    return Convergents(2, iter(e_denoms()))
+
+#########################
+
 class Hexagonals(object):
   ''' Provides iterators and accessors for
       the hexagonal numbers. '''
@@ -206,6 +240,12 @@ class Roman_Numeral(object):
 
   def __len__(self):
     return len(self.text)
+
+  def __repr__(self):
+    return "Roman_Numeral({0})".format(self.text)
+
+  def __str__(self):
+    return self.text
 
   @classmethod 
   def from_int(cls, num):
@@ -816,6 +856,9 @@ def tuple_to_num(tupe):
   return int(tupe)
 
 def xor_file(text, key):
+  ''' Go through a list of numbers
+      and xor them with numbers in
+      the provided key. '''
   key_ind = 0
   result = []
   for t in text:
@@ -827,14 +870,6 @@ def xor_file(text, key):
 def main():
   ''' main '''
   print("REDACTED")
-  count = 9
-  '''sums = 0
-  for num in range(1, 17):
-    print(num, hexadecimal_strings(num, 3))
-    sums += hexadecimal_strings(num, 3)
-  print(sums)
-  print(hex(sums))
-  '''
 
 if __name__ == "__main__":
   main()
