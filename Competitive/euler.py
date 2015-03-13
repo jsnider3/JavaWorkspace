@@ -202,13 +202,17 @@ class Pentagonals(object):
     return math.sqrt(24 * num + 1).is_integer()
 
   def __getitem__(self, n):
-    return n * (3*n - 1)/2
+    return int(n * (3*n - 1)/2)
 
   def __iter__(self):
     count = 1
     while True:
       yield self[count]
       count += 1
+
+  def pair(self, m, n):
+    ''' See Euler 44 '''
+    return max(m, n) - min(m, n) in self and m + n in self
 
 #########################
 
@@ -749,26 +753,10 @@ def quad_prime(a, b):
     count += 1
   return count
 
-def eulerphi(num):
-  #TODO Wrong for 12, probably wrong for others.
-  #phi = aNum
-  #for i in range(2, aNum + 1):
-  #  if i in Primes() and aNum % i == 0:
-  #    phi *= 1 - 1/i
-  '''Factors = prime_facs(aNum)
-  tFactors = set(tFactors)
-  phi =  int(aNum * product(map(lambda x: 1 - 1 / x, tFactors)))
-  return phi'''
-  coprimes = 0
-  for i in range(1, num + 1):
-    if coprime(num, i):
-      coprimes += 1
-  return coprimes #int(phi)
-
 def resilience(denom):
   ''' As defined by Project Euler 243 '''
   assert denom > 1
-  resil = eulerphi(denom) / (denom - 1)
+  resil = totient(denom) / (denom - 1)
   print(denom, resil)
   return resil
 
@@ -835,6 +823,22 @@ def sum_squares(num):
     total += (count ** 2)
   return total
 
+def totient(num):
+  #TODO Wrong for 12, probably wrong for others.
+  #phi = aNum
+  #for i in range(2, aNum + 1):
+  #  if i in Primes() and aNum % i == 0:
+  #    phi *= 1 - 1/i
+  '''Factors = prime_facs(aNum)
+  tFactors = set(tFactors)
+  phi =  int(aNum * product(map(lambda x: 1 - 1 / x, tFactors)))
+  return phi'''
+  coprimes = 0
+  for i in range(1, num + 1):
+    if coprime(num, i):
+      coprimes += 1
+  return coprimes #int(phi)
+
 def triangle_max_path(aTriangle):
   triangle = list(reversed(aTriangle))
   tMax = triangle[0][:]
@@ -870,6 +874,13 @@ def xor_file(text, key):
 def main():
   ''' main '''
   print("REDACTED")
+  pent = Pentagonals()
+  for n in pent:
+    for x in Pentagonals():
+      if x == n:
+        break
+      elif pent.pair(n, x):
+        print(n, x, n - x)
 
 if __name__ == "__main__":
   main()

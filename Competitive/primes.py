@@ -87,6 +87,12 @@ class Primes(object):
         yield count
       count += 2
 
+  def countdown(self, start):
+    while start > 1:
+      if start in self:
+        yield start
+      start -= 1
+
   @staticmethod
   def factors(num):
     '''Factorize num'''
