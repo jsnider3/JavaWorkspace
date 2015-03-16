@@ -14,6 +14,12 @@ count_down 0 = []
 count_down n = n : (count_down (n-1))
 
 {-
+  euler_exp - Estimate e^x
+-}
+euler_exp :: Double -> Double
+euler_exp x = foldl (+) 0 (map (\y -> (x ** y)/ (foldl (*) 1 [1..y])) [0..9])
+
+{-
   filter_less_than - Return the elements of arr less than n.
 -}
 filter_less_than :: Int -> [Int] -> [Int]
