@@ -7,6 +7,13 @@ arr_repl :: Int -> [Int] -> [Int]
 arr_repl n arr = concat(map (replicate n) arr)
 
 {-
+  count_down - Create a list counting down from n.
+-}
+count_down :: Int -> [Int]
+count_down 0 = []
+count_down n = n : (count_down (n-1))
+
+{-
   filter_less_than - Return the elements of arr less than n.
 -}
 filter_less_than :: Int -> [Int] -> [Int]
