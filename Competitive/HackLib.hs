@@ -13,3 +13,11 @@ filter_less_than :: Int -> [Int] -> [Int]
 filter_less_than n [] = []
 filter_less_than n arr = (if arr !! 0 < n then [arr !! 0] else [])
                            ++ filter_less_than n ( tail arr)
+
+
+{-
+  list_len - Manually find the length of lst.
+-}
+list_len :: [a] -> Int
+list_len [] = 0
+list_len lst = 1 + list_len (tail lst)
