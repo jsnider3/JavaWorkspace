@@ -21,3 +21,13 @@ filter_less_than n arr = (if arr !! 0 < n then [arr !! 0] else [])
 list_len :: [a] -> Int
 list_len [] = 0
 list_len lst = 1 + list_len (tail lst)
+
+
+{-
+  odd_indices - Get the elements at the 1st, 3rd, 5th positions
+                of a list.
+-}
+odd_indices :: [Int] -> [Int]
+odd_indices [] = []
+odd_indices [a] = []
+odd_indices lst = [lst !! 1] ++ odd_indices (tail (tail lst))
