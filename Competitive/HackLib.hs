@@ -44,3 +44,8 @@ odd_indices lst = [lst !! 1] ++ odd_indices (tail (tail lst))
 -}
 rev [] = []
 rev l = rev (tail l) ++ [head l]
+
+{-
+  sum_odds - Sum the odd elements of a list
+-}
+sum_odds arr = foldl (+) 0 $ filter odd arr
