@@ -31,3 +31,9 @@ odd_indices :: [Int] -> [Int]
 odd_indices [] = []
 odd_indices [a] = []
 odd_indices lst = [lst !! 1] ++ odd_indices (tail (tail lst))
+
+{-
+  rev - Reverse a list manually.
+-}
+rev [] = []
+rev l = rev (tail l) ++ [head l]
