@@ -21,7 +21,6 @@ class Tests(unittest.TestCase):
 
   def test_is_circular(self):
     primes = euler.Primes()
-    assert(2 in primes)
     assert(primes.is_circular(2))
     assert(primes.is_circular(971))
     assert(not primes.is_circular(999953))
@@ -84,9 +83,10 @@ class Tests(unittest.TestCase):
   def test_totient(self):
     correct = [(2, 1), (3, 2), (4, 2),
                (5, 4), (6, 2), (7, 6),
-               (8, 2), (9, 6), (10, 4)]
+               (8, 4), (9, 6), (10, 4)]
     for (k, v) in correct:
       assert euler.totient(k) == v
+    assert euler.resilience(12) == 4/11
 
   def test_triangulars(self):
     tries = euler.Triangulars()

@@ -93,22 +93,22 @@ class Primes(object):
         yield start
       start -= 1
 
-  @staticmethod
-  def factors(num):
+  def factors(self, num):
     '''Factorize num'''
     if num == 0:
       return []
     if num == 1:
       return []
-    for count in Primes().less_than(int(num ** .5) + 1):
+    for count in self.less_than(int(num ** .5) + 1):
       if (num % count) == 0:
-        factors = Primes.factors(num // count)
+        factors = self.factors(num // count)
         factors.append(count)
         return factors
     return [num]
 
   def in_range(self, start, limit):
     '''List of primes in [start, limit)'''
+    #TODO Optimize
     for count in range(start, limit):
       if count in self:
         yield count

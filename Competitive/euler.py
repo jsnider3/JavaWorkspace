@@ -653,6 +653,20 @@ def largest_product_in_series(series, length):
       largest = prod
   return largest
 
+def lonely_member(b):
+  ''' In a list b where 
+      everything occurs twice
+      except for one that only
+      occurs once, return the
+      one that only occurs once.'''
+  seen = set([])
+  for n in b:
+    if n in seen:
+      seen.remove(n)
+    else:
+      seen.add(n)
+  return list(seen)[0]
+
 def longest_arithmetically_increasing_sequence(aList):
   ''' Finding the subsequence of the given list
       which is arithmetically increasing and the longest. '''
@@ -731,6 +745,11 @@ def points_on_slope(rise, run):
   points = 1 + fractions.gcd(rise, run)
   return points
 
+#@functools.lru_cache(maxsize=None)
+def prime_facs(aNum):
+  ''' convenience function '''
+  return Primes.factors(aNum)
+
 def product(aList):
   ''' sum but for multiplication '''
   return functools.reduce(lambda x, y: x * y, aList)
@@ -757,8 +776,23 @@ def resilience(denom):
   ''' As defined by Project Euler 243 '''
   assert denom > 1
   resil = totient(denom) / (denom - 1)
-  print(denom, resil)
   return resil
+
+def resilient_search(thresh):
+  ''' Find the lowest d with
+       resil(d) < thresh. '''
+  primes = Primes()
+  piter = iter(primes)
+  guess = next(piter)
+  while resilience(guess) >= thresh:
+    nxt = next(piter)
+    if resilience(guess*nxt) < thresh:
+      break
+    else:
+      guess *= nxt
+  for n in range(2, max(primes.factors(guess))):
+    if resilience(guess * n) < thresh:
+      return guess * n
 
 #@functools.lru_cache(maxsize=None)
 def rod_cuts(length, cut_size):
@@ -769,11 +803,6 @@ def rod_cuts(length, cut_size):
     #TODO This is wrong obviously.
     cuts += rod_cuts(length - cut_size, cut_size)
   return cuts
-
-#@functools.lru_cache(maxsize=None)
-def prime_facs(aNum):
-  ''' convenience function '''
-  return Primes.factors(aNum)
 
 def shared_members(iters):
   '''Given a list of iterators which generate
@@ -824,20 +853,13 @@ def sum_squares(num):
   return total
 
 def totient(num):
-  #TODO Wrong for 12, probably wrong for others.
-  #phi = aNum
-  #for i in range(2, aNum + 1):
-  #  if i in Primes() and aNum % i == 0:
-  #    phi *= 1 - 1/i
-  '''Factors = prime_facs(aNum)
-  tFactors = set(tFactors)
-  phi =  int(aNum * product(map(lambda x: 1 - 1 / x, tFactors)))
-  return phi'''
-  coprimes = 0
-  for i in range(1, num + 1):
-    if coprime(num, i):
-      coprimes += 1
-  return coprimes #int(phi)
+  ''' Requires python 3 to be correct. '''
+  primes = Primes()
+  Factors = primes.factors(num)
+  factors = set(Factors)
+  prod = product([(1 - 1/x) for x in factors])
+  phi =  num * prod
+  return int(phi)
 
 def triangle_max_path(aTriangle):
   triangle = list(reversed(aTriangle))
@@ -874,13 +896,17 @@ def xor_file(text, key):
 def main():
   ''' main '''
   print("REDACTED")
-  pent = Pentagonals()
+#  print(list(filter(lambda x: is_anagram(x, totient(x)), range(2, 10 ** 7))))
+  for x in range(2, 10 ** 7):
+    if is_anagram(x, totient(x)):
+      print(x)
+  '''pent = Pentagonals()
   for n in pent:
     for x in Pentagonals():
       if x == n:
         break
       elif pent.pair(n, x):
-        print(n, x, n - x)
+        print(n, x, n - x)'''
 
 if __name__ == "__main__":
   main()
