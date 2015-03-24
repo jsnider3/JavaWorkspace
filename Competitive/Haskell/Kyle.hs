@@ -1,4 +1,6 @@
 import Data.Bits
+import Data.Map (Map)
+import qualified Data.Map as Map
 import Data.Maybe
 import Debug.Trace
 
@@ -20,15 +22,22 @@ getLowOrder n shift = case (shift, testBit n shift) of
                         (_, False) -> getLowOrder n (shift + 1)
                         _   -> (shift)
 
-winning :: Int -> Bool
-winning pos = case (highOrder pos - lowOrder pos) of
+winning :: Map Int Int -> Bool
+winning pos = undefined {-case (highOrder pos - lowOrder pos) of
                 0 -> True
                 1 -> True
-                _ -> not $ all winning (children pos)
+                _ -> not $ all winning (children pos)-}
 
-children :: Int -> [Int]
+findRuns :: [Int] -> Int -> Map Int Int -> Map Int Int
+findRuns [] _ dict = dict
+findRuns lst cnt dict = case (head lst, cnt) of
+                          (1, _) -> findRuns (tail lst) (cnt + 1) dict  
+                          (0, 0) -> findRuns (tail lst) (cnt) dict
+                          _      -> findRuns (tail lst) 0 (Map.insertWith (+) cnt 1 dict)
+
+children :: Map Int Int -> Map Int Int
 --This equation is fundamentally wrong.
-children pos = concat [knockdownOnes pos, knockdownTwos pos]
+children pos = undefined --concat [knockdownOnes pos, knockdownTwos pos]
 
 knockdownOnes :: Int -> [Int]
 knockdownOnes n = catMaybes(map (knockdownOne n) [0..10])
@@ -38,11 +47,12 @@ knockdownOne n x = case testBit n x of
                         False -> Nothing
 
 knockdownTwos :: Int -> [Int]
-knockdownTwos n = catMaybes(map (\x -> if and[testBit n x, testBit n (x-1)] then Just (clearBit (n-1) (clearBit n x)) else Nothing) [0..10])
+knockdownTwos n = catMaybes(map (knockdownTwo n) [0..10])
 
 knockdownTwo n x = case and [testBit n x, testBit n (x-1)] of
                         True -> Just (clearBit (clearBit n x) x-1)
                         False -> Nothing
+
 binaryListToInt :: [Int] -> Int
 binaryListToInt = foldl1 (\ a b -> 2*a + b) 
 
@@ -52,7 +62,7 @@ testcase n = do
          leng <- getLine
          test <- getLine
          let nums = map (\c -> if c=='X' then 0 else 1) test in
-          case winning (binaryListToInt nums) of
+          case winning (findRuns nums 0 Map.empty) of
             True -> putStrLn "WIN"
             False -> putStrLn "LOSE"
          testcase (n-1)

@@ -35,6 +35,11 @@ list_len :: [a] -> Int
 list_len [] = 0
 list_len lst = 1 + list_len (tail lst)
 
+{-
+  merge_list - Merge two lists into one, preserving order.
+-}
+merge_list :: [a] -> [a] -> [a]
+merge_list p q = concat(map (\(x,y) -> [x, y]) (zip p q)))
 
 {-
   odd_indices - Get the elements at the 1st, 3rd, 5th positions
