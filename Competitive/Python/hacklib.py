@@ -772,6 +772,32 @@ def quad_prime(a, b):
     count += 1
   return count
 
+def reorder_chars(strn, left, right):
+  '''Change strn so that right is never
+    followed and touching a left. '''
+  ret = ""
+  x = 0
+  while x < len(strn):
+    if strn[x] not in [left, right]:
+      ret += strn[x]
+    else:
+      numleft = 0
+      numright = 0
+      y = x
+      while y < len(strn) and strn[y] in [left, right]:
+        if strn[y] == left:
+          numleft += 1
+        else:
+          numright += 1
+        y += 1
+      for cnt in range(numleft):
+        ret += left
+      for cnt in range(numright):
+        ret += right
+      x = y - 1
+    x += 1
+  return ret
+
 def resilience(denom):
   ''' As defined by Project Euler 243 '''
   assert denom > 1

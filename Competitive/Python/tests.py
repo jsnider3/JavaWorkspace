@@ -62,6 +62,14 @@ class Tests(unittest.TestCase):
           count += n
     assert count == 45228
 
+  def test_reorder_chars(self):
+    cases = [('the theater', 'hte hteater'),
+             ('interesting stories', 'interesting stories'),
+             ('authentic atthic', 'auhtentic ahttic'),
+             ('thththththththt', 'hhhhhhhtttttttt')]
+    for (h,v) in cases:
+      assert euler.reorder_chars(h, 'h', 't') == v
+
   def test_romans(self):
     roman = euler.RomanNumeral("VI")
     assert int(roman) == 6
