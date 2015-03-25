@@ -39,7 +39,7 @@ list_len lst = 1 + list_len (tail lst)
   merge_list - Merge two lists into one, preserving order.
 -}
 merge_list :: [a] -> [a] -> [a]
-merge_list p q = concat(map (\(x,y) -> [x, y]) (zip p q)))
+merge_list p q = concat(map (\(x,y) -> [x, y]) (zip p q))
 
 {-
   odd_indices - Get the elements at the 1st, 3rd, 5th positions
@@ -53,10 +53,12 @@ odd_indices lst = [lst !! 1] ++ odd_indices (tail (tail lst))
 {-
   rev - Reverse a list manually.
 -}
+rev :: [a] -> [a]
 rev [] = []
 rev l = rev (tail l) ++ [head l]
 
 {-
   sum_odds - Sum the odd elements of a list
 -}
+sum_odds :: [Int] -> Int
 sum_odds arr = foldl (+) 0 $ filter odd arr
