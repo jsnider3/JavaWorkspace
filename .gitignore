@@ -1,0 +1,8 @@
+#Ignore program files.
+.classpath
+.DS_Store
+.project
+*.class
+*.pyc
+#Ignore homework dirs.
+JNW2v1.2.3
