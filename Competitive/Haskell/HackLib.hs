@@ -22,13 +22,20 @@ euler_exp :: Double -> Double
 euler_exp x = foldl (+) 0 (map (\y -> (x ** y)/ (foldl (*) 1 [1..y])) [0..9])
 
 {-
+  factors - prime factors of n
+-}
+factors :: Int -> [Int]
+factors 1 = []
+factors n = let divisors = 2:[3,5..(floor $ sqrt $ fromIntegral n)] ++ [n] in
+            let small_div = filter (\x -> rem n x == 0) divisors !! 0 in
+              small_div : factors (n `div` small_div) 
+{-
   filter_less_than - Return the elements of arr less than n.
 -}
 filter_less_than :: Int -> [Int] -> [Int]
 filter_less_than n [] = []
 filter_less_than n arr = (if arr !! 0 < n then [arr !! 0] else [])
                            ++ filter_less_than n ( tail arr)
-
 
 {-
   list_len - Manually find the length of lst.
