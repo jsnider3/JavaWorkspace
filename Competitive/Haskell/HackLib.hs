@@ -1,3 +1,5 @@
+import Data.List
+
 {-
   arr_repl - Repeat the elements of arr n times
              and preserve order.
@@ -62,3 +64,13 @@ rev l = rev (tail l) ++ [head l]
 -}
 sum_odds :: [Int] -> Int
 sum_odds arr = foldl (+) 0 $ filter odd arr
+
+
+{-
+  uniq - Return the list with only uniq elems.
+         Order is determined by which came first.
+-}
+
+uniq :: (Eq a) => [a] -> [a]
+uniq = foldl (\a b -> if elem b a then a else a ++ [b]) []
+
