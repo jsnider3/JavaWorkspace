@@ -4,5 +4,7 @@
 .project
 *.class
 *.pyc
+*.o
+*.hi
 #Ignore homework dirs.
 JNW2v1.2.3
