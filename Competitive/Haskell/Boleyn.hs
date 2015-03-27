@@ -28,24 +28,25 @@ makeIntList :: [String] -> [Int]
 makeIntList = map (\x -> read x::Int)
 
 processQueries :: Map.Map Int [Int] -> Map.Map Int Int -> [[Int]] -> [Int]
-procesQueries _ _ [] = []
-processQueries tree sals ([a, b]:rest) = []
-  
+processQueries tree sals [[a, b]] = [sortByMap sals (descendents tree a) !! (b - 1)]
+processQueries tree sals ([a, b]:[x,y]:rest) = 
+  let hd = sortByMap sals (descendents tree a) !! (b - 1) in
+    hd:(processQueries tree sals ([hd+x,y]:rest))
 
-queries :: Map.Map Int [Int] -> Map.Map Int Int -> Int -> IO ()
-queries tree sals n = do
-  print tree
-  print sals
-  stuff <- mapM (const getLine) [1..n - 1]
+printQueries :: Map.Map Int [Int] -> Map.Map Int Int -> Int -> IO [()]
+printQueries tree sals n = do
+--  print tree
+--  print sals
+  stuff <- mapM (const getLine) [1..n]
   let input = map makeIntList (map words stuff) in do
-    print $ processQueries tree sals input
+    mapM print $ processQueries tree sals input
 
-sortByMap vals keys = sortBy (\x y -> compare (Map.lookup x vals)(Map.lookup x vals)) keys
+sortByMap vals keys = sortBy (\x y -> compare (fromJust $Map.lookup x vals)(fromJust $Map.lookup y vals)) keys
 
-main :: IO ()
+main :: IO [()]
 main = do
   nums <- getLine
   tree <- createHierarchy (read(head(words nums))::Int)
   sals <- loadSalaries
-  queries tree sals (read((words nums) !! 1)::Int)
+  printQueries tree sals (read((words nums) !! 1)::Int)
 
