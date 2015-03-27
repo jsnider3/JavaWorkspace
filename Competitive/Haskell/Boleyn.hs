@@ -7,7 +7,7 @@ create_hierarchy n = do
   let supes = map makeIntList (map words links) in do
     return $ edgesToTree(zip (map head supes)(map (\x -> x !! 1) supes))
 
-edgesToTree :: [(Int,Int)] -> (Map.Map Int [Int])
+edgesToTree :: [(a, a)] -> (Map.Map a [a])
 edgesToTree [] = Map.empty
 edgesToTree ((a,b):rest) = Map.insertWith (++) b [a] (edgesToTree rest)
 
