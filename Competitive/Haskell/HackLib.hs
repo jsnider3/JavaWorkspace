@@ -1,4 +1,5 @@
 import Data.List
+import Data.Numbers.Primes
 
 {-
   arr_repl - Repeat the elements of arr n times
@@ -12,7 +13,7 @@ arr_repl n arr = concat(map (replicate n) arr)
   count_down - Create a list counting down from n.
 -}
 count_down :: Int -> [Int]
-count_down 0 = []
+count_down 0 = [0]
 count_down n = n : (count_down (n-1))
 
 {-
@@ -26,9 +27,10 @@ euler_exp x = foldl (+) 0 (map (\y -> (x ** y)/ (foldl (*) 1 [1..y])) [0..9])
 -}
 factors :: Int -> [Int]
 factors 1 = []
-factors n = let divisors = 2:[3,5..(floor $ sqrt $ fromIntegral n)] ++ [n] in
+factors n = let divisors = (takeWhile (\x ->  x <= (isqrt (fromIntegral n))) primes) ++ [n] in
             let small_div = filter (\x -> rem n x == 0) divisors !! 0 in
               small_div : factors (n `div` small_div) 
+
 {-
   filter_less_than - Return the elements of arr less than n.
 -}
@@ -43,6 +45,11 @@ filter_less_than n arr = (if arr !! 0 < n then [arr !! 0] else [])
 list_len :: [a] -> Int
 list_len [] = 0
 list_len lst = 1 + list_len (tail lst)
+
+{-
+  isqrt - integer sqrt 
+-}
+isqrt n = floor (sqrt n)
 
 {-
   merge_list - Merge two lists into one, preserving order.
@@ -63,15 +70,29 @@ odd_indices lst = [lst !! 1] ++ odd_indices (tail (tail lst))
   rev - Reverse a list manually.
 -}
 rev :: [a] -> [a]
-rev [] = []
-rev l = rev (tail l) ++ [head l]
+rev l = map (\x -> l !! x)(count_down ((length l) -1))--[(length l) - 1, (length l) - 2..0]
+
+{-
+  rle - Encode an alpha string using run_length_encoding.
+-}
+rle :: String -> String
+rle str = run_length_encode (tail str)(head str, 1)
+
+run_length_encode :: String ->(Char, Int) -> String
+run_length_encode [] (el, cnt) = case cnt of
+                                  1 -> [el]
+                                  _ -> el : show cnt
+run_length_encode lst (el, cnt) = case (el == head lst) of
+                                    True -> run_length_encode (tail lst) (el, cnt + 1)
+                                    False -> case cnt of 
+                                              1 -> el : run_length_encode (tail lst) (head lst, 1)
+                                              _ -> el : (show cnt) ++ run_length_encode (tail lst) (head lst, 1)
 
 {-
   sum_odds - Sum the odd elements of a list
 -}
 sum_odds :: [Int] -> Int
 sum_odds arr = foldl (+) 0 $ filter odd arr
-
 
 {-
   uniq - Return the list with only uniq elems.
