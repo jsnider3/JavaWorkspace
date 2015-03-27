@@ -36,8 +36,9 @@ factors n = let divisors = (takeWhile (\x ->  x <= (isqrt (fromIntegral n))) pri
 -}
 filter_less_than :: Int -> [Int] -> [Int]
 filter_less_than n [] = []
-filter_less_than n arr = (if arr !! 0 < n then [arr !! 0] else [])
-                           ++ filter_less_than n ( tail arr)
+filter_less_than n arr 
+                   | arr !! 0 < n = [arr !! 0] ++ filter_less_than n ( tail arr)
+                   | otherwise = filter_less_than n ( tail arr)
 
 {-
   list_len - Manually find the length of lst.
@@ -70,23 +71,23 @@ odd_indices lst = [lst !! 1] ++ odd_indices (tail (tail lst))
   rev - Reverse a list manually.
 -}
 rev :: [a] -> [a]
-rev l = map (\x -> l !! x)(count_down ((length l) -1))--[(length l) - 1, (length l) - 2..0]
+rev l = map (\x -> l !! x)(count_down ((length l) -1))
 
 {-
   rle - Encode an alpha string using run_length_encoding.
 -}
 rle :: String -> String
-rle str = run_length_encode (tail str)(head str, 1)
+rle str = rle_loop (tail str) (head str, 1)
 
-run_length_encode :: String ->(Char, Int) -> String
-run_length_encode [] (el, cnt) = case cnt of
-                                  1 -> [el]
-                                  _ -> el : show cnt
-run_length_encode lst (el, cnt) = case (el == head lst) of
-                                    True -> run_length_encode (tail lst) (el, cnt + 1)
-                                    False -> case cnt of 
-                                              1 -> el : run_length_encode (tail lst) (head lst, 1)
-                                              _ -> el : (show cnt) ++ run_length_encode (tail lst) (head lst, 1)
+rle_loop :: (Eq a, Show a) => [a] -> (a, Int) -> String
+rle_loop [] (el, cnt) = case cnt of
+                          1 -> show el
+                          _ -> show el ++ show cnt
+rle_loop lst (el, cnt) = case (el == head lst) of
+                          True -> rle_loop (tail lst) (el, cnt + 1)
+                          False -> case cnt of 
+                                    1 -> show el ++ rle_loop (tail lst) (head lst, 1)
+                                    _ -> show el ++ show cnt ++ rle_loop (tail lst) (head lst, 1)
 
 {-
   sum_odds - Sum the odd elements of a list
@@ -98,7 +99,6 @@ sum_odds arr = foldl (+) 0 $ filter odd arr
   uniq - Return the list with only uniq elems.
          Order is determined by which came first.
 -}
-
 uniq :: (Eq a) => [a] -> [a]
 uniq = foldl (\a b -> if elem b a then a else a ++ [b]) []
 
