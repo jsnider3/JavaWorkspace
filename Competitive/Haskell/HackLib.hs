@@ -90,6 +90,20 @@ rle_loop lst (el, cnt) = case (el == head lst) of
                                     _ -> show el ++ show cnt ++ rle_loop (tail lst) (head lst, 1)
 
 {-
+  rot_lst - Rotate a list until we wrap around.
+-}
+rot_lst :: (Eq a) => [a] -> [a] -> [[a]]
+rot_lst start stop = case (start == stop) of
+                      True -> [stop]
+                      False -> start:(rot_lst (tail start ++ [head start])stop)
+{-
+  rot_n - Rotate a list n times.
+-}
+rot_n :: (Eq a, Eq b, Num b) => [a] -> b -> [[a]]
+rot_n start 0 = []
+rot_n start n = start:(rot_n (tail start++[head start]) (n-1))
+
+{-
   sum_odds - Sum the odd elements of a list
 -}
 sum_odds :: [Int] -> Int
@@ -101,4 +115,8 @@ sum_odds arr = foldl (+) 0 $ filter odd arr
 -}
 uniq :: (Eq a) => [a] -> [a]
 uniq = foldl (\a b -> if elem b a then a else a ++ [b]) []
+
+main = do
+  str <- getLine
+  print $ rot_lst (tail str++ [head str])str
 
