@@ -1,0 +1,11 @@
+1. The person with the max number of pancakes is our limiting factor.
+2. This person can (and will) change when we move pancakes around,
+   Google knows this and will have test cases that our tricky in that
+   way.
+3. If we should move pancakes from one person to another,
+  we should always move half of the pancakes.
+4. If we should move pancakes, we should do so ASAP.
+5. Adding pancakes to the plate of someone who already has pancakes,
+   is never a better idea than giving them to the pancakeless.
+6. If the difference between the first n and the next is >(n+1),
+    then split and recurse. (!!!)
