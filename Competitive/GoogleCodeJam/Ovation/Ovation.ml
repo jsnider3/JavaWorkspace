@@ -10,7 +10,7 @@ let words strn = String.split strn ~on:' ';;
 
 let int_list_of_string strn = List.map (List.map (String.to_list strn) String.of_char) Int.of_string;;
 
-let print_ints ls = List.map (ls) (printf "%d ");
+let print_ints ls = List.map ls (printf "%d ");
   print_newline ();;
 
 let add_friends ls = 5;
@@ -39,8 +39,13 @@ let small_file () = let fl = open_in "A-small-attempt0.in" in
   let tests = List.map (List.map (readlines fl numtests) (fun x -> List.nth_exn (words x) 1)) int_list_of_string in
   List.mapi (List.map tests add_friends) (fun x y -> printf "Case #%d: %d\n" (x + 1) y);;
 
+let large_file () = let fl = open_in "A-large.in" in
+  let numtests = Int.of_string (input_line fl) in
+  let tests = List.map (List.map (readlines fl numtests) (fun x -> List.nth_exn (words x) 1)) int_list_of_string in
+  List.mapi (List.map tests add_friends) (fun x y -> printf "Case #%d: %d\n" (x + 1) y);;
+
 let main () = test_sample ();
   test_custom ();
-  small_file ();;
+  large_file ();;
 
 main ();;
