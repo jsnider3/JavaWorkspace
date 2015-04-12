@@ -6,5 +6,8 @@
 *.pyc
 *.o
 *.hi
+*.cmi
+*.cmx
+a.out
 #Ignore homework dirs.
 JNW2v1.2.3
