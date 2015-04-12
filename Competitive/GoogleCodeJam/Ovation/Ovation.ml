@@ -10,7 +10,7 @@ let words strn = String.split strn ~on:' ';;
 
 let int_list_of_string strn = List.map (List.map (String.to_list strn) String.of_char) Int.of_string;;
 
-let print_ints ls = List.map ls (printf "%d ");
+
   print_newline ();;
 
 let add_friends ls = 5;
