@@ -1,0 +1,24 @@
+O's move:
+---
+X-O
+XOX
+
+3/4 O goes somewhere besides top left and X wins.
+1/8 O goes topleft, X center, O top-mid, X wins top-right.
+= 0.875
+
+O's move:
+--O
+-X-
+XOX
+3/4 O goes somewhere besides top left and X wins.
+= 0.75
+
+X's move:
+---
+---
+-OX
+5/6 X goes tr, O doesn't go midright, X wins.
+1/6 X goes tr, O blocks, X goes tl, O's move is irrelevant,
+  and X either wins through center or mid-top.
+= 1.0

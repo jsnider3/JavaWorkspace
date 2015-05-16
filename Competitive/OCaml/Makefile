@@ -1,7 +1,7 @@
 FILE=tictacs
 
 all: a.out
-	@(a.out "         ") || true
+	@(a.out "---------") || true
 
 a.out: ${FILE}.cmx
 	@ocamlfind ocamlopt -g -linkpkg -package core -package core_kernel -thread -w -10 ${FILE}.cmx
