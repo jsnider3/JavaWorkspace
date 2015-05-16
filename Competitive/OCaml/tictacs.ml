@@ -91,8 +91,8 @@ and xturn bd =
       max_list results;;
 
 let test_winner () =
-  assert (winner "XXX OO   " = 'X');
-  assert (winner "OOOX  X  " = 'O');
+  assert (winner "XXX-OO---" = 'X');
+  assert (winner "OOOX--X--" = 'O');
   assert (oturn "OOXXXOXOX" = 1.0);;
 
 let test_children () =
