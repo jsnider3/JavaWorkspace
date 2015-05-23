@@ -1,244 +1,217 @@
 package main
 
-import "fmt"
-import "math/rand"
-import "sort"
-import "time"
+import (
+	"fmt"
+	"math/rand"
+	"sort"
+	"time"
+)
 
-var kCards = [13]string{"2", "3", "4", "5", "6", "7", "8", "9",
+var cards = [13]string{"2", "3", "4", "5", "6", "7", "8", "9",
 	"10", "J", "Q", "K", "A"}
 
+//GoFishGame Stores the game state.
 type GoFishGame struct {
-	_Hands  [][]string
-	_Deck   []string
-	_Turn   int
-	_Scores []int
+	hands  [][]string
+	deck   []string
+	turn   int
+	scores []int
 }
 
-/*
-* We score a point if we have four
-* of a kind. So, we sort our hand
-* and if we have four in a row of
-* the same pip, we take them out
-* of our hand and get a point.
- */
-func (self *GoFishGame) checkForBooks() {
-	sort.Strings(self._Hands[0])
-	sort.Strings(self._Hands[1])
-	tPrev := ""
-	tCount := 1
-	for _, tChar := range self._Hands[self._Turn] {
-		if tChar == tPrev {
-			tCount++
-			if tCount == 4 {
-				fmt.Println("Book of", tChar)
-				self.removeOccurences(tChar, self._Turn)
-				self._Scores[self._Turn]++
-				if self.isHandEmpty() {
-					self.drawCard()
+// checkForBooks looks for fours of a kind
+// and scores them if we have them.
+// If we run out of cards, we draw more.
+func (gm *GoFishGame) checkForBooks() {
+	sort.Strings(gm.hands[gm.turn])
+	prev := ""
+	count := 1
+	for _, card := range gm.hands[gm.turn] {
+		if card == prev {
+			count++
+			if count == 4 {
+				fmt.Printf("Book of %s.\n", card)
+				gm.stealCards(card, gm.turn)
+				gm.scores[gm.turn]++
+				if gm.isHandEmpty() {
+					gm.drawCard()
 				}
 			}
 		} else {
-			tCount = 1
+			count = 1
 		}
-		tPrev = tChar
+		prev = card
 	}
 }
 
-/*
-* Safely draw a card and put it in your hand.
- */
-func (self *GoFishGame) drawCard() {
-	if !self.isDeckEmpty() {
-		tCard := self._Deck[0]
-		self._Deck = self._Deck[1:]
-		if self._Turn == 0 {
-			fmt.Println("Drew", tCard)
+// drawCard takes a card from the deck
+// adding it to the current player's hand.
+func (gm *GoFishGame) drawCard() {
+	if !gm.isDeckEmpty() {
+		card := gm.deck[0]
+		gm.deck = gm.deck[1:]
+		if gm.turn == 0 {
+			fmt.Printf("You drew a %s.\n", card)
 		}
-		self._Hands[self._Turn] = append(self._Hands[self._Turn], tCard)
+		gm.hands[gm.turn] = append(gm.hands[gm.turn], card)
 		//Check for books
-		self.checkForBooks()
+		gm.checkForBooks()
 	}
 }
 
-/*
-* See if the game has ended.
-* Else, let the next person go.
- */
-func (self *GoFishGame) endPly() {
-	tGameOver := self.isGameOver()
-	if tGameOver {
-		self.printGameOverMessage()
-	} else if self._Turn == 1 {
-		self.playerTurn(getPickComputer)
+// endPly ends the current person's turn.
+// It then either calls the next person's
+// turn or prints a game over message.
+func (gm *GoFishGame) endPly() {
+	gameOver := gm.isGameOver()
+	if gameOver {
+		gm.printGameOverMessage()
+	} else if gm.turn == 1 {
+		gm.playerTurn(getPickComputer)
 	} else {
-		self.playerTurn(getPickUser)
+		gm.playerTurn(getPickUser)
 	}
 }
 
-/*
-* Pick a card that the computer has
-* randomly.
- */
-func getPickComputer(self *GoFishGame) string {
-	tHand := self._Hands[1]
-	tChoice := "A"
-	if len(tHand) > 0 {
-		tChoice = tHand[rand.Intn(len(tHand))]
+// getPickComputer handles the computer's card choices.
+// We do the moderately smart thing of pick a random
+// card from our hand
+func getPickComputer(gm *GoFishGame) string {
+	hand := gm.hands[1]
+	choice := "A"
+	if len(hand) > 0 {
+		choice = hand[rand.Intn(len(hand))]
 	}
-	fmt.Println("Computer picks", tChoice)
-	return tChoice
+	fmt.Printf("Computer picks %s.\n", choice)
+	return choice
 }
 
-/*
-* Ask the user what they want to pick.
- */
-func getPickUser(self *GoFishGame) string {
+// getPickUser gets the user's move.
+// If it's not valid, then the user just wastes
+// their turn.
+func getPickUser(gm *GoFishGame) string {
 	fmt.Println("What card do you want?")
-	var tCard string
-	fmt.Scanf("%s\n", &tCard)
-	return tCard
+	var card string
+	fmt.Scanf("%s\n", &card)
+	return card
 }
 
-/*
-* Convenience function.
- */
-func (self *GoFishGame) isDeckEmpty() bool {
-	return len(self._Deck) == 0
+// isDeckEmpty returns if the deck is empty.
+func (gm *GoFishGame) isDeckEmpty() bool {
+	return len(gm.deck) == 0
 }
 
-/*
-* Convenience function.
- */
-func (self *GoFishGame) isHandEmpty() bool {
-	return len(self._Hands[self._Turn]) == 0
+// isHandEmpty returns if the current player's hand is empty.
+func (gm *GoFishGame) isHandEmpty() bool {
+	return len(gm.hands[gm.turn]) == 0
 }
 
-/*
-* The game is over when all 13 pips have
-* been made into sets.
- */
-func (self *GoFishGame) isGameOver() bool {
-	return self._Scores[0]+self._Scores[1] == 13
+// isGameOver returns if the game is over.
+// This happens when all 13 pips have been made into sets.
+func (gm *GoFishGame) isGameOver() bool {
+	return gm.scores[0]+gm.scores[1] == 13
 }
 
-/*
-* Make a deck contains 4 copies of each
-* card and shuffle it.
- */
+// makeDeck makes a deck.
+// The deck is 52 cards with 4 of each pip.
 func makeDeck() []string {
 	rand.Seed(time.Now().UTC().UnixNano())
-	tDeck := make([]string, 52)
-	tPerm := rand.Perm(52)
-	for tIndex := range tPerm {
-		tVal := tPerm[tIndex]
-		tCard := kCards[tVal/4]
-		tDeck[tIndex] = tCard
+	deck := make([]string, 52)
+	perm := rand.Perm(52)
+	for indx := range perm {
+		tVal := perm[indx]
+		card := cards[tVal/4]
+		deck[indx] = card
 	}
-	return tDeck
+	return deck
 }
 
-/*
-* returns true if the opponent's hand contains an aCard.
- */
-func (self *GoFishGame) opponentHas(aCard string) bool {
-	for _, tCard := range self._Hands[(self._Turn+1)%2] {
-		if tCard == aCard {
+// opponentHas returns if the opponent's hand has a card.
+func (gm *GoFishGame) opponentHas(find string) bool {
+	for _, card := range gm.hands[(gm.turn+1)%2] {
+		if card == find {
 			return true
 		}
 	}
 	return false
 }
 
-/*
-* Handle both the players and computers turns.
-* Differences between them are handled by checking
-* whose turn it is manually and through the getPick
-* parameter.
- */
-func (self *GoFishGame) playerTurn(getPick func(*GoFishGame) string) {
-	tOpponent := (self._Turn + 1) % 2
-	self.checkForBooks()
-	if tOpponent == 1 {
-		self.printHand()
+// playerTurn handles the major game logic.
+// It's used for both the player's and computer's turns,
+// with the different behavior handled by the getPick param.
+func (gm *GoFishGame) playerTurn(getPick func(*GoFishGame) string) {
+	opponent := (gm.turn + 1) % 2
+	gm.checkForBooks()
+	if opponent == 1 {
+		gm.printHand()
 	}
-	if self.isHandEmpty() {
-		self.drawCard()
+	if gm.isHandEmpty() {
+		gm.drawCard()
 	}
-	tGameOver := self.isGameOver()
-	if !tGameOver {
-		tCard := getPick(self)
-		if self.opponentHas(tCard) {
-			tCount := self.removeOccurences(tCard, tOpponent)
-			for tIndex := 0; tIndex < tCount; tIndex++ {
-				self._Hands[self._Turn] = append(self._Hands[self._Turn], tCard)
+	gameOver := gm.isGameOver()
+	if !gameOver {
+		card := getPick(gm)
+		if gm.opponentHas(card) {
+			count := gm.stealCards(card, opponent)
+			for indx := 0; indx < count; indx++ {
+				gm.hands[gm.turn] = append(gm.hands[gm.turn], card)
 			}
-			self.checkForBooks()
+			gm.checkForBooks()
 		} else {
-			self.drawCard()
-			self._Turn = tOpponent
+			fmt.Println("GO FISH!")
+			gm.drawCard()
+			gm.turn = opponent
 		}
 	}
-	self.endPly()
+	gm.endPly()
 }
 
-/*
-* Determine and say who won.
- */
-func (self *GoFishGame) printGameOverMessage() {
-	fmt.Println("Final score is", self._Scores[0], "to", self._Scores[1])
-	if self._Scores[0] > self._Scores[1] {
+// printGameOverMessage prints the appropriate end message.
+func (gm *GoFishGame) printGameOverMessage() {
+	fmt.Printf("Final score is %d to %d.\n", gm.scores[0], gm.scores[1])
+	if gm.scores[0] > gm.scores[1] {
 		fmt.Println("Player wins!")
-	} else if self._Scores[0] == self._Scores[1] {
+	} else if gm.scores[0] == gm.scores[1] {
 		fmt.Println("It's a tie.")
 	} else {
 		fmt.Println("Computer wins!")
 	}
 }
 
-/*
-* Print player's hand and current score.
- */
-func (self *GoFishGame) printHand() {
-	sort.Strings(self._Hands[0])
-	sort.Strings(self._Hands[1])
-	fmt.Println("You have:", self._Hands[0])
-	fmt.Println("Score is", self._Scores[0], "to", self._Scores[1])
+// printHand print's the player's hand and current score.
+func (gm *GoFishGame) printHand() {
+	sort.Strings(gm.hands[0])
+	fmt.Printf("You have: %s.\n", gm.hands[0])
+	fmt.Printf("Score is %d to %d.\n", gm.scores[0], gm.scores[1])
 }
 
-/*
-* Remove all occurences of aElem from the hand
-* represented by aSide.
- */
-func (self *GoFishGame) removeOccurences(aElem string, aSide int) int {
-	tCount := 0
-	tList := self._Hands[aSide]
-	var tFiltered []string
-	for _, tCard := range tList {
-		if tCard == aElem {
-			tCount++
+// stealCards removes all instances of a card from side's hand.
+func (gm *GoFishGame) stealCards(purge string, side int) int {
+	count := 0
+	tList := gm.hands[side]
+	var filtered []string
+	for _, card := range tList {
+		if purge == card {
+			count++
 		} else {
-			tFiltered = append(tFiltered, tCard)
+			filtered = append(filtered, card)
 		}
 	}
-	self._Hands[aSide] = tFiltered
-	return tCount
+	gm.hands[side] = filtered
+	return count
 }
 
-/*
-* Set up and begin the game.
- */
+// main creates the deck and initial hands.
 func main() {
-	tDeck := makeDeck()
-	tPlayerHand := tDeck[0:9]
-	tCompHand := tDeck[9:18]
-	tDeck = tDeck[18:]
-	tHands := make([][]string, 2, 2)
-	tHands[0] = tPlayerHand
-	tHands[1] = tCompHand
-	tScores := make([]int, 2, 2)
-	tScores[0] = 0
-	tScores[1] = 0
-	tGame := GoFishGame{tHands, tDeck, 0, tScores}
-	tGame.playerTurn(getPickUser)
+	deck := makeDeck()
+	playerHand := deck[0:9]
+	compHand := deck[9:18]
+	deck = deck[18:]
+	hands := make([][]string, 2, 2)
+	hands[0] = playerHand
+	hands[1] = compHand
+	scores := make([]int, 2, 2)
+	scores[0] = 0
+	scores[1] = 0
+	game := GoFishGame{hands, deck, 0, scores}
+	game.playerTurn(getPickUser)
 }
