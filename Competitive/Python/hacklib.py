@@ -428,7 +428,7 @@ def digits_foo(num, foo):
 
 def digits_fac(num):
   ''' wrapper for digits_foo '''
-  return digits_foo(num, lambda x: math.factorial(x))
+  return digits_foo(num, math.factorial)
 
 def digits_sum(num):
   ''' wrapper for digits_foo '''
@@ -844,7 +844,7 @@ def shared_members(iters):
     for x in range(len(iters) - 1):
       if members[-1] < members[x]:
         members[-1] = next(iters[-1])
-    if all(map(lambda x: members[-1] == x, members[:-1])):
+    if all([members[-1] == x for x in members[:-1]]):
       yield members[-1]
       members[-1] = next(iters[-1])
 
