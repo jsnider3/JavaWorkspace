@@ -1,11 +1,11 @@
 
 public class listchar {
-	public static void main(String[] args) {
-		char c = 127;
-		while(c > 32)//the characters < 32 are control characters can't be displayed properly.
-			{
-			System.out.println(c);
-			c --;
-		}
-	}
+  public static void main(String[] args) {
+    for(char c = 127; c > 32; c--)
+    //The characters < 32 are control characters
+    //and can't be displayed properly.
+    {
+      System.out.println(c);
+    }
+  }
 }
