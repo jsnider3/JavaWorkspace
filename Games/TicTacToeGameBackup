@@ -1,0 +1,86 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+
+public class TicTacToeGame {
+	public static String[][] BLANK_ARRAY={{" "," "," "},{" "," "," "},{" "," "," "}};
+	public static TicTacToeBoard BLANK_BOARD = new TicTacToeBoard(BLANK_ARRAY, false);
+	/* Final Bug Report:
+	 * The computer's character is displayed as O regardless of whether it should be or not.
+	 * The computer doesn't make perfect moves.
+	 * In command Line interface the computer is always X.
+	 */
+	
+	public static void main(String[] args){
+		GUI();
+		//CLI();
+		}
+
+	private static void GUI(){
+		TicTacToeBoard board = new TicTacToeBoard(BLANK_ARRAY, false);//TODO This is probably causing problems
+		int t=JOptionPane.showConfirmDialog(null,"Do you want to go first?");
+		if(t==JOptionPane.YES_OPTION){
+			new TicTacToe(board,true);
+		}
+		else if(t==JOptionPane.NO_OPTION){
+			new TicTacToe(board,false);
+		}
+	}
+	
+	private static void CLI() {
+		System.out.println("Do you want to go first? Yes/No");
+		Scanner sc = new Scanner(System.in);
+		boolean playerFirst=false;
+		if(sc.next().equals("Yes")){
+			playerFirst=true;
+		}
+		TicTacToeBoard board = new TicTacToeBoard(BLANK_ARRAY,false);
+		System.out.println("0|1|2");
+		System.out.println("-----");
+		System.out.println("3|4|5");
+		System.out.println("-----");
+		System.out.println("6|7|8");
+		while(!board.isOver()){//While the game is not over
+			if(playerFirst){
+				System.out.println("Enter a number for your move.");
+				short move = sc.nextShort();
+				if(board.getEmptySpots().contains(move)){
+					board.Move(move);
+					board.compMove();
+					//board=TicTacToeBoard.max(board.children());
+					System.out.print(board);
+				}
+				else{
+					System.out.println("That spot's taken.");
+				}
+			}
+			else{
+				board.compMove();
+				//board=TicTacToeBoard.min(board.children());
+				System.out.print(board);
+				if(!board.isOver()){
+					System.out.println("Enter a number for your move.");
+					short move = sc.nextShort();
+					while(!board.getEmptySpots().contains(move)){
+							System.out.println("That spot's taken.");
+							System.out.println("Enter a new one");
+							move=sc.nextShort();
+					}
+					board.Move(move);
+				}
+			}
+		}
+		System.out.println(board);
+		if(board.hasWon("X")){
+			System.out.println("X wins.");
+		}
+		else if(board.hasWon("O")){
+			System.out.println("O wins.");
+		}
+		else if(board.isDraw()){
+			System.out.println("Draw.");
+		}
+	}
+}

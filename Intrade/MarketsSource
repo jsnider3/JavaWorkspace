@@ -1,0 +1,674 @@
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Intrade - Markets</title>
+
+    <!-- meta tags -->
+    <meta name="description" lang="en"
+          content="THE Leading Prediction Market. Trade political futures and tap into the wisdom of crowds."/>
+    <meta name="keywords" lang="en" 
+          content="prediction markets, dow, trading, dow futures, prediction market software, intrade, 2008 election odds, financial futures,
+          political betting, social market, wisdom of crowds, 
+          collective intelligence, event futures, information markets"/>
+    <meta name="robots" content="all">        
+    <meta name="author" content="Intrade">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/v4/assets/img/favicon.ico" type="image/x-icon">
+    <link rel="canonical" href="">
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/reset-fonts-grids/reset-fonts-grids.css">
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/assets/skins/sam/skin.css" />
+    <link rel="stylesheet" type="text/css" href="/v4/assets/css/global.css?modified=1331720812000&expfilter_setExpiry=true">
+
+    <!-- header scripts -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.0/prototype.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/scriptaculous/1.8.3/scriptaculous.js"></script>
+
+    
+    <meta name="decorator" content="v4_main"/>
+    <meta name="mainMenuSelectedTabName" content="markets"/>
+    <link id="change-view-animation" rel="stylesheet" type="text/css" href="/v4/assets/css/change-view-animation.css?modified=1313514652000&expfilter_setExpiry=true"/>
+    
+  
+    
+    <!-- google analytics - asynchronous calls -->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      // an new one
+      _gaq.push(['new._setAccount', 'UA-26156399-1']);
+      _gaq.push(['new._setCustomVar', 1, 'view_page', 'v4_Intrade - Markets']);
+      _gaq.push(['new._trackPageview']);
+      
+      // original 
+      _gaq.push(['original._setAccount', 'UA-3061878-1']);
+      _gaq.push(['original._setCustomVar', 1, 'view_page', 'v4_Intrade - Markets']);
+      _gaq.push(['original._trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </head>
+  <body class="yui-skin-sam">
+    <div id="doc3">      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="hd-top">
+  <div class="yui-custom-doc">
+    <div class="yui-gd">
+      <noscript>
+      <div class="headerErrorMessage">
+        JavaScript is disabled on your browser.
+        Please enable JavaScript or upgrade to a JavaScript-capable browser to use intrade.com.
+      </div>
+      </noscript>
+      <div class="yui-u first">
+        &nbsp;
+      </div>
+      <div class="yui-u">
+        <div id="login-container">
+            
+            <form id="loginForm" action="https://www.intrade.com/v4/login/login/login.do" method="post" style="float: left;"
+                  onsubmit="YAHOO.utils.disableFormButton(this);">
+              <input type="hidden" value="/v4/markets/" name="originalUrl"/>
+              <input type="text" name="username" id="loginForm-username" value="" 
+                     style="margin-right: 8px;" class="inputWithText"/>
+              <input type="password" name="password" id="loginForm-password" size="7" 
+                     value="" style="margin-right: 8px;" class="inputWithText"/>
+              <button type="submit" class="smallGreenButton" title="" name="login-submit">
+                <span class="wideSmallButton">
+                  Log In
+                </span>
+              </button> 
+            </form>
+            <div id="forgotten-login" style="float: left; margin-left: 40px;">
+              Forgot your <a id="loginForm-forgottenPassword" href="/v4/login/forgottenpassword/"
+                             class="whiteLink">
+                password
+              </a> or <a id="loginForm-forgottenUsername"
+                         href="mailto:help@intrade.com?subject=I have forgotten my Intrade username"
+                         class="whiteLink">
+                username</a>?
+            </div>
+          
+          
+        </div>
+        <div style="float: right;">
+          <div class="header-miscLinks">
+            <a href="/v4/misc/help/accountSupport.jsp" title="" rel="" class="whiteLink">
+              Help
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="hd-bottom">
+  <div class="yui-custom-doc" style="z-index: 1;"><!--z-index is for flyouts to show properly in ie7-->
+    <div class="yui-gd">
+      <div class="yui-u first header-logoContainer">
+        <a href="/v4/home/" title="" rel=""><img src="/v4/assets/img/intrade-logo.png" width="206" height="58" alt=""/></a>
+        <img id="betaImg" src="/v4/assets/img/beta.png" height="40" width="40"/>
+        <h1><a href="index.html" title="" rel="">Intrade</a></h1>
+        <h2><a href="index.html" title="" rel="">The World's Leading Prediction Market</a></h2>
+      </div>
+      <div class="yui-u header-rightContainer">
+        <form id="header-search-form" action="/v4/markets/" method="get">
+          <div>
+            <label for="header-search-input">Search Markets</label>
+            <input id="header-search-input" type="text" value="e.g. Obama" name="searchQuery"/>
+            <button id="header-search-go-button" type="button" value="Go" title="">Go</button>
+          </div>
+        </form>
+        <div class="header-mainMenu" style="width: 720px; right: 0;">
+          <ul class="mainMenu">
+            <li class="mainMenuItem scoreboard" style="width: 113px;">
+              <a id="mm_st" href="/v4/misc/scoreboard/" title="" rel="" class="" style="width: 113px;">
+                GOP Nomination
+              </a>
+            </li>
+            <li class="mainMenuItem" style="width: 89px;">
+              <a id="mm_home" href="/v4/home/" title="" rel="" class="" style="width: 89px;">
+                Home
+              </a>
+            </li>
+            <li class="mainMenuItem" style="width: 133px;">
+              <a id="mm_help" href="/v4/misc/howItWorks/theBasics.jsp" title="" rel="" class="" style="width: 133px;">
+                How it Works
+              </a>
+            </li>
+            <li class="mainMenuItem" style="width: 120px;">
+              <a id="mm_markets" href="/v4/markets/" class="topLeftRoundBorder" style="width: 87px">
+                Markets
+              </a>
+              <div id="arrowMarkets" class="downArrowForFlyOutMenu topRightRoundBorder" alt="">
+                <div></div>
+              </div>
+            </li>
+            <li class="mainMenuItem" style="width: 91px;">
+              <a href="/v4/forum/" id="mm_forum" style="width: 91px;">
+                Forum
+              </a>
+            </li>
+            <li class="mainMenuItem signupMyIntradeMainMenuItem greenGradient">
+              
+                <a id="mm_signup" class="sign main-menu" href="https://www.intrade.com/v4/login/signup/" title=""
+                   style="width: 98px;">Sign Up</a>
+              
+              
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="marketsFlyOut" class="yui-gd roundBorder tabShadow" style="display: none;">
+      <div id="bridgeMarkets" class="tabToMenuBridge marketsTab">&nbsp;</div>
+      <div id="markets-tab-loading" class="loadingInfo">Loading...</div>
+      <div class="yui-u first menuItems topLeftRoundBorder">
+        <ul id="markets-tab-eventClasses" class="menu roundBorder" style="font-size: 1.3em;"></ul>
+      </div>
+      <div id="markets-tab-contract-lists-container" class="yui-u menuContent roundBorder">
+      </div>
+    </div>
+    
+  </div>
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/event-mouseenter/event-mouseenter-min.js" ></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/element/element.js"></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/logger/logger.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/button/button.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/animation/animation-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/container/container-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/dragdrop/dragdrop-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/stylesheet/stylesheet-min.js"></script>
+
+
+<script type="text/javascript" src="/v4/assets/js/global.js?modified=1326357577000&expfilter_setExpiry=true"></script>
+<script type="text/javascript" src="/v4/assets/js/utils.js?modified=1326357589000&expfilter_setExpiry=true"></script>
+
+<script type="text/javascript" src="/v4/assets/js/header-login-manager.js?modified=1325162310000&expfilter_setExpiry=true"></script>
+<script type="text/javascript" src="/v4/assets/js/header-my-intrade-tab.js?modified=1325601516000&expfilter_setExpiry=true"></script>
+<script type="text/javascript" src="/v4/assets/js/header-markets-tab.js?modified=1325601475000&expfilter_setExpiry=true"></script>
+<script type="text/javascript" src="/v4/assets/js/header-search.js?modified=1317294972000&expfilter_setExpiry=true"></script>
+<script type="text/javascript" src="/v4/assets/js/header-message.js?modified=1322478958000&expfilter_setExpiry=true"></script>
+
+<script>
+
+  // select the main menu tabs
+  var selectedTabName = 'markets';
+  
+  var selectedTabEl = $('mm_' + selectedTabName);
+  if (selectedTabEl) {
+    selectedTabEl.addClassName("active");
+  }
+
+  YAHOO.header.HeaderLoginManager.init();
+  YAHOO.header.HeaderMyIntradeTab.init();
+  YAHOO.header.HeaderMarketsTab.init();
+  YAHOO.header.HeaderSearch.init();
+  
+</script>
+      <div id="bd">
+        <div class="yui-custom-doc">
+          
+          
+          
+          
+
+    <div id="marketsBreadcrumb" class="yui-g breadcrumbs">
+      <ul>
+        <li class="spacer-first">&nbsp;</li>
+        <li><a href="/v4/home/" title="Home" class="breadcrumb-homeicon" rel=""></a></li>
+        <li class="spacer-second-last">&nbsp;</li>
+        <li class="last">Markets</li>
+        <li class="spacer-last">&nbsp;</li>
+      </ul>
+    </div>
+
+    <div class="yui-gd templ-multiMenuContent-container roundBorder">
+      <div class="yui-g first templ-multiMenuContent-menu" id="markets-menuContainer">
+        <!-- menu will be generated into this element by JS -->
+      </div>
+      <div class="yui-g templ-multiMenuContent-content roundBorder">
+        <div id="view" class="marketsViewNavigation">
+          View: 
+          <a href="#" class="darklink" id="chance">Latest</a> 
+          | <a href="#" class="darklink" id="currentPrices">Current Prices</a> 
+          | <a href="#" class="darklink" id="charts">Charts</a>
+        </div>
+        <div id="markets-contractsListContainer">
+          Loading...
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/v4/markets/assets/js/markets-selection.js?modified=1326357840000&expfilter_setExpiry=true"></script>
+    <script type="text/javascript" src="/v4/assets/js/portfolio-manager.js?modified=1306937586000&expfilter_setExpiry=true"></script>
+    <script type="text/javascript" src="/v4/assets/js/advanced-chart.js?modified=1331049731000&expfilter_setExpiry=true"></script>
+    <script type="text/javascript" src="/v4/assets/js/change-view.js?modified=1324473351000&expfilter_setExpiry=true"></script>
+    <script type="text/javascript" src="/v4/assets/js/contract-list-creator.js?modified=1331049754000&expfilter_setExpiry=true"></script>
+    <script type="text/javascript">
+      var eventClasses = new Array();
+      // add search result if any
+      
+
+      
+        // add the most popular
+        eventClasses.push(new EventClass(null, 'Most Active Today', '/v4/assets/img/most-traded_on.png'));
+      
+        // add all event classes
+      
+        eventClass = new EventClass('78', 'Business', '/v4/assets/img/business_on.png');
+
+        
+        
+          eventGroup = new EventGroup('9605', 'Cap and Trade');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('20', 'Climate and Weather', '/v4/assets/img/climate-and-weather_on.png');
+
+        
+        
+          eventGroup = new EventGroup('233', 'Hurricane Season');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('247', 'NY City Snowfall');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('7620', 'Global Temperatures');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9671', 'Arctic Ice Extent');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('79', 'Construction & Engineering', '/v4/assets/img/construction-and-engineering_on.png');
+
+        
+        
+          eventGroup = new EventGroup('9604', 'Buildings');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('3', 'Current Events', '/v4/assets/img/current-events_on.png');
+
+        
+        
+          eventGroup = new EventGroup('234', 'Middle East');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('4526', 'North Korea');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('4395', 'Bird Flu');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('5588', 'Taiwan');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('7612', 'Earthquakes');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('7618', 'Europe');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('7631', 'Gasoline');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('8598', 'Sponsors of Terror');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9621', 'Japan');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9693', 'Free Agency');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('22', 'Entertainment', '/v4/assets/img/entertainment_on.png');
+
+        
+        
+          eventGroup = new EventGroup('90', 'Box Office Returns');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9738', 'Movies');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('113', 'American Idol');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('23', 'Financial', '/v4/assets/img/financial_on.png');
+
+        
+        
+          eventGroup = new EventGroup('4409', 'Dow Jones Index');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('4431', 'FTSE 100 Index');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('104', 'Commodities');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('98', 'US Eco Numbers');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('8609', 'Company IPOs');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9602', 'Fed Chairman');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9675', 'Eurozone Crisis');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9737', 'Accounting - US');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('82', 'Foreign Affairs', '/v4/assets/img/current-events_on.png');
+
+        
+        
+          eventGroup = new EventGroup('9713', 'Middle East Protests');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9707', 'Iran');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9709', 'Terrorism');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9727', 'South America');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('34', 'Legal', '/v4/assets/img/legal_on.png');
+
+        
+        
+          eventGroup = new EventGroup('199', 'Supreme Court');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9669', 'US Healthcare Reform');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('19', 'Politics', '/v4/assets/img/politics_on.png');
+
+        
+        
+          eventGroup = new EventGroup('8628', '2012 US Elections');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9704', '2012 US States');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9705', '2012 US Senate Races');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9706', '2012 US Gov. Races');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9725', '2012 US Primaries');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9731', '2012 Endorsements');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9632', 'Obama Administration');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('8647', 'Pres. Job Approval');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('7600', 'Impact of Next Pres.');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('189', 'UK Politics');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('4579', 'French Politics');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('4558', 'Mexican Politics');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('80', 'Real Estate', '/v4/assets/img/current-events_on.png');
+
+        
+        
+          eventGroup = new EventGroup('9687', 'Canadian Real Estate');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('71', 'Scientific', '/v4/assets/img/scientific_on.png');
+
+        
+        
+          eventGroup = new EventGroup('8599', 'Higgs Boson Particle');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9622', 'Focus Fusion');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9658', 'Supersym. Particle');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventGroup = new EventGroup('9700', 'Space & Beyond');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('70', 'Social and Civil', '/v4/assets/img/social-and-civil_on.png');
+
+        
+        
+          eventGroup = new EventGroup('7608', 'US Taxes');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+        eventClass = new EventClass('69', 'Technologies', '/v4/assets/img/technologies_on.png');
+
+        
+        
+          eventGroup = new EventGroup('7607', 'Google Lunar X Prize');
+          eventClass.eventGroups.push(eventGroup);
+        
+          eventClasses.push(eventClass);
+      
+
+        YAHOO.markets.MarketsSelection.init(eventClasses, '', '');
+        YAHOO.markets.MarketsSelection.setShowWatchButtons(false);
+
+        YAHOO.markets.MarketsSelection.showMarketsBasedOnParams('', '', '');
+      
+        YAHOO.chart.AdvancedChart.init('https://data.intrade.com/graphing', 'https://www.intrade.com');
+    </script>
+  
+        </div>
+      </div>        
+      
+
+
+
+
+<div id="ft-top">
+  <div class="yui-custom-doc">
+    <div class="yui-gc" style="padding-top: 1em;">
+      <div class="yui-u first">
+
+        
+          <div class="footerStartMakingPredictionsToday">
+            <h4>Start making predictions today!</h4>
+            <p class="footer-tip-text">
+              <strong>
+                You can test making a prediction without an account by clicking the Make your Prediction! link below.
+                <br/>
+              </strong>
+              <span class="footer-dark-text">(oh and if you are wondering, it's free!)</span>
+            </p>
+            <div class="footer-prediction-account-div">
+              <a href="/v4/markets/" title="" class="stdGreenButton">
+                <span>
+                  Make your Prediction
+                </span>
+              </a>
+              <span class="footerItalicText">or</span>
+              <div class="footer-create-account-div">
+                <a href="/v4/login/signup/" class="whiteLink">
+                  <strong>Create an Account</strong>
+                </a>
+                <br/>
+                <span class="footer-dark-text">Takes seconds to sign up!</span></div>
+            </div>
+          </div>
+        
+
+        
+      </div>
+      <div class="yui-u recentPredictions">
+        <h4>
+          Real-time predictions
+        </h4>
+        <ul id="realtime_predictions" class="real-time">
+          <li></li>
+        </ul>
+        <div class="footer-interestedAndMorePredictionsLink">
+          <a href="/v4/misc/recentpredictions/" class="whiteLink">See more real-time predictions</a>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<div id="ft-bottom">
+  <div class="yui-custom-doc" style="padding-top: 5px;">
+    <div class="yui-g footerMenu">
+      <div class="yui-g first">
+        <div class="yui-u first">
+          <ul>
+            <h5>About Intrade</h5>
+            <li><a href="/v4/misc/about/aboutUs.jsp" class="greyLink" title="">What is Intrade all about?</a></li>						
+            <li><a href="/v4/misc/about/whereIsIntrade.jsp" class="greyLink" title="">Where is Intrade?</a></li>
+            <li><a href="/v4/misc/about/pressCoverage.jsp" class="greyLink">Intrade Press Coverage</a></li>
+            <li><a href="/v4/misc/about/contactUs.jsp" class="greyLink">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="yui-u">
+          <ul>
+            <h5>How Intrade Works</h5>
+            <li><a href="/v4/misc/howItWorks/theBasics.jsp" class="greyLink">The Basics</a></li>
+            <li><a href="/v4/misc/howItWorks/fees.jsp" class="greyLink">Fees</a></li>
+            <li><a href="/v4/misc/howItWorks/marketRules.jsp" class="greyLink">Market Rules</a></li>
+            <li><a href="/v4/misc/howItWorks/exchangeRules.jsp" class="greyLink">Exchange Rules</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="yui-g">
+        <div class="yui-u first">
+          <ul>
+            <h5>Help</h5>
+            <li><a href="/v4/misc/help/accountSupport.jsp" class="greyLink">Account Support</a></li>
+            <li><a href="/v4/misc/help/faqs.jsp" class="greyLink">Help &AMP; FAQ&#39;s</a></li>
+            <li><a href="/v4/misc/help/disclaimer.jsp" class="greyLink">Disclaimer</a></li>
+            <li><a href="/v4/misc/help/privacyPolicy.jsp" class="greyLink">Privacy Policy</a></li>			
+          </ul>
+        </div>
+        <div class="yui-u">
+          <ul>
+            <h5>Research &amp; Academia</h5>
+            <li><a href="/v4/reports/" class="greyLink">Reports &amp; Statistics</a></li>
+            <li><a href="/v4/misc/academia/intradeData.jsp" class="greyLink">Intrade Data</a></li>
+            <li><a href="/v4/misc/academia/workWithAcademics.jsp" class="greyLink">Working with Academics &amp; Students</a></li>						
+          </ul>
+        </div>
+      </div>
+      <p class="footerCopyrightMessage">
+        <strong>Copyright</strong> &copy; 2007-2012, Intrade The Prediction Market Limited.  All rights reserved.
+
+        
+        <a style="position: absolute; left: 0px; font-size: 0.5em; color: #424242; z-index: -1;" href="/v4/markets/allmarkets.do">All Markets</a>
+      </p>
+    </div>
+  </div>
+  <script type="text/javascript" src="/v4/assets/js/recent-predictions.js?modified=1330966759000&expfilter_setExpiry=true"></script>
+  <script>
+    YAHOO.footer.recentpredections.setRecentPredictions([{"timestamp":1331872113824,"locationInfo":"Colorado Springs, United States","timeString":"Mar 16, 4:28:33AM GMT","quantity":1,"price":"39.5","contractId":750356,"contractName":"USA and/or Israel to execute an overt Air Strike against Iran before midnight ET 31 Dec 2012","imageUrl":"/jsp/intrade/common/images/contractImages/iran.jpg","contractSymbol":"AIRSTRIKE.IRAN.DEC12","orderId":690421489,"costPerShareFormatted":"$3.95","isBuy":true},{"timestamp":1331872107374,"locationInfo":"Colorado Springs, United States","timeString":"Mar 16, 4:28:27AM GMT","quantity":1,"price":"39.4","contractId":750356,"contractName":"USA and/or Israel to execute an overt Air Strike against Iran before midnight ET 31 Dec 2012","imageUrl":"/jsp/intrade/common/images/contractImages/iran.jpg","contractSymbol":"AIRSTRIKE.IRAN.DEC12","orderId":690421467,"costPerShareFormatted":"$3.94","isBuy":true},{"timestamp":1331871990263,"locationInfo":"Charlottesville, United States","timeString":"Mar 16, 4:26:30AM GMT","quantity":2,"price":"2.5","contractId":758016,"contractName":"Cathy McMorris Rodgers to be Republican VP nominee in 2012","imageUrl":"/jsp/intrade/common/images/contractImages/Cathy_McMorris_Rodgers,_Official_Portrait,_112th_Congress.jpg","contractSymbol":"REP.VP.2012.McMORRIS-RODGERS","orderId":690420710,"costPerShareFormatted":"$0.25","isBuy":true},{"timestamp":1331871695520,"locationInfo":"Keller, United States","timeString":"Mar 16, 4:21:35AM GMT","quantity":2,"price":"88.6","contractId":652757,"contractName":"Mitt Romney to be Republican Presidential Nominee in 2012","imageUrl":"/jsp/intrade/common/images/contractImages/MittRomney.jpg","contractSymbol":"2012.REP.NOM.ROMNEY","orderId":690418829,"costPerShareFormatted":"$8.86","isBuy":true},{"timestamp":1331871579252,"locationInfo":"Washington, United States","timeString":"Mar 16, 4:19:39AM GMT","quantity":10,"price":"5.0","contractId":758851,"contractName":"Rick Santorum to win the New York Primary","imageUrl":"/jsp/intrade/common/images/contractImages/RickSantorum.jpg","contractSymbol":"NEW-YORK.SANTORUM","orderId":690418071,"costPerShareFormatted":"$0.50","isBuy":true},{"timestamp":1331871510539,"locationInfo":"United States","timeString":"Mar 16, 4:18:30AM GMT","quantity":5,"price":"29.9","contractId":757095,"contractName":"Newt Gingrich to drop out of the 2012 Presidential race before midnight ET 31 Mar 2012","imageUrl":"/jsp/intrade/common/images/contractImages/NewtGingrich.jpg","contractSymbol":"DROPOUT.MAR2012.GINGRICH","orderId":690417650,"costPerShareFormatted":"$2.99","isBuy":false},{"timestamp":1331871262960,"locationInfo":"Torrance, United States","timeString":"Mar 16, 4:14:22AM GMT","quantity":3,"price":"88.6","contractId":652757,"contractName":"Mitt Romney to be Republican Presidential Nominee in 2012","imageUrl":"/jsp/intrade/common/images/contractImages/MittRomney.jpg","contractSymbol":"2012.REP.NOM.ROMNEY","orderId":690416326,"costPerShareFormatted":"$8.86","isBuy":false},{"timestamp":1331870219158,"locationInfo":"Lafayette, United States","timeString":"Mar 16, 3:56:59AM GMT","quantity":50,"price":"84.9","contractId":758380,"contractName":"Rick Santorum to win the 2012 Louisiana Primary","imageUrl":"/jsp/intrade/common/images/contractImages/RickSantorum.jpg","contractSymbol":"LOUISIANA.SANTORUM","orderId":690409660,"costPerShareFormatted":"$8.49","isBuy":false},{"timestamp":1331869883121,"locationInfo":"Pensacola, United States","timeString":"Mar 16, 3:51:23AM GMT","quantity":15,"price":"20.0","contractId":757095,"contractName":"Newt Gingrich to drop out of the 2012 Presidential race before midnight ET 31 Mar 2012","imageUrl":"/jsp/intrade/common/images/contractImages/NewtGingrich.jpg","contractSymbol":"DROPOUT.MAR2012.GINGRICH","orderId":690407536,"costPerShareFormatted":"$2.00","isBuy":false},{"timestamp":1331869832123,"locationInfo":"Lafayette, United States","timeString":"Mar 16, 3:50:32AM GMT","quantity":50,"price":"83.0","contractId":758380,"contractName":"Rick Santorum to win the 2012 Louisiana Primary","imageUrl":"/jsp/intrade/common/images/contractImages/RickSantorum.jpg","contractSymbol":"LOUISIANA.SANTORUM","orderId":690407151,"costPerShareFormatted":"$8.30","isBuy":false},{"timestamp":1331869803735,"locationInfo":"Lafayette, United States","timeString":"Mar 16, 3:50:03AM GMT","quantity":80,"price":"83.5","contractId":758380,"contractName":"Rick Santorum to win the 2012 Louisiana Primary","imageUrl":"/jsp/intrade/common/images/contractImages/RickSantorum.jpg","contractSymbol":"LOUISIANA.SANTORUM","orderId":690406958,"costPerShareFormatted":"$8.35","isBuy":false}]);
+    setTimeout("YAHOO.footer.recentpredections.showRecentPredictions()",1000);
+  </script>
+</div>
+    </div>
+
+    <script type="text/javascript">
+      var addthis_share = {
+        templates: {
+          twitter: '{{title}} - {{url}}'
+        }
+      };
+      var addthis_config = {
+        url_transforms: {
+          clean: true    /* removes Google Analytics utm_* parameters */
+        },
+        pubid: "intrade"
+      };
+    </script>
+    <!-- AddThis script -->
+    <script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js"></script>
+  </body>
+</html>

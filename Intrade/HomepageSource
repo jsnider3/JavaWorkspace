@@ -1,0 +1,621 @@
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Intrade - Home</title>
+
+    <!-- meta tags -->
+    <meta name="description" lang="en"
+          content="THE Leading Prediction Market. Trade political futures and tap into the wisdom of crowds."/>
+    <meta name="keywords" lang="en" 
+          content="prediction markets, dow, trading, dow futures, prediction market software, intrade, 2008 election odds, financial futures,
+          political betting, social market, wisdom of crowds, 
+          collective intelligence, event futures, information markets"/>
+    <meta name="robots" content="all">        
+    <meta name="author" content="Intrade">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/v4/assets/img/favicon.ico" type="image/x-icon">
+    <link rel="canonical" href="">
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/reset-fonts-grids/reset-fonts-grids.css">
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/assets/skins/sam/skin.css" />
+    <link rel="stylesheet" type="text/css" href="/v4/assets/css/global.css?modified=1331720812000&expfilter_setExpiry=true">
+
+    <!-- header scripts -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.0/prototype.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/scriptaculous/1.8.3/scriptaculous.js"></script>
+
+    
+    <meta name="decorator" content="v4_main"/>
+    <meta name="mainMenuSelectedTabName" content="home"/>
+
+    
+
+    <style>
+      .homepage-message #message { 
+        color: red; 
+        font-size: 0.938em;
+      }
+    </style>
+    <link id="change-view-animation" rel="stylesheet" type="text/css" href="/v4/assets/css/change-view-animation.css?modified=1313514652000&expfilter_setExpiry=true"/>
+
+  
+    
+    <!-- google analytics - asynchronous calls -->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      // an new one
+      _gaq.push(['new._setAccount', 'UA-26156399-1']);
+      _gaq.push(['new._setCustomVar', 1, 'view_page', 'v4_Intrade - Home']);
+      _gaq.push(['new._trackPageview']);
+      
+      // original 
+      _gaq.push(['original._setAccount', 'UA-3061878-1']);
+      _gaq.push(['original._setCustomVar', 1, 'view_page', 'v4_Intrade - Home']);
+      _gaq.push(['original._trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </head>
+  <body class="yui-skin-sam">
+    <div id="doc3">      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="hd-top">
+  <div class="yui-custom-doc">
+    <div class="yui-gd">
+      <noscript>
+      <div class="headerErrorMessage">
+        JavaScript is disabled on your browser.
+        Please enable JavaScript or upgrade to a JavaScript-capable browser to use intrade.com.
+      </div>
+      </noscript>
+      <div class="yui-u first">
+        &nbsp;
+      </div>
+      <div class="yui-u">
+        <div id="login-container">
+            
+            <form id="loginForm" action="https://www.intrade.com/v4/login/login/login.do" method="post" style="float: left;"
+                  onsubmit="YAHOO.utils.disableFormButton(this);">
+              <input type="hidden" value="/v4/home/" name="originalUrl"/>
+              <input type="text" name="username" id="loginForm-username" value="" 
+                     style="margin-right: 8px;" class="inputWithText"/>
+              <input type="password" name="password" id="loginForm-password" size="7" 
+                     value="" style="margin-right: 8px;" class="inputWithText"/>
+              <button type="submit" class="smallGreenButton" title="" name="login-submit">
+                <span class="wideSmallButton">
+                  Log In
+                </span>
+              </button> 
+            </form>
+            <div id="forgotten-login" style="float: left; margin-left: 40px;">
+              Forgot your <a id="loginForm-forgottenPassword" href="/v4/login/forgottenpassword/"
+                             class="whiteLink">
+                password
+              </a> or <a id="loginForm-forgottenUsername"
+                         href="mailto:help@intrade.com?subject=I have forgotten my Intrade username"
+                         class="whiteLink">
+                username</a>?
+            </div>
+          
+          
+        </div>
+        <div style="float: right;">
+          <div class="header-miscLinks">
+            <a href="/v4/misc/help/accountSupport.jsp" title="" rel="" class="whiteLink">
+              Help
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="hd-bottom">
+  <div class="yui-custom-doc" style="z-index: 1;"><!--z-index is for flyouts to show properly in ie7-->
+    <div class="yui-gd">
+      <div class="yui-u first header-logoContainer">
+        <a href="/v4/home/" title="" rel=""><img src="/v4/assets/img/intrade-logo.png" width="206" height="58" alt=""/></a>
+        <img id="betaImg" src="/v4/assets/img/beta.png" height="40" width="40"/>
+        <h1><a href="index.html" title="" rel="">Intrade</a></h1>
+        <h2><a href="index.html" title="" rel="">The World's Leading Prediction Market</a></h2>
+      </div>
+      <div class="yui-u header-rightContainer">
+        <form id="header-search-form" action="/v4/markets/" method="get">
+          <div>
+            <label for="header-search-input">Search Markets</label>
+            <input id="header-search-input" type="text" value="e.g. Obama" name="searchQuery"/>
+            <button id="header-search-go-button" type="button" value="Go" title="">Go</button>
+          </div>
+        </form>
+        <div class="header-mainMenu" style="width: 720px; right: 0;">
+          <ul class="mainMenu">
+            <li class="mainMenuItem scoreboard" style="width: 113px;">
+              <a id="mm_st" href="/v4/misc/scoreboard/" title="" rel="" class="" style="width: 113px;">
+                GOP Nomination
+              </a>
+            </li>
+            <li class="mainMenuItem" style="width: 89px;">
+              <a id="mm_home" href="/v4/home/" title="" rel="" class="" style="width: 89px;">
+                Home
+              </a>
+            </li>
+            <li class="mainMenuItem" style="width: 133px;">
+              <a id="mm_help" href="/v4/misc/howItWorks/theBasics.jsp" title="" rel="" class="" style="width: 133px;">
+                How it Works
+              </a>
+            </li>
+            <li class="mainMenuItem" style="width: 120px;">
+              <a id="mm_markets" href="/v4/markets/" class="topLeftRoundBorder" style="width: 87px">
+                Markets
+              </a>
+              <div id="arrowMarkets" class="downArrowForFlyOutMenu topRightRoundBorder" alt="">
+                <div></div>
+              </div>
+            </li>
+            <li class="mainMenuItem" style="width: 91px;">
+              <a href="/v4/forum/" id="mm_forum" style="width: 91px;">
+                Forum
+              </a>
+            </li>
+            <li class="mainMenuItem signupMyIntradeMainMenuItem greenGradient">
+              
+                <a id="mm_signup" class="sign main-menu" href="https://www.intrade.com/v4/login/signup/" title=""
+                   style="width: 98px;">Sign Up</a>
+              
+              
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="marketsFlyOut" class="yui-gd roundBorder tabShadow" style="display: none;">
+      <div id="bridgeMarkets" class="tabToMenuBridge marketsTab">&nbsp;</div>
+      <div id="markets-tab-loading" class="loadingInfo">Loading...</div>
+      <div class="yui-u first menuItems topLeftRoundBorder">
+        <ul id="markets-tab-eventClasses" class="menu roundBorder" style="font-size: 1.3em;"></ul>
+      </div>
+      <div id="markets-tab-contract-lists-container" class="yui-u menuContent roundBorder">
+      </div>
+    </div>
+    
+  </div>
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/event-mouseenter/event-mouseenter-min.js" ></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/element/element.js"></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/logger/logger.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/button/button.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/animation/animation-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/container/container-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/dragdrop/dragdrop-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/stylesheet/stylesheet-min.js"></script>
+
+
+<script type="text/javascript" src="/v4/assets/js/global.js?modified=1326357577000&expfilter_setExpiry=true"></script>
+<script type="text/javascript" src="/v4/assets/js/utils.js?modified=1326357589000&expfilter_setExpiry=true"></script>
+
+<script type="text/javascript" src="/v4/assets/js/header-login-manager.js?modified=1325162310000&expfilter_setExpiry=true"></script>
+<script type="text/javascript" src="/v4/assets/js/header-my-intrade-tab.js?modified=1325601516000&expfilter_setExpiry=true"></script>
+<script type="text/javascript" src="/v4/assets/js/header-markets-tab.js?modified=1325601475000&expfilter_setExpiry=true"></script>
+<script type="text/javascript" src="/v4/assets/js/header-search.js?modified=1317294972000&expfilter_setExpiry=true"></script>
+<script type="text/javascript" src="/v4/assets/js/header-message.js?modified=1322478958000&expfilter_setExpiry=true"></script>
+
+<script>
+
+  // select the main menu tabs
+  var selectedTabName = 'home';
+  
+  var selectedTabEl = $('mm_' + selectedTabName);
+  if (selectedTabEl) {
+    selectedTabEl.addClassName("active");
+  }
+
+  YAHOO.header.HeaderLoginManager.init();
+  YAHOO.header.HeaderMyIntradeTab.init();
+  YAHOO.header.HeaderMarketsTab.init();
+  YAHOO.header.HeaderSearch.init();
+  
+</script>
+      <div id="bd">
+        <div class="yui-custom-doc">
+          
+          
+          
+          
+    <div class="templ-noMenuContent-content">
+      <div class="yui-gd" style="border-bottom: 1px solid #DEE3E7;">
+        <div class="yui-u first" style="width: 38%;">
+          <div id="slideshow-container" class="slideshow">
+            <div id="nav">
+            </div>
+            <div class="slideshow_snapshot">
+              <img id="slideshow-img">
+              <div class="snapshot_shadow">
+                <p id="slideshow-text"></p>
+                <a id="slideshow-link" class="stdGreenButton">
+                  <span>
+                    Make your Prediction
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="yui-u" style="width: 60%;">
+          <div class="homepage-message">
+            
+
+            <div class="homepage-messageTitle">
+              <div class='cmsContentContainer'>Republican Nomination - Check out our Scoreboard</div>
+            </div>
+            <div class="homepage-messageText">
+              <div class='cmsContentContainer'><p style="text-align: left;">
+  We have created a scoreboard to keep you fully up-to-date with the battle for the 2012 Republican Presidential nomination, plus the upcoming Republican primaries and caucuses.
+</p>
+<p style="margin-top: 6px; text-align: left;">
+Click on the <a href="/v4/misc/scoreboard/" class="bluelink">GOP Nomination</a> above to see who the market leaders are. You can also buy and sell shares for any of the candidates to win any of today's contest directly from scoreboard.
+</p>
+<p style="margin-top: 6px; text-align: left;">
+  Existing Intrade members may continue to use the old interface
+  <a href="/conf.jsp?selectedPlatform=original" title="Original version of Intrade.com" class="bluelink">HERE</a>.
+ </p>
+
+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="yui-gc" style="margin-top: 2em;">
+        <div class="yui-u first homepage-hotMarkets">
+          <h1>
+            <a class="info" href="#" id="tooltip-market-details">
+              Info on market details
+              <img src="/v4/assets/img/info-icon.png" alt="">
+            </a>
+            Hot Markets
+            <div id="tooltip-market-details-content" style="display: none;">
+              <div class="bd"><img src="/v4/assets/img/tooltip-image.png"/></div>
+            </div>
+
+          </h1>
+          <div style="font-size: 1.2em; float: left;">
+            Some of our most active and topical markets
+          </div>
+          <div id="view" class="homepage-view" >
+            View: <a href="#" class="darklink" id="chance">Latest</a>
+            | <a href="#" class="darklink" id="currentPrices">Current Prices</a>
+            | <a href="#" class="darklink" id="charts">Charts</a>
+          </div>
+          <div id="homepage-contractsListContainer">Loading...</div>
+          <p class="more">
+            <a href="/v4/markets/" class="bluelink">
+              See more Hot Markets
+            </a>
+          </p>
+        </div>
+        <div class="yui-u homepage-buzzAndPress">
+          
+          
+          <h1>Intrade Buzz</h1>
+          <div class="homepage-intradeBuzz">
+            <h2>Exchange news</h2>
+            
+              
+                <p>
+                  <a id="link_0" target="exchangeNews" href="http://www.intrade.com/news/mainpage.jsp?article=news_742.html" 
+                     class="darklink" title="Open in a new window">
+                    New Markets: Margins of victory in the upcoming Republican primaries and caucuses
+                  </a>
+                </p>
+              
+            
+            <p>
+              <a id="link_" target="exchangeNews" href="http://www.intrade.com/news/mainpage.jsp?article=news_595.html" 
+                 class="darklink" title="Open in a new window">
+                $4.99 p.m. for Effective â€œFreeâ€? Active Trading
+              </a>
+            </p>
+          </div>
+          <h2>Forum posts</h2>
+          <div class="homepage-forumPosts">
+            
+              
+                <p>
+                  <a id="link_0" target="forum" href="http://bb.intrade.com/intradeForum/posts/preList/493407/552181.page" 
+                     title="Open in a new window" class="darklink" >
+                    No bid
+                  </a>
+                </p>
+
+              
+                <p>
+                  <a id="link_1" target="forum" href="http://bb.intrade.com/intradeForum/posts/preList/493406/552180.page" 
+                     title="Open in a new window" class="darklink" >
+                    Puerto Rico primary
+                  </a>
+                </p>
+
+              
+            
+          </div>
+          <div class='cmsContentContainer'><ul class="buzz">
+   <li>
+      <h4>Platform Metrics (More Soon)</h4>
+      <p>
+        Platform operational: <strong>Since 2001</strong>
+     </p>
+     <p>
+        Total Predictions: <strong>619,141,899</strong>
+     </p>
+      <p>
+         Average Daily Predictions: <strong>169,589</strong>
+     </p>
+      <p style="margin-top: 5px; text-align: center;">
+         <a href="/v4/reports/" class="bluelink">See more Intrade Reports &amp; Statistics</a>
+     </p>
+    </li>
+</ul>
+<br/></div>
+          
+          <!--
+                   <li class="last">
+                     <p>
+                       <a href="" title="" rel="">See more Intrade Buzz</a>
+                     </p>
+                   </li>
+                 </ul>
+          -->
+          
+          <h1>Press Coverage</h1>
+          <div class="pressCoverage">
+            <a href="http://www.youtube.com/watch?v=YtocVDXZbHQ" title="Riz Khan - Prediction Markets" 
+               rel="nofollow" id="video2" style="float: left; padding-right: 8px;">
+              <img src="/v4/assets/img/video2.png" alt=""/>
+            </a>
+            <div>
+              <h2>Intrade on Al Jazeera</h2>
+              <p>Riz Khan interviews John Delaney, CEO, Intrade.</p>
+            </div>
+            <div style="clear: both;">
+              <a href="http://www.youtube.com/watch?v=QW46V4XNxwY" id="video1" title="20/20" 
+                 rel="nofollow" style="float: left; padding-right: 8px;">
+                <img src="/v4/assets/img/video1.png" alt=""/>
+              </a>
+              <h2>Intrade on ABC&#39;s 20/20</h2>
+              <p>John Stossal discusses the Intrade phenomenon on the 20/20 show</p>
+            </div>
+            <p class="more" style="clear: both;">
+              <a target="_blank" href="http://www.youtube.com/user/intradecom#p/u" 
+                 title="See more Intrade Videos" class="bluelink">
+                See more Intrade Videos
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+
+      <script type="text/javascript" src="/v4/assets/js/global.js?modified=1326357577000&expfilter_setExpiry=true"></script>
+
+      <script type="text/javascript" src="/v4/home/assets/js/init.js?modified=1319192416000&expfilter_setExpiry=true"></script>
+      <script type="text/javascript" src="/v4/home/assets/js/commons.js?modified=1273768420000&expfilter_setExpiry=true"></script>
+      <script type="text/javascript" src="/v4/home/assets/js/selected-contracts.js?modified=1330966885000&expfilter_setExpiry=true"></script>
+      <script type="text/javascript" src="/v4/home/assets/js/slideshow.js?modified=1302024206000&expfilter_setExpiry=true"></script>
+      <script type="text/javascript" src="/v4/assets/js/portfolio-manager.js?modified=1306937586000&expfilter_setExpiry=true"></script>
+      <script type="text/javascript" src="/v4/assets/js/advanced-chart.js?modified=1331049731000&expfilter_setExpiry=true"></script>
+      <script type="text/javascript" src="/v4/assets/js/change-view.js?modified=1324473351000&expfilter_setExpiry=true"></script>
+      <script type="text/javascript" src="/v4/assets/js/contract-list-creator.js?modified=1331049754000&expfilter_setExpiry=true"></script>
+
+      <script>
+        YAHOO.homepage.Homepage.init();
+      
+        YAHOO.homepage.SelectedContracts.setCouponId(100);
+        YAHOO.homepage.SelectedContracts.setShowWatchButtons(false);
+
+
+        YAHOO.homepage.SelectedContracts.setContracts([{"name":"Mitt Romney to win the 2012 Illinois Primary","state":"O","description":null,"symbol":"ILLINOIS.ROMNEY","currency":"USD","expired":false,"eventId":91478,"eventName":"Illinois Primary - Winner (Republican)","eventClassId":19,"eventGroupId":9725,"lastTradePrice":"76.9","contractId":758364,"stateDescription":"Open","imageUrl":"/jsp/intrade/common/images/contractImages/MittRomney.jpg","mobileGraphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=290&height=100&contractId=758364","openingPrice":"73.8","openingCostPerShare":"$7.38","sessionLoCostPerShare":"$7.35","sessionLoPrice":"73.5","sessionHiCostPerShare":"$7.69","sessionHiPrice":"76.9","lifeLoCostPerShare":"$6.00","lifeLoPrice":"60.0","lifeHiCostPerShare":"$9.00","lifeHiPrice":"90.0","closingCostPerShare":"$7.45","closingPrice":"74.5","lastTradeTime":"01:19 AM, GMT","sessionClosePrice":"74.5","expiryPrice":null,"contractEndDate":"3/20/12","contractStartDate":"3/5/12","eventStartDate":"Mar 05 2012","eventEndDate":"Mar 23 2012","linked":false,"displayOrder":0,"aggBidSize":165,"aggOfferSize":38,"sessionOpenPrice":"73.8","contractExpiryDate":"","sessionChange":"0.24","lastCostPerShareFormatted":"$7.69","bestBidCostPerShareFormatted":"$7.40","bestOfferCostPerShareFormatted":"$7.69","graphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=160&height=70&contractId=758364","sessionChangeDir":"up","sessionChangePerc":"3.2","totalVolume":"5,654","sessionVolume":"706","linkedEventMargin":0.0},{"name":"Rick Santorum to win the 2012 Illinois Primary","state":"O","description":null,"symbol":"ILLINOIS.SANTORUM","currency":"USD","expired":false,"eventId":91478,"eventName":"Illinois Primary - Winner (Republican)","eventClassId":19,"eventGroupId":9725,"lastTradePrice":"23.0","contractId":758365,"stateDescription":"Open","imageUrl":"/jsp/intrade/common/images/contractImages/RickSantorum.jpg","mobileGraphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=290&height=100&contractId=758365","openingPrice":"27.1","openingCostPerShare":"$2.71","sessionLoCostPerShare":"$2.30","sessionLoPrice":"23.0","sessionHiCostPerShare":"$2.72","sessionHiPrice":"27.2","lifeLoCostPerShare":"$1.00","lifeLoPrice":"10.0","lifeHiCostPerShare":"$4.00","lifeHiPrice":"40.0","closingCostPerShare":"$2.70","closingPrice":"27.0","lastTradeTime":"01:18 AM, GMT","sessionClosePrice":"27.0","expiryPrice":null,"contractEndDate":"3/20/12","contractStartDate":"3/5/12","eventStartDate":"Mar 05 2012","eventEndDate":"Mar 23 2012","linked":false,"displayOrder":1,"aggBidSize":3,"aggOfferSize":10,"sessionOpenPrice":"27.1","contractExpiryDate":"","sessionChange":"-0.40","lastCostPerShareFormatted":"$2.30","bestBidCostPerShareFormatted":"$2.30","bestOfferCostPerShareFormatted":"$2.58","graphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=160&height=70&contractId=758365","sessionChangeDir":"down","sessionChangePerc":"-14.8","totalVolume":"3,029","sessionVolume":"1,037","linkedEventMargin":0.0},{"name":"Rick Santorum to win the 2012 Louisiana Primary","state":"O","description":null,"symbol":"LOUISIANA.SANTORUM","currency":"USD","expired":false,"eventId":91483,"eventName":"Louisiana Primary - Winner (Republican)","eventClassId":19,"eventGroupId":9725,"lastTradePrice":"84.7","contractId":758380,"stateDescription":"Open","imageUrl":"/jsp/intrade/common/images/contractImages/RickSantorum.jpg","mobileGraphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=290&height=100&contractId=758380","openingPrice":"80.1","openingCostPerShare":"$8.01","sessionLoCostPerShare":"$8.01","sessionLoPrice":"80.1","sessionHiCostPerShare":"$8.50","sessionHiPrice":"85.0","lifeLoCostPerShare":"$3.00","lifeLoPrice":"30.0","lifeHiCostPerShare":"$9.00","lifeHiPrice":"90.0","closingCostPerShare":"$8.49","closingPrice":"84.9","lastTradeTime":"10:59 PM, GMT","sessionClosePrice":"84.9","expiryPrice":null,"contractEndDate":"3/24/12","contractStartDate":"3/5/12","eventStartDate":"Mar 05 2012","eventEndDate":"Mar 27 2012","linked":false,"displayOrder":0,"aggBidSize":3,"aggOfferSize":2,"sessionOpenPrice":"80.1","contractExpiryDate":"","sessionChange":"-0.02","lastCostPerShareFormatted":"$8.47","bestBidCostPerShareFormatted":"$8.01","bestOfferCostPerShareFormatted":"$8.35","graphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=160&height=70&contractId=758380","sessionChangeDir":"down","sessionChangePerc":"-0.2","totalVolume":"544","sessionVolume":"114","linkedEventMargin":0.0},{"name":"Mitt Romney to win the 2012 Louisiana Primary","state":"O","description":null,"symbol":"LOUISIANA.ROMNEY","currency":"USD","expired":false,"eventId":91483,"eventName":"Louisiana Primary - Winner (Republican)","eventClassId":19,"eventGroupId":9725,"lastTradePrice":"15.6","contractId":758379,"stateDescription":"Open","imageUrl":"/jsp/intrade/common/images/contractImages/MittRomney.jpg","mobileGraphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=290&height=100&contractId=758379","openingPrice":"14.0","openingCostPerShare":"$1.40","sessionLoCostPerShare":"$1.20","sessionLoPrice":"12.0","sessionHiCostPerShare":"$1.56","sessionHiPrice":"15.6","lifeLoCostPerShare":"$1.20","lifeLoPrice":"12.0","lifeHiCostPerShare":"$5.00","lifeHiPrice":"50.0","closingCostPerShare":"$1.20","closingPrice":"12.0","lastTradeTime":"10:44 PM, GMT","sessionClosePrice":"12.0","expiryPrice":null,"contractEndDate":"3/24/12","contractStartDate":"3/5/12","eventStartDate":"Mar 05 2012","eventEndDate":"Mar 27 2012","linked":false,"displayOrder":2,"aggBidSize":1,"aggOfferSize":46,"sessionOpenPrice":"14.0","contractExpiryDate":"","sessionChange":"0.36","lastCostPerShareFormatted":"$1.56","bestBidCostPerShareFormatted":"$1.21","bestOfferCostPerShareFormatted":"$1.54","graphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=160&height=70&contractId=758379","sessionChangeDir":"up","sessionChangePerc":"30","totalVolume":"402","sessionVolume":"98","linkedEventMargin":0.0},{"name":"Newt Gingrich to win the 2012 Louisiana Primary","state":"O","description":null,"symbol":"LOUISIANA.GINGRICH","currency":"USD","expired":false,"eventId":91483,"eventName":"Louisiana Primary - Winner (Republican)","eventClassId":19,"eventGroupId":9725,"lastTradePrice":"6.0","contractId":758381,"stateDescription":"Open","imageUrl":"/jsp/intrade/common/images/contractImages/NewtGingrich.jpg","mobileGraphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=290&height=100&contractId=758381","openingPrice":"5.5","openingCostPerShare":"$0.55","sessionLoCostPerShare":"$0.55","sessionLoPrice":"5.5","sessionHiCostPerShare":"$0.75","sessionHiPrice":"7.5","lifeLoCostPerShare":"$0.50","lifeLoPrice":"5.0","lifeHiCostPerShare":"$4.60","lifeHiPrice":"46.0","closingCostPerShare":"$0.55","closingPrice":"5.5","lastTradeTime":"10:40 PM, GMT","sessionClosePrice":"5.5","expiryPrice":null,"contractEndDate":"3/24/12","contractStartDate":"3/5/12","eventStartDate":"Mar 05 2012","eventEndDate":"Mar 27 2012","linked":false,"displayOrder":1,"aggBidSize":25,"aggOfferSize":5,"sessionOpenPrice":"5.5","contractExpiryDate":"","sessionChange":"0.05","lastCostPerShareFormatted":"$0.60","bestBidCostPerShareFormatted":"$0.50","bestOfferCostPerShareFormatted":"$0.91","graphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=160&height=70&contractId=758381","sessionChangeDir":"up","sessionChangePerc":"9.1","totalVolume":"520","sessionVolume":"52","linkedEventMargin":0.0},{"name":"Mitt Romney to be Republican Presidential Nominee in 2012","state":"O","description":null,"symbol":"2012.REP.NOM.ROMNEY","currency":"USD","expired":false,"eventId":84328,"eventName":"2012 Republican Presidential Nominee","eventClassId":19,"eventGroupId":8628,"lastTradePrice":"87.4","contractId":652757,"stateDescription":"Open","imageUrl":"/jsp/intrade/common/images/contractImages/MittRomney.jpg","mobileGraphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=290&height=100&contractId=652757","openingPrice":"88.9","openingCostPerShare":"$8.89","sessionLoCostPerShare":"$8.72","sessionLoPrice":"87.2","sessionHiCostPerShare":"$8.90","sessionHiPrice":"89.0","lifeLoCostPerShare":"$1.38","lifeLoPrice":"13.8","lifeHiCostPerShare":"$9.19","lifeHiPrice":"91.9","closingCostPerShare":"$8.76","closingPrice":"87.6","lastTradeTime":"01:19 AM, GMT","sessionClosePrice":"87.6","expiryPrice":null,"contractEndDate":"12/1/12","contractStartDate":"10/25/08","eventStartDate":"Sep 05 2008","eventEndDate":"Dec 31 2012","linked":false,"displayOrder":0,"aggBidSize":10,"aggOfferSize":1,"sessionOpenPrice":"88.9","contractExpiryDate":"","sessionChange":"-0.02","lastCostPerShareFormatted":"$8.74","bestBidCostPerShareFormatted":"$8.74","bestOfferCostPerShareFormatted":"$8.88","graphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=160&height=70&contractId=652757","sessionChangeDir":"down","sessionChangePerc":"-0.2","totalVolume":"293,145","sessionVolume":"255","linkedEventMargin":0.0},{"name":"Rick Santorum to be Republican Presidential Nominee in 2012","state":"O","description":null,"symbol":"2012.REP.NOM.SANTORUM","currency":"USD","expired":false,"eventId":84328,"eventName":"2012 Republican Presidential Nominee","eventClassId":19,"eventGroupId":8628,"lastTradePrice":"3.1","contractId":690905,"stateDescription":"Open","imageUrl":"/jsp/intrade/common/images/contractImages/RickSantorum.jpg","mobileGraphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=290&height=100&contractId=690905","openingPrice":"5.1","openingCostPerShare":"$0.51","sessionLoCostPerShare":"$0.31","sessionLoPrice":"3.1","sessionHiCostPerShare":"$0.54","sessionHiPrice":"5.4","lifeLoCostPerShare":"$0.01","lifeLoPrice":"0.1","lifeHiCostPerShare":"$2.26","lifeHiPrice":"22.6","closingCostPerShare":"$0.53","closingPrice":"5.3","lastTradeTime":"12:05 AM, GMT","sessionClosePrice":"5.3","expiryPrice":null,"contractEndDate":"12/1/12","contractStartDate":"8/12/09","eventStartDate":"Sep 05 2008","eventEndDate":"Dec 31 2012","linked":false,"displayOrder":2,"aggBidSize":50,"aggOfferSize":100,"sessionOpenPrice":"5.1","contractExpiryDate":"","sessionChange":"-0.22","lastCostPerShareFormatted":"$0.31","bestBidCostPerShareFormatted":"$0.35","bestOfferCostPerShareFormatted":"$0.39","graphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=160&height=70&contractId=690905","sessionChangeDir":"down","sessionChangePerc":"-41.5","totalVolume":"581,815","sessionVolume":"1,579","linkedEventMargin":0.0},{"name":"Newt Gingrich to be Republican Presidential Nominee in 2012","state":"O","description":null,"symbol":"2012.REP.NOM.GINGRICH","currency":"USD","expired":false,"eventId":84328,"eventName":"2012 Republican Presidential Nominee","eventClassId":19,"eventGroupId":8628,"lastTradePrice":"0.5","contractId":654836,"stateDescription":"Open","imageUrl":"/jsp/intrade/common/images/contractImages/Gingrich.jpg","mobileGraphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=290&height=100&contractId=654836","openingPrice":"0.7","openingCostPerShare":"$0.07","sessionLoCostPerShare":"$0.05","sessionLoPrice":"0.5","sessionHiCostPerShare":"$0.07","sessionHiPrice":"0.7","lifeLoCostPerShare":"$0.03","lifeLoPrice":"0.3","lifeHiCostPerShare":"$4.00","lifeHiPrice":"40.0","closingCostPerShare":"$0.07","closingPrice":"0.7","lastTradeTime":"12:36 AM, GMT","sessionClosePrice":"0.7","expiryPrice":null,"contractEndDate":"12/1/12","contractStartDate":"11/1/08","eventStartDate":"Sep 05 2008","eventEndDate":"Dec 31 2012","linked":false,"displayOrder":1,"aggBidSize":418,"aggOfferSize":3,"sessionOpenPrice":"0.7","contractExpiryDate":"","sessionChange":"-0.02","lastCostPerShareFormatted":"$0.05","bestBidCostPerShareFormatted":"$0.05","bestOfferCostPerShareFormatted":"$0.07","graphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=160&height=70&contractId=654836","sessionChangeDir":"down","sessionChangePerc":"-28.6","totalVolume":"419,590","sessionVolume":"2,823","linkedEventMargin":0.0},{"name":"Barack Obama to be re-elected President in 2012","state":"O","description":null,"symbol":"2012.PRES.OBAMA","currency":"USD","expired":false,"eventId":84326,"eventName":"2012 Presidential Election Winner (Individual)","eventClassId":19,"eventGroupId":8628,"lastTradePrice":"60.3","contractId":743474,"stateDescription":"Open","imageUrl":"/jsp/intrade/common/images/contractImages/BarackObama.jpg","mobileGraphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=290&height=100&contractId=743474","openingPrice":"61.2","openingCostPerShare":"$6.12","sessionLoCostPerShare":"$6.00","sessionLoPrice":"60.0","sessionHiCostPerShare":"$6.18","sessionHiPrice":"61.8","lifeLoCostPerShare":"$4.51","lifeLoPrice":"45.1","lifeHiCostPerShare":"$6.99","lifeHiPrice":"69.9","closingCostPerShare":"$6.12","closingPrice":"61.2","lastTradeTime":"01:05 AM, GMT","sessionClosePrice":"61.2","expiryPrice":null,"contractEndDate":"12/31/12","contractStartDate":"11/11/10","eventStartDate":"Sep 05 2008","eventEndDate":"Dec 31 2012","linked":false,"displayOrder":0,"aggBidSize":1,"aggOfferSize":12,"sessionOpenPrice":"61.2","contractExpiryDate":"","sessionChange":"-0.09","lastCostPerShareFormatted":"$6.03","bestBidCostPerShareFormatted":"$5.98","bestOfferCostPerShareFormatted":"$6.04","graphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=160&height=70&contractId=743474","sessionChangeDir":"down","sessionChangePerc":"-1.5","totalVolume":"159,855","sessionVolume":"481","linkedEventMargin":0.0},{"name":"Hunger Games to gross OVER $100.0M in opening weekend","state":"O","description":null,"symbol":"HUNGER.GAMES:$100m+","currency":"USD","expired":false,"eventId":91361,"eventName":"Opening Weekend Box Office Returns for 2012 Blockbusters","eventClassId":22,"eventGroupId":90,"lastTradePrice":"81.0","contractId":758191,"stateDescription":"Open","imageUrl":"/jsp/intrade/common/images/contractImages/TheHungerGamesMockingjay.jpg","mobileGraphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=290&height=100&contractId=758191","openingPrice":"78.0","openingCostPerShare":"$7.80","sessionLoCostPerShare":"$7.10","sessionLoPrice":"71.0","sessionHiCostPerShare":"$8.88","sessionHiPrice":"88.8","lifeLoCostPerShare":"$3.55","lifeLoPrice":"35.5","lifeHiCostPerShare":"$8.88","lifeHiPrice":"88.8","closingCostPerShare":"$7.90","closingPrice":"79.0","lastTradeTime":"01:12 AM, GMT","sessionClosePrice":"79.0","expiryPrice":null,"contractEndDate":"3/6/12","contractStartDate":"3/2/12","eventStartDate":"Feb 01 2012","eventEndDate":"Dec 31 2012","linked":false,"displayOrder":4,"aggBidSize":7,"aggOfferSize":22,"sessionOpenPrice":"78.0","contractExpiryDate":"","sessionChange":"0.20","lastCostPerShareFormatted":"$8.10","bestBidCostPerShareFormatted":"$7.15","bestOfferCostPerShareFormatted":"$8.88","graphUrl":"https://data.intrade.com/imagecache/?&imageCacheGroupId=intradeV4simpleCP&width=160&height=70&contractId=758191","sessionChangeDir":"up","sessionChangePerc":"2.5","totalVolume":"616","sessionVolume":"14","linkedEventMargin":0.0}]);
+        YAHOO.homepage.SelectedContracts.downloadAndShowContracts();
+
+
+        
+          YAHOO.homepage.Slideshow.addSlide(
+          '/v4/assets/img/hp/Obama.jpg',
+          'Will Obama be re-elected in 2012?',
+          '743474');
+          YAHOO.homepage.Slideshow.addSlide(
+          '/v4/assets/img/hp/Romney.jpg',
+          'Will Mitt Romney be the Republican nominee?',
+          '652757');
+          YAHOO.homepage.Slideshow.addSlide(
+          '/v4/assets/img/hp/recession.jpg',
+          'Will the US economy go into recession in 2012?',
+          '693075');
+          YAHOO.homepage.Slideshow.addSlide(
+          '/v4/assets/img/hp/Image 4.jpg',
+          'Will Israel or the US bomb Iran?',
+          '750356');
+          YAHOO.homepage.Slideshow.addSlide(
+          '/v4/assets/img/hp/wall-street-sign-pic.jpg',
+          'Will the DJIA close above 12,000 at the end of 2012?',
+          '755566');
+          YAHOO.homepage.Slideshow.init();
+          YAHOO.homepage.Slideshow.start();
+      
+          YAHOO.chart.AdvancedChart.init('https://data.intrade.com/graphing', 
+          'https://www.intrade.com');
+      
+      </script>
+    </div>
+  
+        </div>
+      </div>        
+      
+
+
+
+
+<div id="ft-top">
+  <div class="yui-custom-doc">
+    <div class="yui-gc" style="padding-top: 1em;">
+      <div class="yui-u first">
+
+        
+          <div class="footerStartMakingPredictionsToday">
+            <h4>Start making predictions today!</h4>
+            <p class="footer-tip-text">
+              <strong>
+                You can test making a prediction without an account by clicking the Make your Prediction! link below.
+                <br/>
+              </strong>
+              <span class="footer-dark-text">(oh and if you are wondering, it's free!)</span>
+            </p>
+            <div class="footer-prediction-account-div">
+              <a href="/v4/markets/" title="" class="stdGreenButton">
+                <span>
+                  Make your Prediction
+                </span>
+              </a>
+              <span class="footerItalicText">or</span>
+              <div class="footer-create-account-div">
+                <a href="/v4/login/signup/" class="whiteLink">
+                  <strong>Create an Account</strong>
+                </a>
+                <br/>
+                <span class="footer-dark-text">Takes seconds to sign up!</span></div>
+            </div>
+          </div>
+        
+
+        
+      </div>
+      <div class="yui-u recentPredictions">
+        <h4>
+          Real-time predictions
+        </h4>
+        <ul id="realtime_predictions" class="real-time">
+          <li></li>
+        </ul>
+        <div class="footer-interestedAndMorePredictionsLink">
+          <a href="/v4/misc/recentpredictions/" class="whiteLink">See more real-time predictions</a>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<div id="ft-bottom">
+  <div class="yui-custom-doc" style="padding-top: 5px;">
+    <div class="yui-g footerMenu">
+      <div class="yui-g first">
+        <div class="yui-u first">
+          <ul>
+            <h5>About Intrade</h5>
+            <li><a href="/v4/misc/about/aboutUs.jsp" class="greyLink" title="">What is Intrade all about?</a></li>						
+            <li><a href="/v4/misc/about/whereIsIntrade.jsp" class="greyLink" title="">Where is Intrade?</a></li>
+            <li><a href="/v4/misc/about/pressCoverage.jsp" class="greyLink">Intrade Press Coverage</a></li>
+            <li><a href="/v4/misc/about/contactUs.jsp" class="greyLink">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="yui-u">
+          <ul>
+            <h5>How Intrade Works</h5>
+            <li><a href="/v4/misc/howItWorks/theBasics.jsp" class="greyLink">The Basics</a></li>
+            <li><a href="/v4/misc/howItWorks/fees.jsp" class="greyLink">Fees</a></li>
+            <li><a href="/v4/misc/howItWorks/marketRules.jsp" class="greyLink">Market Rules</a></li>
+            <li><a href="/v4/misc/howItWorks/exchangeRules.jsp" class="greyLink">Exchange Rules</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="yui-g">
+        <div class="yui-u first">
+          <ul>
+            <h5>Help</h5>
+            <li><a href="/v4/misc/help/accountSupport.jsp" class="greyLink">Account Support</a></li>
+            <li><a href="/v4/misc/help/faqs.jsp" class="greyLink">Help &AMP; FAQ&#39;s</a></li>
+            <li><a href="/v4/misc/help/disclaimer.jsp" class="greyLink">Disclaimer</a></li>
+            <li><a href="/v4/misc/help/privacyPolicy.jsp" class="greyLink">Privacy Policy</a></li>			
+          </ul>
+        </div>
+        <div class="yui-u">
+          <ul>
+            <h5>Research &amp; Academia</h5>
+            <li><a href="/v4/reports/" class="greyLink">Reports &amp; Statistics</a></li>
+            <li><a href="/v4/misc/academia/intradeData.jsp" class="greyLink">Intrade Data</a></li>
+            <li><a href="/v4/misc/academia/workWithAcademics.jsp" class="greyLink">Working with Academics &amp; Students</a></li>						
+          </ul>
+        </div>
+      </div>
+      <p class="footerCopyrightMessage">
+        <strong>Copyright</strong> &copy; 2007-2012, Intrade The Prediction Market Limited.  All rights reserved.
+
+        
+        <a style="position: absolute; left: 0px; font-size: 0.5em; color: #424242; z-index: -1;" href="/v4/markets/allmarkets.do">All Markets</a>
+      </p>
+    </div>
+  </div>
+  <script type="text/javascript" src="/v4/assets/js/recent-predictions.js?modified=1330966759000&expfilter_setExpiry=true"></script>
+  <script>
+    YAHOO.footer.recentpredections.setRecentPredictions([{"timestamp":1331860952303,"locationInfo":"Lynbrook, United States","timeString":"Mar 16, 1:22:32AM GMT","quantity":91,"price":"74.0","contractId":758364,"contractName":"Mitt Romney to win the 2012 Illinois Primary","imageUrl":"/jsp/intrade/common/images/contractImages/MittRomney.jpg","contractSymbol":"ILLINOIS.ROMNEY","orderId":690357991,"costPerShareFormatted":"$7.40","isBuy":true},{"timestamp":1331860791644,"locationInfo":"Fairfield, United States","timeString":"Mar 16, 1:19:51AM GMT","quantity":10,"price":"89.0","contractId":652757,"contractName":"Mitt Romney to be Republican Presidential Nominee in 2012","imageUrl":"/jsp/intrade/common/images/contractImages/MittRomney.jpg","contractSymbol":"2012.REP.NOM.ROMNEY","orderId":690357152,"costPerShareFormatted":"$8.90","isBuy":false},{"timestamp":1331860783014,"locationInfo":"Glendale, United States","timeString":"Mar 16, 1:19:43AM GMT","quantity":10,"price":"86.7","contractId":652757,"contractName":"Mitt Romney to be Republican Presidential Nominee in 2012","imageUrl":"/jsp/intrade/common/images/contractImages/MittRomney.jpg","contractSymbol":"2012.REP.NOM.ROMNEY","orderId":690357101,"costPerShareFormatted":"$8.67","isBuy":true},{"timestamp":1331860746845,"locationInfo":"York, United Kingdom","timeString":"Mar 16, 1:19:06AM GMT","quantity":3,"price":"76.4","contractId":758364,"contractName":"Mitt Romney to win the 2012 Illinois Primary","imageUrl":"/jsp/intrade/common/images/contractImages/MittRomney.jpg","contractSymbol":"ILLINOIS.ROMNEY","orderId":690356897,"costPerShareFormatted":"$7.64","isBuy":true},{"timestamp":1331860733570,"locationInfo":"York, United Kingdom","timeString":"Mar 16, 1:18:53AM GMT","quantity":2,"price":"23.0","contractId":758365,"contractName":"Rick Santorum to win the 2012 Illinois Primary","imageUrl":"/jsp/intrade/common/images/contractImages/RickSantorum.jpg","contractSymbol":"ILLINOIS.SANTORUM","orderId":690356844,"costPerShareFormatted":"$2.30","isBuy":false},{"timestamp":1331860679164,"locationInfo":"York, United Kingdom","timeString":"Mar 16, 1:17:59AM GMT","quantity":1,"price":"90.0","contractId":758897,"contractName":"Margin of victory in the 2012 Illinois Primary to be 5 percentage points or more","imageUrl":"/jsp/intrade/common/images/contractImages/Dems.jpg","contractSymbol":"ILLINOIS.MARGIN.5%+","orderId":690356567,"costPerShareFormatted":"$9.00","isBuy":false},{"timestamp":1331860612780,"locationInfo":"Halifax, Canada","timeString":"Mar 16, 1:16:52AM GMT","quantity":20,"price":"23.0","contractId":758365,"contractName":"Rick Santorum to win the 2012 Illinois Primary","imageUrl":"/jsp/intrade/common/images/contractImages/RickSantorum.jpg","contractSymbol":"ILLINOIS.SANTORUM","orderId":690356197,"costPerShareFormatted":"$2.30","isBuy":false},{"timestamp":1331860587765,"locationInfo":"New York, United States","timeString":"Mar 16, 1:16:27AM GMT","quantity":10,"price":"73.0","contractId":758364,"contractName":"Mitt Romney to win the 2012 Illinois Primary","imageUrl":"/jsp/intrade/common/images/contractImages/MittRomney.jpg","contractSymbol":"ILLINOIS.ROMNEY","orderId":690356093,"costPerShareFormatted":"$7.30","isBuy":true},{"timestamp":1331860464026,"locationInfo":"Allegan, United States","timeString":"Mar 16, 1:14:24AM GMT","quantity":5,"price":"38.8","contractId":639649,"contractName":"Republican Party candidate to win 2012 Presidential Election","imageUrl":"/jsp/intrade/common/images/contractImages/Rep.jpg","contractSymbol":"PRESIDENT.REP.2012","orderId":690355694,"costPerShareFormatted":"$3.88","isBuy":false},{"timestamp":1331860437684,"locationInfo":"Allegan, United States","timeString":"Mar 16, 1:13:57AM GMT","quantity":4,"price":"1.3","contractId":639650,"contractName":"Any other candidate to win 2012 Presidential Election","imageUrl":"/v4/assets/img/default-contract-image.jpg","contractSymbol":"PRESIDENT.OTHER.2012","orderId":690355645,"costPerShareFormatted":"$0.13","isBuy":false},{"timestamp":1331860131627,"locationInfo":"Glendale, United States","timeString":"Mar 16, 1:08:51AM GMT","quantity":10,"price":"25.9","contractId":758365,"contractName":"Rick Santorum to win the 2012 Illinois Primary","imageUrl":"/jsp/intrade/common/images/contractImages/RickSantorum.jpg","contractSymbol":"ILLINOIS.SANTORUM","orderId":690354698,"costPerShareFormatted":"$2.59","isBuy":false}]);
+    setTimeout("YAHOO.footer.recentpredections.showRecentPredictions()",1000);
+  </script>
+</div>
+    </div>
+
+    <script type="text/javascript">
+      var addthis_share = {
+        templates: {
+          twitter: '{{title}} - {{url}}'
+        }
+      };
+      var addthis_config = {
+        url_transforms: {
+          clean: true    /* removes Google Analytics utm_* parameters */
+        },
+        pubid: "intrade"
+      };
+    </script>
+    <!-- AddThis script -->
+    <script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js"></script>
+  </body>
+</html>
