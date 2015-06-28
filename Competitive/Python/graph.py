@@ -8,7 +8,7 @@ class Graph(object):
     self._Vertices = set([])
 
   def dijkstra(self, source):
-    ''' Perform dijkstra's algorithm 
+    ''' Perform dijkstra's algorithm
         starting at source. '''
     tDist = {}
     tPrev = {}

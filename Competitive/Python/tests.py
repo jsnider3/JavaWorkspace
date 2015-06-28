@@ -3,12 +3,12 @@ import itertools
 import unittest
 
 class Tests(unittest.TestCase):
-  
+
   def test_choices(self):
     count = 0
     for n in range(1, 101):
       for r in range(1, n + 1):
-        if euler.choose(n, r) > 1000000: 
+        if euler.choose(n, r) > 1000000:
           count += 1
     assert(count == 4075)
 
@@ -47,7 +47,7 @@ class Tests(unittest.TestCase):
     for x in range(1, 11):
       assert(primes[x] == correct[x - 1])
     #assert(primes[10001] == 104743)
-  
+
   def test_pandigitals(self):
     pan = euler.Pandigitals()
     assert pan.get_pandigital_product(7254)

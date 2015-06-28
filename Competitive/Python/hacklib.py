@@ -1,12 +1,11 @@
-''' Utilities for my Project Euler solutions.'''
+'''Utilities for my Project Euler solutions.
+  @author: Josh Snider'''
 import fractions
 import functools
 import itertools
 import math
 import numpy
 import pdb
-import string
-from graph import Graph
 from primes import Primes
 
 class Abundants(object):
@@ -37,30 +36,30 @@ class Abundants(object):
 class Collatz(object):
   ''' Create a tree representation of the collatz sequence.'''
   def __init__(self):
-    self._Depths = {1 : 1}
+    self.depths = {1 : 1}
 
   @staticmethod
-  def next(aInt):
-    ''' Return what follows aInt in the Collatz sequence. '''
-    assert aInt > 0
-    if aInt % 2 == 0:
-      return aInt / 2
+  def next(num):
+    ''' Return what follows num in the Collatz sequence. '''
+    assert num > 0
+    if num % 2 == 0:
+      return num / 2
     else:
-      return (3 * aInt + 1) / 2
+      return (3 * num + 1) / 2
 
-  def depth(self, aInt):
-    ''' Return the distance of aInt from the root. '''
-    if aInt in self._Depths:
-      return self._Depths.get(aInt)
+  def depth(self, num):
+    ''' Return the distance of num from the root. '''
+    if num in self.depths:
+      return self.depths.get(num)
     else:
-      self._Depths[aInt] = self.depth(self.next(aInt)) + 1
-      return self._Depths[aInt]
+      self.depths[num] = self.depth(self.next(num)) + 1
+      return self.depths[num]
 
   def max_depth(self):
     ''' Return the number farthest from the root. '''
     tMax = 1
     max_num = 1
-    for entry in self._Depths.items():
+    for entry in self.depths.items():
       (tKey, tValue) = entry
       if tValue > tMax:
         tMax = tValue
@@ -86,7 +85,7 @@ class Convergents(object):
       for d in reversed(self.stack):
         convergent = 1 / (d + convergent)
       yield self.start + convergent
-  
+
   @staticmethod
   def of_e():
     def e_denoms():
@@ -127,7 +126,7 @@ class Naturals(object):
       the naturals. '''
 
   def __contains(self, num):
-    return num > 0 and int(num) == num    
+    return num > 0 and int(num) == num
 
   def __iter__(self):
     count = 1
@@ -138,7 +137,7 @@ class Naturals(object):
 #########################
 class Pandigitals(object):
   ''' Provides utilities for
-      working with the 
+      working with the
       pandigitals. '''
 
   def __contains__(self, num):
@@ -149,7 +148,7 @@ class Pandigitals(object):
     return all((str(digit) in strn for digit in range(1, len(strn) + 1)))
 
   def __iter__(self):
-    #TODO This can be done for efficiently with itertools
+    #TODO This can be done more efficiently with itertools
     for x in range(1, 10):
       nums = list(range(1, x + 1))
       for pan in itertools.permutations(nums):
@@ -219,11 +218,11 @@ class Pentagonals(object):
 class RomanNumeral(object):
   ''' Store roman numerals. As per
       https://projecteuler.net/about=roman_numerals'''
-    
+
   values = [(1000, "M"), (900, "CM"), (500, "D"), (400, "CD"),
             (100, "C"), (90, "XC"), (50, "L"), (40, "XL"),
-            (10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I")] 
-  
+            (10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I")]
+
   rev_dict = [(v, k) for (k, v) in values]
 
   def __init__(self, text):
@@ -251,12 +250,11 @@ class RomanNumeral(object):
   def __str__(self):
     return self.text
 
-  @classmethod 
+  @classmethod
   def from_int(cls, num):
     ''' Greedy algorithm both works and is minimal!
        Matroids for the win! '''
     text = ""
-    #print(cls.values)
     for val, roman_num in cls.values:
       while num >= val:
         text += roman_num
@@ -274,7 +272,7 @@ class RomanNumeral(object):
 class SquareChain(object):
   ''' Create a tree representation of the sequence in Euler #92.'''
   def __init__(self):
-    self._End = {1 : 1, 89 : 89}
+    self.end = {1 : 1, 89 : 89}
 
   @staticmethod
   def next(num):
@@ -283,18 +281,18 @@ class SquareChain(object):
 
   def get_end(self, num):
     ''' Return the final result of num. '''
-    if num in self._End:
-      return self._End.get(num)
+    if num in self.end:
+      return self.end.get(num)
     else:
-      self._End[num] = self.get_end(self.next(num))
-      return self._End[num]
+      self.end[num] = self.get_end(self.next(num))
+      return self.end[num]
 
 #########################
 
 class Squares(object):
   ''' Provides iterators and accessors for
       the triangular numbers. '''
-  
+
   def __contains__(self, num):
     ''' Check if num is a square number. '''
     root = int(math.sqrt(num) + .5)
@@ -417,13 +415,13 @@ def digits_exp(num, pwr):
   ''' wrapper for digits_foo '''
   return digits_foo(num, lambda x: x ** pwr)
 
-def digits_foo(num, foo):
+def digits_foo(num, func):
   ''' Call foo on each digit of num
       and return the sum. '''
   strn = str(num)
   total = 0
   for char in strn:
-    total += foo(int(char))
+    total += func(int(char))
   return total
 
 def digits_fac(num):
@@ -520,7 +518,7 @@ def get_amicable_pair(low):
   return None
 
 def goldbach(num):
-  ''' Does num have the property 
+  ''' Does num have the property
       described in Euler 46. '''
   primes = Primes()
   assert not num in primes
@@ -555,7 +553,7 @@ def hexadecimal_strings(digits, fixed):
   return (16 ** (digits - fixed)) * math.factorial(fixed)
 
 def is_anagram(first, second):
-  ''' return if first and second are anagrams 
+  ''' return if first and second are anagrams
       of each other. '''
   first = str(first)
   second = str(second)
@@ -580,10 +578,10 @@ def is_arithmetically_increasing(aList):
       from its predecessor by a single constant. '''
   assert len(aList) > 1
   tList = sorted(aList)
-  tDiff = tList[1] - tList[0]
+  diff = tList[1] - tList[0]
   for index in range(0, len(tList) - 1):
     new_diff = tList[index + 1] - tList[index]
-    if new_diff != tDiff:
+    if new_diff != diff:
       return False
   return True
 
@@ -597,7 +595,7 @@ def is_palindrome(arg, base=10):
 
 def is_power_of(num, base):
   ''' check if num == base ** a
-      for some a. ''' 
+      for some a. '''
   count = 0
   while base ** count < num:
     count += 1
@@ -654,7 +652,7 @@ def largest_product_in_series(series, length):
   return largest
 
 def lonely_member(b):
-  ''' In a list b where 
+  ''' In a list b where
       everything occurs twice
       except for one that only
       occurs once, return the
@@ -676,14 +674,14 @@ def longest_arithmetically_increasing_sequence(aList):
   max_diff = aList[1] - aList[0]
   max_start = aList[0]
   for tLow in range(len(aList)):
-    for tHigh in range(tLow + 1, len(aList)):
-      tDiff = aList[tHigh] - aList[tLow]
+    for high in range(tLow + 1, len(aList)):
+      diff = aList[high] - aList[tLow]
       count = 0
-      while aList[tLow] + tDiff * (count + 1) in aList:
+      while aList[tLow] + diff * (count + 1) in aList:
         count += 1
       if count > max_len:
         max_len = count
-        max_diff = tDiff
+        max_diff = diff
         max_start = aList[tLow]
   tSequence = []
   for count in range(0, max_len + 1):
@@ -700,7 +698,7 @@ def lowest_common_multiple(numbers):
   return product(common_factors)
 
 def make_change(coins, total):
-  ''' Dynamic programming solution to 
+  ''' Dynamic programming solution to
       make change. '''
   num_coins = len(coins)
   solution = numpy.zeros((total + 1, num_coins))
@@ -718,14 +716,14 @@ def make_change(coins, total):
   return int(solution[total][num_coins - 1])
 
 def nim_3n(n):
-  return not( "11" in bin(n))
+  return not("11" in bin(n))
 
 def nim_sum(first, second):
   '''Fancy way of saying xor'''
   return first ^ second
 
 def nim_winner(heaps):
-  '''xord == 0 means current player loses. 
+  '''xord == 0 means current player loses.
      xord != 0 means current player wins.'''
   xord = functools.reduce(nim_sum, heaps)
   return not xord
@@ -790,9 +788,9 @@ def reorder_chars(strn, left, right):
         else:
           numright += 1
         y += 1
-      for cnt in range(numleft):
+      for _ in range(numleft):
         ret += left
-      for cnt in range(numright):
+      for _ in range(numright):
         ret += right
       x = y - 1
     x += 1
@@ -822,7 +820,7 @@ def resilient_search(thresh):
 
 #@functools.lru_cache(maxsize=None)
 def rod_cuts(length, cut_size):
-  ''' Calculate how many possible 
+  ''' Calculate how many possible
       ways to tile a 1d surface '''
   cuts = 1
   for _ in range(length - cut_size):
@@ -884,7 +882,7 @@ def totient(num):
   Factors = primes.factors(num)
   factors = set(Factors)
   prod = product([(1 - 1/x) for x in factors])
-  phi =  num * prod
+  phi = num * prod
   return int(phi)
 
 def triangle_max_path(aTriangle):
