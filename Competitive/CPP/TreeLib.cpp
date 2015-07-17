@@ -3,7 +3,6 @@
 
 /*  
 Node is defined as  
-
 struct node
 {
     int data;
@@ -12,6 +11,24 @@ struct node
 };
 
 */
+
+/*
+* Determine if value is in tree.
+*/
+bool
+contains(node *root, int value)
+{
+  bool found = false;
+  if (root == nullptr) {
+  } else if (value < root->data) {
+    found = contains(root->left, value);
+  } else if (value > root->data) {
+    found = contains(root->right, value);
+  } else if (value == root->data) {
+    found = true;
+  }
+  return found;
+}
 
 /*
 * Get max height of the tree.
@@ -26,6 +43,21 @@ height(node *root)
     max = std::max(leftHeight, rightHeight);
   }
   return max;
+}
+
+/*
+* Lowest common ancestor of two values in the tree.
+*/
+node*
+lca(node * root, int v1,int v2)
+{
+  if (contains(root->left, v1) && contains(root->left, v2)) {
+    return lca(root->left, v1, v2);
+  } else if (contains(root->right, v1) && contains(root->right, v2)) {
+    return lca(root->right, v1, v2);
+  } else {
+    return root;
+  } 
 }
 
 /*
@@ -68,7 +100,7 @@ LevelOrder(node *root)
   std::vector<node*> from;
   std::vector<node*> to;
   from.push_back(root);
-  while (from.size() > 0) {
+  while (!from.empty()) {
     for (const node *n : from) {
       if (n != nullptr) {
         std::cout << n->data << " ";
