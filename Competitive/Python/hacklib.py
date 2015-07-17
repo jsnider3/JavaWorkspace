@@ -106,8 +106,8 @@ class Hexagonals(object):
   ''' Provides iterators and accessors for
       the hexagonal numbers. '''
 
-  def __contains__(self, aInt):
-    guess = (math.sqrt(8 * aInt + 1) + 1)/4
+  def __contains__(self, num):
+    guess = (math.sqrt(8 * num + 1) + 1)/4
     return guess.is_integer()
 
   def __getitem__(self, n):
@@ -245,7 +245,7 @@ class RomanNumeral(object):
     return len(self.text)
 
   def __repr__(self):
-    return "Roman_Numeral({0})".format(self.text)
+    return "RomanNumeral({0})".format(self.text)
 
   def __str__(self):
     return self.text
@@ -259,13 +259,13 @@ class RomanNumeral(object):
       while num >= val:
         text += roman_num
         num -= val
-    return Roman_Numeral(text)
+    return RomanNumeral(text)
 
   def minimize(self):
     ''' Represent self using as few
         letters as possible. '''
     num = int(self)
-    return Roman_Numeral.from_int(num).text
+    return RomanNumeral.from_int(num).text
 
 #########################
 
@@ -321,8 +321,8 @@ class Triangulars(object):
       guess += 1
     return self[guess] == num
 
-  def __getitem__(self, aInt):
-    return int(.5 * aInt * (aInt + 1))
+  def __getitem__(self, num):
+    return int(.5 * num * (num + 1))
 
   def __iter__(self):
     count = 0
@@ -486,27 +486,26 @@ def first_incorrect_term(approx, func):
     count += 1
   return approx(count)
 
-def fit_polynomial(aTerms):
+def fit_polynomial(terms):
   ''' fit a polynomial to terms. '''
-  xes = range(1, len(aTerms) + 1)
+  xes = range(1, len(terms) + 1)
   return lambda x: int(.5 + numpy.polyval(
-                        numpy.polyfit(xes, aTerms, len(aTerms) - 1), x))
+                        numpy.polyfit(xes, terms, len(terms) - 1), x))
 
-def flat_index(aTwoDShape, aIndex):
-  index = aIndex
-  for row in aTwoDShape:
+def flat_index(two_d, index):
+  for row in two_d:
     if index < len(row):
       return row[index]
     else:
       index -= len(row)
 
 def freq_counts(lst):
+  ''' Return a map of a -> count(a) for a in lst. '''
   freqs = {}
   for elem in lst:
     if not elem in freqs:
-      freqs[elem] = 1
-    else:
-      freqs[elem] += + 1
+      freqs[elem] = 0
+    freqs[elem] += 1
   return freqs
 
 def get_amicable_pair(low):
@@ -557,8 +556,8 @@ def is_anagram(first, second):
       of each other. '''
   first = str(first)
   second = str(second)
-  for tChar in first + second:
-    if first.count(tChar) != second.count(tChar):
+  for char in first + second:
+    if first.count(char) != second.count(char):
       return False
   return True
 
@@ -573,14 +572,14 @@ def is_anagram_series(base, length):
     nums.append(base * x)
   return True
 
-def is_arithmetically_increasing(aList):
+def is_arithmetically_increasing(ls):
   ''' Check that each member of aList differs
       from its predecessor by a single constant. '''
-  assert len(aList) > 1
-  tList = sorted(aList)
-  diff = tList[1] - tList[0]
-  for index in range(0, len(tList) - 1):
-    new_diff = tList[index + 1] - tList[index]
+  assert len(ls) > 1
+  ls = sorted(ls)
+  diff = ls[1] - ls[0]
+  for index in range(0, len(ls) - 1):
+    new_diff = ls[index + 1] - ls[index]
     if new_diff != diff:
       return False
   return True
@@ -683,15 +682,16 @@ def longest_arithmetically_increasing_sequence(aList):
         max_len = count
         max_diff = diff
         max_start = aList[tLow]
-  tSequence = []
+  sequence = []
   for count in range(0, max_len + 1):
-    tSequence.append(max_start + max_diff * count)
-  return tSequence
+    sequence.append(max_start + max_diff * count)
+  return sequence
 
 def lowest_common_multiple(numbers):
+  '''Find the lcm of a list of numbers.'''
   common_factors = []
-  for number in numbers:
-    factors = Primes.factors(number)
+  for number in set(numbers):
+    factors = Primes().factors(number)
     for factor in factors:
       while common_factors.count(factor) < factors.count(factor):
         common_factors.append(factor)
@@ -716,7 +716,7 @@ def make_change(coins, total):
   return int(solution[total][num_coins - 1])
 
 def nim_3n(n):
-  return not("11" in bin(n))
+  return "11" not in bin(n)
 
 def nim_sum(first, second):
   '''Fancy way of saying xor'''
@@ -740,17 +740,19 @@ def num_digits(num):
   return len(str(num))
 
 def points_on_slope(rise, run):
+  '''Count the number of points on a slope that
+    have integer x, y coordinates. '''
   points = 1 + fractions.gcd(rise, run)
   return points
 
 #@functools.lru_cache(maxsize=None)
-def prime_facs(aNum):
+def prime_facs(num):
   ''' convenience function '''
-  return Primes.factors(aNum)
+  return Primes().factors(num)
 
-def product(aList):
+def product(ls):
   ''' sum but for multiplication '''
-  return functools.reduce(lambda x, y: x * y, aList)
+  return functools.reduce(lambda x, y: x * y, ls)
 
 def proper_divisors(num):
   ''' return the proper divisors of num '''
@@ -879,8 +881,8 @@ def sum_squares(num):
 def totient(num):
   ''' Requires python 3 to be correct. '''
   primes = Primes()
-  Factors = primes.factors(num)
-  factors = set(Factors)
+  factors = primes.factors(num)
+  factors = set(factors)
   prod = product([(1 - 1/x) for x in factors])
   phi = num * prod
   return int(phi)
