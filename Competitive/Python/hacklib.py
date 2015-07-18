@@ -130,7 +130,7 @@ class Matrix(object):
     self.cols = len(arr[0])
     lens = [len(row) for row in arr]
     if min(lens) != max(lens):
-      raise ValueException('A matrix must have rows of equal length.')
+      raise ValueError('A matrix must have rows of equal length.')
 
   def __str__(self):
     return "\n".join(str(row) for row in self.mat)
@@ -138,7 +138,7 @@ class Matrix(object):
   def rotate(self):
     ''' Rotate an array by 90 degrees clockwise in place. '''
     if self.rows != self.cols:
-      raise ValueException('Can only rotate square matrices.')
+      raise ValueError('Can only rotate square matrices.')
     xes = self.cols / 2 + self.cols % 2
     yes = self.rows / 2
     xmax = self.cols - 1
@@ -167,6 +167,49 @@ class Matrix(object):
       for y in range(self.rows):
         if colzeros[x] or rowzeros[y]:
           self.mat[y][x] = 0
+
+#########################
+class MinStack(object):
+  ''' A stack which also tracks the minimum in O(1). '''
+
+  def __len__(self):
+    ''' Length is same as underlying list.'''
+    return len(self.lst)
+
+  def __init__(self):
+    ''' Make an empty stack.'''
+    self.lst = []
+    self.mins = []
+
+  def empty(self):
+    ''' Check if we're empty.'''
+    return not len(self)
+
+  def min(self):
+    ''' Return the minimum in the stack.'''
+    if self.empty():
+      raise ValueError("Reading from empty MinStack")
+    return self.mins[-1]
+
+  def peek(self):
+    ''' Return the top of the stack.'''
+    if self.empty():
+      raise ValueError("Reading from empty MinStack")
+    return self.lst[-1]
+
+  def pop(self):
+    ''' Return and remove the top of the stack.'''
+    if self.empty():
+      raise ValueError("Popping from empty MinStack")
+    elif self.mins[-1] == self.lst[-1]:
+      self.mins.pop()
+    self.lst.pop()
+
+  def push(self, elm):
+    ''' Add to stack.'''
+    if self.empty() or elm <= self.mins[-1]:
+      self.mins.append(elm)
+    self.lst.append(elm)
 
 #########################
 class Naturals(object):
