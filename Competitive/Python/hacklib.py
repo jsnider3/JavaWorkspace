@@ -121,6 +121,40 @@ class Hexagonals(object):
 
 #########################
 
+class Matrix(object):
+  ''' Represents an MxN matrix. '''
+
+  def __init__(self, arr):
+    self.mat = arr
+    self.rows = len(arr)
+    self.cols = len(arr[0])
+    lens = [len(row) for row in arr]
+    if min(lens) != max(lens):
+      raise ValueException('A matrix must have rows of equal length.')
+
+  def __str__(self):
+    return "\n".join(str(row) for row in self.mat)
+
+  def rotate(self):
+    ''' Rotate an array by 90 degrees in place. '''
+    if self.rows != self.cols:
+      raise ValueException('Can only rotate square matrices.')
+
+  def zero(self):
+    ''' Zero each row and column that contains a zero. '''
+    colzeros = [False for _ in range(self.cols)]
+    rowzeros = [False for _ in range(self.rows)]
+    for x in range(self.cols):
+      for y in range(self.rows):
+        if self.mat[y][x] == 0:
+          colzeros[x] = True
+          rowzeros[y] = True
+    for x in range(self.cols):
+      for y in range(self.rows):
+        if colzeros[x] or rowzeros[y]:
+          self.mat[y][x] = 0
+
+#########################
 class Naturals(object):
   ''' Provides iterators for
       the naturals. '''
@@ -400,6 +434,10 @@ def champernowne(digit):
     count = count + 1
   return int(strn[digit - 1])
 
+def chars_used(word):
+  ''' Get the number of unique characters in a string. '''
+  return len(set(word))
+
 def choose(n, r):
   ''' return n choose r. '''
   if n < r:
@@ -528,16 +566,16 @@ def goldbach(num):
     elif num < 2 * square:
       return False
 
-def group_into_equivalency_classes(aList, equals):
-  ''' Use aList and the given comparator to make
+def group_into_equivalency_classes(lst, equals):
+  ''' Use lst and the given comparator to make
       a list of equivalency classes. '''
   classes = []
-  for elem in aList:
+  for elem in lst:
     found = False
-    for tClass in classes:
-      if equals(tClass[0], elem):
+    for cls in classes:
+      if equals(cls[0], elem):
         found = True
-        tClass.append(elem)
+        cls.append(elem)
         break
     if not found:
       classes.append([elem])
@@ -906,6 +944,11 @@ def tuple_to_num(tupe):
   tupe = [str(c) for c in tupe]
   tupe = "".join(tupe)
   return int(tupe)
+
+def unique_str(words):
+  ''' Determine if a string is composed entirely
+      of unique characters. '''
+  return len(words) == chars_used(words)
 
 def xor_file(text, key):
   ''' Go through a list of numbers
