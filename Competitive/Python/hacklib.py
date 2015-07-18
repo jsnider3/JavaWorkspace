@@ -136,9 +136,23 @@ class Matrix(object):
     return "\n".join(str(row) for row in self.mat)
 
   def rotate(self):
-    ''' Rotate an array by 90 degrees in place. '''
+    ''' Rotate an array by 90 degrees clockwise in place. '''
     if self.rows != self.cols:
       raise ValueException('Can only rotate square matrices.')
+    xes = self.cols / 2 + self.cols % 2
+    yes = self.rows / 2
+    xmax = self.cols - 1
+    ymax = self.rows - 1
+    for x in range(xes):
+      for y in range(yes):
+        swap = [self.mat[y][x],
+                self.mat[x][xmax - y],
+                self.mat[ymax - y][xmax - x],
+                self.mat[ymax - x][y]]
+        self.mat[y][x] = swap[-1]
+        self.mat[x][xmax - y] = swap[0]
+        self.mat[ymax - y][xmax - x] = swap[1]
+        self.mat[ymax - x][y] = swap[2]
 
   def zero(self):
     ''' Zero each row and column that contains a zero. '''
@@ -965,17 +979,6 @@ def xor_file(text, key):
 def main():
   ''' main '''
   print("REDACTED")
-#  print(list(filter(lambda x: is_anagram(x, totient(x)), range(2, 10 ** 7))))
-  for x in range(2, 10 ** 7):
-    if is_anagram(x, totient(x)):
-      print(x)
-  '''pent = Pentagonals()
-  for n in pent:
-    for x in Pentagonals():
-      if x == n:
-        break
-      elif pent.pair(n, x):
-        print(n, x, n - x)'''
 
 if __name__ == "__main__":
   main()

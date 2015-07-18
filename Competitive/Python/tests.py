@@ -50,6 +50,26 @@ class Tests(unittest.TestCase):
               [0,0,0,0],
               [0,3,0,5]]
     assert(mat.mat == zeroed)
+    grid = [[0,1,2,3],
+            [11,12,13,4],
+            [10,15,14,5],
+            [9,8,7,6]]
+    mat = hacklib.Matrix(grid)
+    mat.rotate()
+    correct = [[9,10,11,0],
+               [8,15,12,1],
+               [7,14,13,2],
+               [6,5,4,3]]
+    assert(mat.mat == correct)
+    grid = [[1,2,3],
+            [4,5,6],
+            [7,8,9]]
+    mat = hacklib.Matrix(grid)
+    mat.rotate()
+    correct = [[7,4,1],
+               [8,5,2],
+               [9,6,3]]
+    assert(mat.mat == correct)
 
   def test_primes(self):
     primes = hacklib.Primes()
