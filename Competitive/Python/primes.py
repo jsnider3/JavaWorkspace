@@ -7,6 +7,45 @@ class Primes(object):
 
   _List = set([2, 3])
 
+  def __contains__(self, num):
+    if num < 2:
+      return False
+    if num in self._List:
+      return True
+    if num % 2 == 0:
+      return False
+    for count in self._List:
+      if num % count == 0:
+        return False
+    for count in range(max(self._List), int(num ** (.5) + 1), 2):
+      if num % count == 0:
+        return False
+    return True
+
+  def __getitem__(self, key):
+    if isinstance(key, int):
+      return self.nth_prime(key)
+    elif isinstance(key, slice):
+      if key.start < 1 or key.stop < 1:
+        raise TypeError("Invalid index.")
+      else:
+        return [self.nth_prime(i) for i in
+                range(*key.indices(max(key.start, key.stop)))]
+    else:
+      raise TypeError("Invalid index.")
+
+  def __iter__(self):
+    for num in self._List:
+      assert num is not None
+      yield num
+    count = max(self._List) + 2
+    while True:
+      if count in self:
+        if not count in self._List:
+          self._List.add(count)
+        yield count
+      count += 2
+
   def consecutive_sum_max(self, num):
     '''Return num as a list of consecutive primes
        with maximum length. This is the same as
@@ -48,44 +87,9 @@ class Primes(object):
       start += 1
     return (maxtot, maxlen)
 
-  def __contains__(self, num):
-    if num < 2:
-      return False
-    if num in self._List:
-      return True
-    if num % 2 == 0:
-      return False
-    for count in self._List:
-      if num % count == 0:
-        return False
-    for count in range(max(self._List), int(num ** (.5) + 1), 2):
-      if num % count == 0:
-        return False
-    return True
-
-  def __getitem__(self, key):
-    if isinstance(key, int):
-      return self.nth_prime(key)
-    elif isinstance(key, slice):
-      if key.start < 1 or key.stop < 1:
-        raise TypeError("Invalid index.")
-      else:
-        return [self.nth_prime(i) for i in
-                range(*key.indices(max(key.start, key.stop)))]
-    else:
-      raise TypeError("Invalid index.")
-
-  def __iter__(self):
-    for num in self._List:
-      assert num is not None
-      yield num
-    count = max(self._List) + 2
-    while True:
-      if count in self:
-        if not count in self._List:
-          self._List.add(count)
-        yield count
-      count += 2
+  def coprime(self, first, second):
+    ''' check if first and second are coprimes.'''
+    return fractions.gcd(first, second) == 1
 
   def countdown(self, start):
     while start > 1:

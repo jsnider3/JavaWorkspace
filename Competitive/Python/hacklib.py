@@ -1,4 +1,5 @@
-'''Utilities for my Project Euler solutions.
+'''Solutions for Project Euler, HackerRank, and various
+  coding challenges.
   @author: Josh Snider'''
 import fractions
 import functools
@@ -32,7 +33,6 @@ class Abundants(object):
         yield count
 
 #########################
-
 class Collatz(object):
   ''' Create a tree representation of the collatz sequence.'''
   def __init__(self):
@@ -67,7 +67,6 @@ class Collatz(object):
     return max_num
 
 #########################
-
 class Convergents(object):
   ''' See Euler 65. '''
 
@@ -101,7 +100,6 @@ class Convergents(object):
     return Convergents(2, iter(e_denoms()))
 
 #########################
-
 class Hexagonals(object):
   ''' Provides iterators and accessors for
       the hexagonal numbers. '''
@@ -120,7 +118,6 @@ class Hexagonals(object):
       count += 1
 
 #########################
-
 class Matrix(object):
   ''' Represents an MxN matrix. '''
 
@@ -169,121 +166,56 @@ class Matrix(object):
           self.mat[y][x] = 0
 
 #########################
-class MinStack(object):
-  ''' A stack which also tracks the minimum in O(1). '''
-
-  def __len__(self):
-    ''' Length is same as underlying list.'''
-    return len(self.lst)
-
-  def __init__(self):
-    ''' Make an empty stack.'''
-    self.lst = []
-    self.mins = []
-
-  def empty(self):
-    ''' Check if we're empty.'''
-    return not len(self)
-
-  def min(self):
-    ''' Return the minimum in the stack.'''
-    if self.empty():
-      raise ValueError("Reading from empty MinStack")
-    return self.mins[-1]
-
-  def peek(self):
-    ''' Return the top of the stack.'''
-    if self.empty():
-      raise ValueError("Reading from empty MinStack")
-    return self.lst[-1]
-
-  def pop(self):
-    ''' Return and remove the top of the stack.'''
-    if self.empty():
-      raise ValueError("Popping from empty MinStack")
-    elif self.mins[-1] == self.lst[-1]:
-      self.mins.pop()
-    self.lst.pop()
-
-  def push(self, elm):
-    ''' Add to stack.'''
-    if self.empty() or elm <= self.mins[-1]:
-      self.mins.append(elm)
-    self.lst.append(elm)
-
-#########################
 class Naturals(object):
   ''' Provides iterators for
       the naturals. '''
 
   def __contains(self, num):
+    ''' The naturals are the positive integers. '''
     return num > 0 and int(num) == num
 
   def __iter__(self):
+    ''' 1, 2, 3... '''
     count = 1
     while count:
       yield count
       count += 1
 
 #########################
-class Pandigitals(object):
-  ''' Provides utilities for
-      working with the
-      pandigitals. '''
+class Palindrome(object):
+  ''' A palindrome is a string s where s == reversed(s).'''
 
-  def __contains__(self, num):
-    ''' Check that an n-digit number contains the digits [1, n]
-      once and only once. As a side note, 8 and 9 digit
-      pandigitals are never prime. '''
-    strn = str(num)
-    return all((str(digit) in strn for digit in range(1, len(strn) + 1)))
+  def __contains__(self, pal):
+    ''' A straightforward definition.'''
+    return pal == pal[::-1]
 
-  def __iter__(self):
-    #TODO This can be done more efficiently with itertools
-    for x in range(1, 10):
-      nums = list(range(1, x + 1))
-      for pan in itertools.permutations(nums):
-        yield tuple_to_num(pan)
+  def __init__(self):
+    ''' Nothing to do.'''
+    pass
 
-  def __reversed__(self):
-    count = 987654321
-    while count:
-      if count in self:
-        yield count
-      count -= 1
+  def find_largest_product(self, low, high):
+    ''' Find the largest number P, which is a
+        palindrome. Given P == A * B and
+        low <= A < B <= high. '''
+    first = high
+    largest = 1
+    while first >= low:
+      for second in range(first + 1, high + 1):
+        prod = first * second
+        if self.has_number(prod) and prod > largest:
+          largest = prod
+      first -= 1
+    return largest
 
-  def get_pandigital_product(self, num):
-    ''' See Project Euler 32 '''
-    for n in range(1, int(num**.5) + 1):
-      m = num // n
-      if num == n * m:
-        if str(num) + str(n) + str(m) in self:
-          return (n, m, num)
-    return None
-
-  def is_pandigital_multiple(self, num):
-    ''' As defined in Project Euler 38 '''
-    if num in self:
-      strn = str(num)
-      for n in range(1, num_digits(num)//2 + 1):
-        if self.multiple_helper(strn[n:], int(strn[:n]), 2):
-          return True
-    return False
-
-  def multiple_helper(self, strn, start, mult):
-    ''' Helper for is_pandigital_multiple. '''
-    if strn == "":
-      return True
-    for x in range(1, len(strn) + 1):
-      guess = int(strn[:x])
-      if guess == start * mult:
-        return self.multiple_helper(strn[x:], start, mult + 1)
-      elif guess > start * mult:
-        return False
+  def has_number(self, arg, base=10):
+    ''' Check that arg is a palindrome.
+        Works for numbers in either base 10 or base 2. '''
+    strn = str(arg)
+    if base == 2:
+      strn = "{0:b}".format(arg)
+    return strn in self
 
 #########################
-
-
 class Pentagonals(object):
   ''' Provides iterators and accessors for
       the pentagonal numbers. '''
@@ -305,61 +237,6 @@ class Pentagonals(object):
     return max(m, n) - min(m, n) in self and m + n in self
 
 #########################
-
-class RomanNumeral(object):
-  ''' Store roman numerals. As per
-      https://projecteuler.net/about=roman_numerals'''
-
-  values = [(1000, "M"), (900, "CM"), (500, "D"), (400, "CD"),
-            (100, "C"), (90, "XC"), (50, "L"), (40, "XL"),
-            (10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I")]
-
-  rev_dict = [(v, k) for (k, v) in values]
-
-  def __init__(self, text):
-    self.text = text.strip()
-
-  def __int__(self):
-    ''' Convert self into
-        a normal int. '''
-    text = self.text
-    num = 0
-    while text:
-      for v, k in self.rev_dict:
-        if text.find(v) == 0:
-          text = text[len(v):]
-          num += k
-          break
-    return num
-
-  def __len__(self):
-    return len(self.text)
-
-  def __repr__(self):
-    return "RomanNumeral({0})".format(self.text)
-
-  def __str__(self):
-    return self.text
-
-  @classmethod
-  def from_int(cls, num):
-    ''' Greedy algorithm both works and is minimal!
-       Matroids for the win! '''
-    text = ""
-    for val, roman_num in cls.values:
-      while num >= val:
-        text += roman_num
-        num -= val
-    return RomanNumeral(text)
-
-  def minimize(self):
-    ''' Represent self using as few
-        letters as possible. '''
-    num = int(self)
-    return RomanNumeral.from_int(num).text
-
-#########################
-
 class SquareChain(object):
   ''' Create a tree representation of the sequence in Euler #92.'''
   def __init__(self):
@@ -379,7 +256,6 @@ class SquareChain(object):
       return self.end[num]
 
 #########################
-
 class Squares(object):
   ''' Provides iterators and accessors for
       the triangular numbers. '''
@@ -399,7 +275,6 @@ class Squares(object):
       count += 1
 
 #########################
-
 class Triangulars(object):
   ''' Provides iterators and accessors for
       the triangular numbers. '''
@@ -502,10 +377,6 @@ def choose(n, r):
   else:
     return math.factorial(n)/(math.factorial(r) * math.factorial(n - r))
 
-def coprime(first, second):
-  ''' check if first and second are coprimes.'''
-  return fractions.gcd(first, second) == 1
-
 def digits_exp(num, pwr):
   ''' wrapper for digits_foo '''
   return digits_foo(num, lambda x: x ** pwr)
@@ -513,11 +384,7 @@ def digits_exp(num, pwr):
 def digits_foo(num, func):
   ''' Call foo on each digit of num
       and return the sum. '''
-  strn = str(num)
-  total = 0
-  for char in strn:
-    total += func(int(char))
-  return total
+  return sum([func(int(char)) for char in str(num)])
 
 def digits_fac(num):
   ''' wrapper for digits_foo '''
@@ -538,20 +405,6 @@ def fibonacci(term):
     second = tNext
     count = count + 1
   return second
-
-def find_largest_palindrome_product(low, high):
-  ''' Find the largest number P, which is a
-      palindrome. Given P == A * B and
-      low <= A < B <= high. '''
-  first = high
-  largest = 1
-  while first >= low:
-    for second in range(first + 1, high + 1):
-      prod = first * second
-      if is_palindrome(prod) and prod > largest:
-        largest = prod
-    first -= 1
-  return largest
 
 def find_pythag_triplet(total):
   ''' Find the pythagorean triplet
@@ -667,25 +520,17 @@ def is_anagram_series(base, length):
     nums.append(base * x)
   return True
 
-def is_arithmetically_increasing(ls):
-  ''' Check that each member of aList differs
+def is_arithmetically_increasing(lst):
+  ''' Check that each member of lst differs
       from its predecessor by a single constant. '''
-  assert len(ls) > 1
-  ls = sorted(ls)
-  diff = ls[1] - ls[0]
-  for index in range(0, len(ls) - 1):
-    new_diff = ls[index + 1] - ls[index]
+  assert len(lst) > 1
+  lst = sorted(lst)
+  diff = lst[1] - lst[0]
+  for index in range(0, len(lst) - 1):
+    new_diff = lst[index + 1] - lst[index]
     if new_diff != diff:
       return False
   return True
-
-def is_palindrome(arg, base=10):
-  ''' Check that arg is a palindrome.
-      Works for numbers in either base 10 or base 2. '''
-  strn = str(arg)
-  if base == 2:
-    strn = "{0:b}".format(arg)
-  return strn == strn[::-1]
 
 def is_power_of(num, base):
   ''' check if num == base ** a
@@ -733,14 +578,10 @@ def largest_product_in_series(series, length):
   ''' Find the subsequence of given length with
       the largest product. '''
   assert len(series) >= length
-  prod = 1
-  for count in range(length):
-    prod *= series[count]
+  prod = product(series[0:length])
   largest = prod
   for count in range(length + 1, len(series) - length):
-    prod = 1
-    for count in range(count, count + length):
-      prod *= series[count]
+    prod = product(series[count:count + length])
     if prod > largest:
       largest = prod
   return largest
@@ -759,24 +600,24 @@ def lonely_member(b):
       seen.add(n)
   return list(seen)[0]
 
-def longest_arithmetically_increasing_sequence(aList):
+def longest_arithmetically_increasing_sequence(lst):
   ''' Finding the subsequence of the given list
       which is arithmetically increasing and the longest. '''
-  if len(aList) < 2:
-    return aList
+  if len(lst) < 2:
+    return lst
   max_len = 1
-  max_diff = aList[1] - aList[0]
-  max_start = aList[0]
-  for tLow in range(len(aList)):
-    for high in range(tLow + 1, len(aList)):
-      diff = aList[high] - aList[tLow]
+  max_diff = lst[1] - lst[0]
+  max_start = lst[0]
+  for tLow in range(len(lst)):
+    for high in range(tLow + 1, len(lst)):
+      diff = lst[high] - lst[tLow]
       count = 0
-      while aList[tLow] + diff * (count + 1) in aList:
+      while lst[tLow] + diff * (count + 1) in lst:
         count += 1
       if count > max_len:
         max_len = count
         max_diff = diff
-        max_start = aList[tLow]
+        max_start = lst[tLow]
   sequence = []
   for count in range(0, max_len + 1):
     sequence.append(max_start + max_diff * count)
@@ -840,11 +681,6 @@ def points_on_slope(rise, run):
   points = 1 + fractions.gcd(rise, run)
   return points
 
-#@functools.lru_cache(maxsize=None)
-def prime_facs(num):
-  ''' convenience function '''
-  return Primes().factors(num)
-
 def product(ls):
   ''' sum but for multiplication '''
   return functools.reduce(lambda x, y: x * y, ls)
@@ -885,10 +721,8 @@ def reorder_chars(strn, left, right):
         else:
           numright += 1
         y += 1
-      for _ in range(numleft):
-        ret += left
-      for _ in range(numright):
-        ret += right
+      ret += left * numleft
+      ret += right * numright
       x = y - 1
     x += 1
   return ret
@@ -915,7 +749,6 @@ def resilient_search(thresh):
     if resilience(guess * n) < thresh:
       return guess * n
 
-#@functools.lru_cache(maxsize=None)
 def rod_cuts(length, cut_size):
   ''' Calculate how many possible
       ways to tile a 1d surface '''
@@ -943,11 +776,9 @@ def shared_members(iters):
       yield members[-1]
       members[-1] = next(iters[-1])
 
-def square_sum(aNum):
-  ''' Return the square of the sum of [1, aNum] '''
-  total = 0
-  for count in range(1, aNum + 1):
-    total += count
+def square_sum(num):
+  ''' Return the square of the sum of [1, num] '''
+  total = sum(range(1, num + 1))
   return total ** 2
 
 def substring_div43(num):
@@ -967,7 +798,7 @@ def substring_div43(num):
     return False
 
 def sum_squares(num):
-  ''' Return the sum of the squares of [1, aNum] '''
+  ''' Return the sum of the squares of [1, num] '''
   total = 0
   for count in range(1, num + 1):
     total += (count ** 2)
