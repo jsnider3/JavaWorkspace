@@ -96,6 +96,26 @@ class BinarySearchTree(object):
     ''' Convenience method.'''
     return not (self.left or self.right)
 
+  def post_order(self):
+    ''' Post-order traversal.'''
+    if self.left:
+      for node in self.left:
+        yield node
+    if self.right:
+      for node in self.right:
+        yield node
+    yield self.data
+
+  def pre_order(self):
+    ''' Pre-order traversal.'''
+    yield self.data
+    if self.left:
+      for node in self.left:
+        yield node
+    if self.right:
+      for node in self.right:
+        yield node
+
   def random_node(self):
     ''' Return a random element of the tree.'''
     idx = random.randrange(len(self))
