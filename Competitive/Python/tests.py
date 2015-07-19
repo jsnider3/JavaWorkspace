@@ -15,6 +15,12 @@ class Tests(unittest.TestCase):
           count += 1
     assert count == 4075
 
+  def test_consecutive_sum_max(self):
+    primes = hacklib.Primes()
+    assert(2 == primes.consecutive_sum_max(5))
+    assert(0 == primes.consecutive_sum_max(11))
+    assert(6 == primes.consecutive_sum_max(41))
+
   def test_graph(self):
     graf = Graph()
     graf.set_edge(0,1)
@@ -39,19 +45,6 @@ class Tests(unittest.TestCase):
     assert primes.is_circular(2)
     assert primes.is_circular(971)
     assert not primes.is_circular(999953)
-
-  def test_consecutive_sum_max(self):
-    primes = hacklib.Primes()
-    assert(2 == primes.consecutive_sum_max(5))
-    assert(0 == primes.consecutive_sum_max(11))
-    assert(6 == primes.consecutive_sum_max(41))
-
-  def test_pentagonals(self):
-    pents = hacklib.Pentagonals()
-    taketen = itertools.islice(pents, 0, 10, 1)
-    correct = [1, 5, 12, 22, 35, 51, 70, 92, 117, 145]
-    taketen = list(taketen)
-    assert taketen == correct
 
   def test_matrix(self):
     grid = [[0, 1, 2, 3],
@@ -86,16 +79,6 @@ class Tests(unittest.TestCase):
                [9, 6, 3]]
     assert mat.mat == correct
 
-  def test_primes(self):
-    primes = hacklib.Primes()
-    taketen = primes[1:11]
-    correct = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
-    taketen = list(taketen)
-    assert taketen == correct
-    for x in range(1, 11):
-      assert primes[x] == correct[x - 1]
-    assert primes[10001] == 104743
-
   def test_pandigitals(self):
     pan = Pandigitals()
     assert pan.get_pandigital_product(7254)
@@ -109,6 +92,23 @@ class Tests(unittest.TestCase):
         if len(strn) == 9:
           count += n
     assert count == 45228
+
+  def test_pentagonals(self):
+    pents = hacklib.Pentagonals()
+    taketen = itertools.islice(pents, 0, 10, 1)
+    correct = [1, 5, 12, 22, 35, 51, 70, 92, 117, 145]
+    taketen = list(taketen)
+    assert taketen == correct
+
+  def test_primes(self):
+    primes = hacklib.Primes()
+    taketen = primes[1:11]
+    correct = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+    taketen = list(taketen)
+    assert taketen == correct
+    for x in range(1, 11):
+      assert primes[x] == correct[x - 1]
+    assert primes[10001] == 104743
 
   def test_reorder_chars(self):
     cases = [('the theater', 'hte hteater'),
