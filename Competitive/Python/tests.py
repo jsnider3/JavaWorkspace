@@ -1,3 +1,4 @@
+from graph import Graph
 import hacklib
 from pandigitals import Pandigitals
 from romannumeral import RomanNumeral
@@ -13,6 +14,18 @@ class Tests(unittest.TestCase):
         if hacklib.choose(n, r) > 1000000:
           count += 1
     assert count == 4075
+
+  def test_graph(self):
+    graf = Graph()
+    graf.set_edge(0,1)
+    graf.set_edge(1,2)
+    graf.set_edge(2,0)
+    graf.set_edge(2,3)
+    graf.set_edge(3,4)
+    graf.set_edge(5,6)
+    assert graf.connected(5, 6)
+    assert graf.connected(0, 3)
+    assert not graf.connected(0, 6)
 
   def test_hexagonals(self):
     hexes = hacklib.Hexagonals()

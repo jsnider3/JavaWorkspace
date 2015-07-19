@@ -7,6 +7,20 @@ class Graph(object):
     self._EdgeMap = {}
     self._Vertices = set([])
 
+  def connected(self, source, dest):
+    ''' True if there's a path between source and dest.'''
+    if source not in self._EdgeMap or dest not in self._EdgeMap:
+      raise KeyError("Source and dest must be in graph.")
+    visits = set()
+    queue = [source]
+    while queue:
+      visit = queue.pop()
+      for neigh in self._EdgeMap[visit]:
+        if neigh not in visits:
+          queue.append(neigh)
+      visits.add(visit)
+    return dest in visits
+
   def dijkstra(self, source):
     ''' Perform dijkstra's algorithm
         starting at source. '''
@@ -14,22 +28,21 @@ class Graph(object):
     tPrev = {}
     tUnvisited = []
     #TODO Fixme
-    for tKey in self._Vertices:
-      tDist[tKey] = float("inf")
-      tPrev[tKey] = float("inf")
-      tUnvisited.append(tKey)
+    for vert in self._Vertices:
+      tDist[vert] = float("inf")
+      tPrev[vert] = float("inf")
+      tUnvisited.append(vert)
     tDist[source] = 0
     tDist[-2] = float("inf")
     while tUnvisited:
       tVisit = min(tUnvisited, key=lambda x: tDist[x])
       tUnvisited.remove(tVisit)
       tEdges = self._EdgeMap[tVisit]
-      for entry in tEdges.items():
-        (tNeighbor, tLeng) = entry
-        tWeight = tDist[tVisit] + tLeng
+      for (neighbor, leng) in tEdges.items():
+        tWeight = tDist[tVisit] + leng
         if tWeight < tDist[tNeighbor]:
-          tPrev[tNeighbor] = tVisit
-          tDist[tNeighbor] = tWeight
+          tPrev[neighbor] = tVisit
+          tDist[neighbor] = tWeight
     return (tDist, tPrev)
 
   def dump_edges(self):
@@ -116,7 +129,7 @@ class Graph(object):
     tPath.reverse()
     return tPath
 
-  def set_edge(self, aX, aY, weight):
+  def set_edge(self, aX, aY, weight=1):
     ''' Set the weight of aX -> aY to weight. '''
     self._Vertices.add(aX)
     self._Vertices.add(aY)
