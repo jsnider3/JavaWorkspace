@@ -90,9 +90,9 @@ class BinarySearchTree(object):
     child_heights = [tree.height() for tree in self.children()]
     if len(child_heights) == 1:
       child_heights.append(0)
-    return self.is_root() or (max(child_heights) - min(child_heights) < 2)
+    return self.is_leaf() or (max(child_heights) - min(child_heights) < 2)
 
-  def is_root(self):
+  def is_leaf(self):
     ''' Convenience method.'''
     return not (self.left or self.right)
 
@@ -104,6 +104,24 @@ class BinarySearchTree(object):
       itr.next()
     return itr.next()
 
+  def remove(self, val):
+    ''' Delete the node n, where self.data == val, if present
+        and return the updated tree.'''
+    if val == self.data:
+      if self.is_leaf():
+        self = None
+      elif len(self.children()) == 1:
+        self = self.children()[0]
+      else:
+        kids = self.children()
+        self = kids[0]
+        self.add(kids[1])
+    elif val < self.data and self.left:
+      self.left = self.left.remove(val)
+    elif val > self.data and self.right:
+      self.right = self.right.remove(val)
+    return self
+
   def sequences(self):
     ''' Cracking the Coding Interview 6th Edition 4.9,
         return a set of arrays which when added to a bst
@@ -111,7 +129,7 @@ class BinarySearchTree(object):
         the solution is to call sequences() on our children,
         get every possible interleaving of them, and then stick
         self.data on the beginning of them all.'''
-    if self.is_root():
+    if self.is_leaf():
       return self.data
     elif len(self.children()) == 1:
       seqs = self.children()[0].sequences()
