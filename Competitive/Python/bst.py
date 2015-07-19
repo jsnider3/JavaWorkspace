@@ -1,6 +1,7 @@
 ''' Wrapper for BinarySearchTree
   @author: Josh Snider
 '''
+import random
 
 class BinarySearchTree(object):
   ''' Binary Search Trees can store unique sorted
@@ -95,3 +96,32 @@ class BinarySearchTree(object):
     ''' Convenience method.'''
     return not (self.left or self.right)
 
+  def random_node(self):
+    ''' Return a random element of the tree.'''
+    idx = random.randrange(len(self))
+    itr = iter(self)
+    for x in range(idx):
+      itr.next()
+    return itr.next()
+
+  def sequences(self):
+    ''' Cracking the Coding Interview 6th Edition 4.9,
+        return a set of arrays which when added to a bst
+        in left-to-right order, produces this. I believe
+        the solution is to call sequences() on our children,
+        get every possible interleaving of them, and then stick
+        self.data on the beginning of them all.'''
+    if self.is_root():
+      return self.data
+    elif len(self.children()) == 1:
+      seqs = self.children()[0].sequences()
+      seqs = {[self.data] + seq for seq in seqs}
+      return seqs
+    else:
+      seqs_one = self.children()[0].sequences()
+      seqs_two = self.children()[1].sequences()
+      # TODO
+      #seqs = every possible interleaving of a thing from seqs_one and
+      # a thing from seqs_two.
+      seqs = {[self.data] + seq for seq in seqs}
+      return seqs
