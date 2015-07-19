@@ -1,3 +1,4 @@
+from bst import BinarySearchTree
 from graph import Graph
 import hacklib
 from pandigitals import Pandigitals
@@ -6,6 +7,15 @@ import itertools
 import unittest
 
 class Tests(unittest.TestCase):
+
+  def test_bst(self):
+    nums = [1, 2, 3, 4, 5, 6, 7]
+    bst = BinarySearchTree.from_array(nums)
+    for x in nums:
+      assert x in bst
+    assert nums == list(iter(bst))
+    print(bst.height())
+    assert bst.height() == 3
 
   def test_choices(self):
     count = 0
