@@ -22,11 +22,11 @@ class BinarySearchTree(object):
     ''' In-order traversal.'''
     if self.left:
       for node in self.left:
-        yield node  
+        yield node
     yield self.data
     if self.right:
       for node in self.right:
-        yield node  
+        yield node
 
   def __len__(self):
     ''' Number of nodes in this tree.'''
@@ -40,7 +40,7 @@ class BinarySearchTree(object):
   def __str__(self):
     ''' Print debug info.'''
     return (str(self.data) + ' has ' + str(len(self.children())) +
-            ' children.') 
+            ' children.')
 
   def add(self, dat):
     ''' Add dat to this tree.'''
@@ -73,7 +73,7 @@ class BinarySearchTree(object):
     elif len(arr) == 1:
       return BinarySearchTree(arr[0])
     else:
-      mid = (len(arr) - 1)/2 
+      mid = (len(arr) - 1)/2
       tree = BinarySearchTree(arr[mid])
       tree.left = BinarySearchTree.from_array(arr[:mid])
       tree.right = BinarySearchTree.from_array(arr[mid + 1:])
@@ -83,4 +83,15 @@ class BinarySearchTree(object):
     ''' Height of this tree.'''
     heights = [0] + [tree.height() for tree in self.children()]
     return max(heights) + 1
+
+  def is_balanced(self):
+    ''' Check that our subtrees are similar in height.'''
+    child_heights = [tree.height() for tree in self.children()]
+    if len(child_heights) == 1:
+      child_heights.append(0)
+    return self.is_root() or (max(child_heights) - min(child_heights) < 2)
+
+  def is_root(self):
+    ''' Convenience method.'''
+    return not (self.left or self.right)
 

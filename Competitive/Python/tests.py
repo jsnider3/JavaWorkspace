@@ -14,8 +14,12 @@ class Tests(unittest.TestCase):
     for x in nums:
       assert x in bst
     assert nums == list(iter(bst))
-    print(bst.height())
     assert bst.height() == 3
+    assert bst.is_balanced()
+    unbalanced = BinarySearchTree(0)
+    for x in nums:
+      unbalanced.add(x)
+    assert not unbalanced.is_balanced()
 
   def test_choices(self):
     count = 0
