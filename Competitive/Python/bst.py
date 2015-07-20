@@ -32,10 +32,7 @@ class BinarySearchTree(object):
   def __len__(self):
     ''' Number of nodes in this tree.'''
     size = 1
-    if self.left:
-      size += len(self.left)
-    if self.right:
-      size += len(self.right)
+    size += sum(len(child) for child in self.children())
     return size
 
   def __str__(self):
@@ -99,10 +96,10 @@ class BinarySearchTree(object):
   def post_order(self):
     ''' Post-order traversal.'''
     if self.left:
-      for node in self.left:
+      for node in self.left.post_order():
         yield node
     if self.right:
-      for node in self.right:
+      for node in self.right.post_order():
         yield node
     yield self.data
 
@@ -110,10 +107,10 @@ class BinarySearchTree(object):
     ''' Pre-order traversal.'''
     yield self.data
     if self.left:
-      for node in self.left:
+      for node in self.left.pre_order():
         yield node
     if self.right:
-      for node in self.right:
+      for node in self.right.pre_order():
         yield node
 
   def random_node(self):
