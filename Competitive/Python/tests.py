@@ -9,6 +9,10 @@ import unittest
 
 class Tests(unittest.TestCase):
 
+  def test_balanced_array(self):
+    assert hacklib.balanced_array([1, 2, 3]) == None
+    assert hacklib.balanced_array([1, 2, 3, 3]) == 2
+
   def test_bst(self):
     nums = [1, 2, 3, 4, 5, 6, 7]
     bst = BinarySearchTree.from_array(nums)

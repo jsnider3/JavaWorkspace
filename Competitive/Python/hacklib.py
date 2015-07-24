@@ -315,6 +315,23 @@ def ascii_sum(strn):
   ''' Sum the ascii values in a string'''
   return sum([ord(x) for x in strn])
 
+def balanced_array(arr):
+  ''' If there is an int n where sum(arr[:n]) = sum(arr[n+1:]),
+      return it. Otherwise return None.'''
+  left = [0]
+  for num in arr:
+    left.append(left[-1] + num)
+  left.pop()
+  right = [0]
+  for num in reversed(arr):
+    right.append(right[-1] + num)
+  right.pop()
+  right = list(reversed(right))
+  for num in range(len(arr)):
+    if left[num] == right[num]:
+      return num
+  return None
+
 def british_number_string(num):
   ''' Convert a number to a string
       in the british way. '''
