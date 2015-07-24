@@ -71,7 +71,7 @@ class BinarySearchTree(object):
     elif len(arr) == 1:
       return BinarySearchTree(arr[0])
     else:
-      mid = (len(arr) - 1)/2
+      mid = (len(arr) - 1)//2
       tree = BinarySearchTree(arr[mid])
       tree.left = BinarySearchTree.from_array(arr[:mid])
       tree.right = BinarySearchTree.from_array(arr[mid + 1:])
@@ -118,8 +118,8 @@ class BinarySearchTree(object):
     idx = random.randrange(len(self))
     itr = iter(self)
     for x in range(idx):
-      itr.next()
-    return itr.next()
+      next(itr)
+    return next(itr)
 
   def remove(self, val):
     ''' Delete the node n, where self.data == val, if present

@@ -136,8 +136,8 @@ class Matrix(object):
     ''' Rotate an array by 90 degrees clockwise in place. '''
     if self.rows != self.cols:
       raise ValueError('Can only rotate square matrices.')
-    xes = self.cols / 2 + self.cols % 2
-    yes = self.rows / 2
+    xes = self.cols // 2 + self.cols % 2
+    yes = self.rows // 2
     xmax = self.cols - 1
     ymax = self.rows - 1
     for x in range(xes):

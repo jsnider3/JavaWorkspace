@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from bst import BinarySearchTree
 from graph import Graph
 import hacklib
@@ -17,11 +18,11 @@ class Tests(unittest.TestCase):
     assert bst.height() == 3
     assert bst.is_balanced()
     rand = sum([bst.random_node() for _ in range(100)])
+    #assert 350 < rand < 450
     bst = bst.remove(5)
     assert len(bst) == 6
     for x in nums:
       assert x in bst or x == 5
-    #assert 350 < rand < 450
     unbalanced = BinarySearchTree(0)
     for x in nums:
       unbalanced.add(x)
