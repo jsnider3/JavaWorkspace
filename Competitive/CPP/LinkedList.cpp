@@ -12,6 +12,8 @@
   }
 */
 
+#include <set>
+
 /*
 * Compare two lists.
 * Lists are equal if they have the same length and equal data
@@ -45,6 +47,29 @@ Delete(Node *head, int position)
     head->next = Delete(head->next, position - 1);
     return head;
   }
+}
+
+/*
+* Given two linked lists of ints that connect at
+* a node. Find it and return that node's data.
+*/
+int
+FindMergeNode(Node *headA, Node *headB)
+{
+  std::set<Node*> group;
+  Node *iter = headA;
+  while (iter != nullptr) {
+    group.insert(iter);
+    iter = iter->next;
+  }
+  iter = headB;
+  while (iter != nullptr) {
+    if (group.find(iter) != group.end()) {
+      return iter->data;
+    }
+    iter = iter->next;
+  }
+  return -1;
 }
 
 /*
