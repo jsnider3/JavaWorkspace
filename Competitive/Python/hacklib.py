@@ -682,6 +682,25 @@ def make_change(coins, total):
       solution[loop][index] = tX + tY
   return int(solution[total][num_coins - 1])
 
+def max_subarray(arr):
+  ''' Find the contiguous subarray in arr with the
+      largest sum and return it.'''
+  if max(arr) <= 0:
+    return [max(arr)]
+  max_here = 0
+  max_tot = 0
+  max_ind = 0
+  for ind in range(len(arr)):
+    max_here = max(arr[ind], max_here + arr[ind])
+    if max_here > max_tot:
+      max_tot = max_here
+      max_ind = ind
+  tot = 0
+  for ind in reversed(range(max_ind + 1)):
+    tot += arr[ind]
+    if tot == max_tot:
+      return arr[ind : max_ind + 1]
+
 def nim_3n(n):
   return "11" not in bin(n)
 

@@ -107,6 +107,10 @@ class Tests(unittest.TestCase):
                [9, 6, 3]]
     assert mat.mat == correct
 
+  def test_max_subarray(self):
+    assert sum(hacklib.max_subarray([1, 2, 3, 4])) == 10
+    assert sum(hacklib.max_subarray([2, -1, 2, 3, 4, -5])) == 10
+
   def test_pandigitals(self):
     pan = Pandigitals()
     assert pan.get_pandigital_product(7254)
