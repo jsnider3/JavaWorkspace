@@ -71,6 +71,9 @@ class Tests(unittest.TestCase):
     assert primes.is_circular(971)
     assert not primes.is_circular(999953)
 
+  def test_kth(self):
+    assert hacklib.kth_element([0, 1, 2, 4, 6, 5, 3], 3) == 3
+
   def test_matrix(self):
     grid = [[0, 1, 2, 3],
             [4, 5, 6, 7],

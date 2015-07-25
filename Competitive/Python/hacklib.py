@@ -566,6 +566,20 @@ def is_rotation(first, second):
     return False
   return second in first + first
 
+def kth_element(arr, k):
+  ''' Use quicksort to find the kth element of arr.'''
+  assert len(arr)
+  less = [x for x in arr if x < arr[0]]
+  if k < len(less):
+    return kth_element(less, k)
+  k -= len(less)
+  eql = [x for x in arr if x == arr[0]]
+  if k < len(eql):
+    return eql[k]
+  k -= len(eql)
+  gre = [x for x in arr if x > arr[0]]
+  return kth_element(gre, k)
+
 def largest_grid_product(grid):
   rows = len(grid)
   max_product = -float("inf")
@@ -691,6 +705,13 @@ def number_spiral_sum(row):
 def num_digits(num):
   '''return Number of digits in num'''
   return len(str(num))
+
+def partition(arr):
+  ''' Given an array [a, b...],
+      partition it based on the first element.'''
+  assert len(arr)
+  return ([x for x in arr if x < arr[0]]
+          + [arr[0]] + [x for x in arr if x > arr[0]])
 
 def points_on_slope(rise, run):
   '''Count the number of points on a slope that
