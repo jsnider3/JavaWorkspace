@@ -711,7 +711,8 @@ def partition(arr):
       partition it based on the first element.'''
   assert len(arr)
   return ([x for x in arr if x < arr[0]]
-          + [arr[0]] + [x for x in arr if x > arr[0]])
+          + [x for x in arr if x == arr[0]]
+          + [x for x in arr if x > arr[0]])
 
 def points_on_slope(rise, run):
   '''Count the number of points on a slope that

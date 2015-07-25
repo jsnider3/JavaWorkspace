@@ -121,6 +121,11 @@ class Tests(unittest.TestCase):
           count += n
     assert count == 45228
 
+  def test_partition(self):
+    arr = [3, 9, 8, 5 , 10, 3, 3, 2, 4]
+    par = [2, 3, 3, 3, 9, 8, 5, 10, 4]
+    assert hacklib.partition(arr) == par
+
   def test_pentagonals(self):
     pents = hacklib.Pentagonals()
     taketen = itertools.islice(pents, 0, 10, 1)
