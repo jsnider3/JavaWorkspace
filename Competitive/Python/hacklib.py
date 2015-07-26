@@ -661,6 +661,17 @@ def nim_winner(heaps):
   xord = functools.reduce(nim_sum, heaps)
   return not xord
 
+def no_repeats(lst):
+  ''' Take a series and yield a series without two
+      following elements being equal.'''
+  if len(lst):
+    elem = lst[0]
+    yield elem
+    for nxt in lst[1:]:
+      if nxt != elem:
+        elem = nxt
+        yield elem
+
 def number_spiral_sum(row):
   if row == 0:
     return 1

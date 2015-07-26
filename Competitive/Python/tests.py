@@ -118,6 +118,13 @@ class Tests(unittest.TestCase):
     assert sum(hacklib.max_subarray([1, 2, 3, 4])) == 10
     assert sum(hacklib.max_subarray([2, -1, 2, 3, 4, -5])) == 10
 
+  def test_no_repeats(self):
+    assert len(list(hacklib.no_repeats('AAAA'))) == 1
+    assert len(list(hacklib.no_repeats('BBBBB'))) == 1
+    assert len(list(hacklib.no_repeats('ABABABAB'))) == 8
+    assert len(list(hacklib.no_repeats('BABABA'))) == 6
+    assert len(list(hacklib.no_repeats('AAABBB'))) == 2
+
   def test_pandigitals(self):
     pan = Pandigitals()
     assert pan.get_pandigital_product(7254)
