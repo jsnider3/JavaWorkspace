@@ -57,6 +57,16 @@ def is_anagram(first, second):
       return False
   return True
 
+def is_funny(word):
+  ''' As per https://www.hackerrank.com/challenges/funny-string.'''
+  assert len(word) > 1
+  rev = word[::-1]
+  for ind in range(len(word) - 1):
+    if (abs(ord(word[ind + 1]) - ord(word[ind])) !=
+        abs(ord(rev[ind + 1]) - ord(rev[ind]))):
+      return False
+  return True
+
 def is_pangram(phrase):
   ''' Determine if phrase contains each of [a-z] once.'''
   phrase = set(phrase.lower())

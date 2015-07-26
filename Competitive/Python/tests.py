@@ -47,6 +47,12 @@ class Tests(unittest.TestCase):
     assert(0 == primes.consecutive_sum_max(11))
     assert(6 == primes.consecutive_sum_max(41))
 
+  def test_funny(self):
+    assert strings.is_funny('acxz')
+    assert not strings.is_funny('bcxz')
+    assert not strings.is_funny('ivvkxq')
+    assert not strings.is_funny('ivvkx')
+
   def test_graph(self):
     graf = Graph()
     graf.set_edge(0,1)
