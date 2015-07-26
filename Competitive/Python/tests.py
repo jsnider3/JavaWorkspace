@@ -125,6 +125,12 @@ class Tests(unittest.TestCase):
           count += n
     assert count == 45228
 
+  def test_pangram(self):
+    assert hacklib.is_pangram(
+      'We promptly judged antique ivory buckles for the next prize')
+    assert not hacklib.is_pangram(
+      'We promptly judged antique ivory buckles for the prize')
+
   def test_partition(self):
     arr = [3, 9, 8, 5 , 10, 3, 3, 2, 4]
     par = [2, 3, 3, 3, 9, 8, 5, 10, 4]

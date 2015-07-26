@@ -7,6 +7,7 @@ import itertools
 import math
 import numpy
 import pdb
+import string
 from primes import Primes
 
 class Abundants(object):
@@ -732,6 +733,14 @@ def partition(arr):
   return ([x for x in arr if x < arr[0]]
           + [x for x in arr if x == arr[0]]
           + [x for x in arr if x > arr[0]])
+
+def is_pangram(phrase):
+  ''' Determine if phrase contains each of [a-z] once.'''
+  phrase = set(phrase.lower())
+  for c in string.ascii_lowercase:
+    if c not in phrase:
+      return False
+  return True
 
 def points_on_slope(rise, run):
   '''Count the number of points on a slope that
