@@ -7,7 +7,7 @@ import itertools
 import math
 import numpy
 import pdb
-import string
+import strings
 from primes import Primes
 
 class Abundants(object):
@@ -333,46 +333,6 @@ def balanced_array(arr):
       return num
   return None
 
-def british_number_string(num):
-  ''' Convert a number to a string
-      in the british way. '''
-  strn = str(num)
-  words = []
-  tens = {"1" : "ten", "2" : "twenty", "3" : "thirty", "4" : "forty",
-          "5" : "fifty", "6" : "sixty", "7" : "seventy", "8" : "eighty",
-          "9" : "ninety", "11" : "eleven", "12" : "twelve", "13" : "thirteen",
-          "14" : "fourteen", "15" : "fifteen", "16" : "sixteen",
-          "17" : "seventeen", "18" : "eighteen", "19" : "nineteen"}
-  ones = {"1" : "one", "2" : "two", "3" : "three", "4" : "four",
-          "5" : "five", "6" : "six", "7" : "seven", "8" : "eight",
-          "9" : "nine"}
-  if len(strn) == 4:
-    words.append(ones[strn[0]])
-    words.append("thousand")
-    strn = strn[1:]
-  if len(strn) == 3:
-    if strn[0] in ones:
-      words.append(ones[strn[0]])
-      words.append("hundred")
-    if strn[1:] != "00":
-      words.append("and")
-    strn = strn[1:]
-  if len(strn) == 2:
-    if strn in tens:
-      words.append(tens[strn])
-      strn = strn[2:]
-    else:
-      if strn[0] in tens:
-        words.append(tens[strn[0]])
-      strn = strn[1:]
-  if len(strn) == 1:
-    if strn[0] in ones:
-      words.append(ones[strn[0]])
-    strn = strn[1:]
-  strn = " ".join(words)
-  print(strn)
-  return strn
-
 def champernowne(digit):
   ''' Get the nth digit of
       champernowne's constant. '''
@@ -383,10 +343,6 @@ def champernowne(digit):
     strn += str(count)
     count = count + 1
   return int(strn[digit - 1])
-
-def chars_used(word):
-  ''' Get the number of unique characters in a string. '''
-  return len(set(word))
 
 def choose(n, r):
   ''' return n choose r. '''
@@ -517,23 +473,13 @@ def hexadecimal_strings(digits, fixed):
     return 0
   return (16 ** (digits - fixed)) * math.factorial(fixed)
 
-def is_anagram(first, second):
-  ''' return if first and second are anagrams
-      of each other. '''
-  first = str(first)
-  second = str(second)
-  for char in first + second:
-    if first.count(char) != second.count(char):
-      return False
-  return True
-
 def is_anagram_series(base, length):
   ''' Are base, base*2, ..., base*length
       anagrams of each other. '''
   nums = []
   for x in range(1, length + 1):
     nxt = base * x
-    if nums and not is_anagram(nxt, nums[-1]):
+    if nums and not strings.is_anagram(nxt, nums[-1]):
       return False
     nums.append(base * x)
   return True
@@ -734,14 +680,6 @@ def partition(arr):
           + [x for x in arr if x == arr[0]]
           + [x for x in arr if x > arr[0]])
 
-def is_pangram(phrase):
-  ''' Determine if phrase contains each of [a-z] once.'''
-  phrase = set(phrase.lower())
-  for c in string.ascii_lowercase:
-    if c not in phrase:
-      return False
-  return True
-
 def points_on_slope(rise, run):
   '''Count the number of points on a slope that
     have integer x, y coordinates. '''
@@ -899,11 +837,6 @@ def tuple_to_num(tupe):
   tupe = [str(c) for c in tupe]
   tupe = "".join(tupe)
   return int(tupe)
-
-def unique_str(words):
-  ''' Determine if a string is composed entirely
-      of unique characters. '''
-  return len(words) == chars_used(words)
 
 def xor_file(text, key):
   ''' Go through a list of numbers

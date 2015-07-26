@@ -2,9 +2,10 @@
 from bst import BinarySearchTree
 from graph import Graph
 import hacklib
+import itertools
 from pandigitals import Pandigitals
 from romannumeral import RomanNumeral
-import itertools
+import strings
 import unittest
 
 class Tests(unittest.TestCase):
@@ -126,9 +127,9 @@ class Tests(unittest.TestCase):
     assert count == 45228
 
   def test_pangram(self):
-    assert hacklib.is_pangram(
+    assert strings.is_pangram(
       'We promptly judged antique ivory buckles for the next prize')
-    assert not hacklib.is_pangram(
+    assert not strings.is_pangram(
       'We promptly judged antique ivory buckles for the prize')
 
   def test_partition(self):
@@ -196,8 +197,8 @@ class Tests(unittest.TestCase):
 
   def test_various(self):
     assert hacklib.substring_div43(1406357289)
-    assert hacklib.unique_str('abcdefghijklmnopqrstuvwxyz')
-    assert (not hacklib.unique_str('aacdefghijklmnopqrstuvwxyz'))
+    assert strings.unique_str('abcdefghijklmnopqrstuvwxyz')
+    assert (not strings.unique_str('aacdefghijklmnopqrstuvwxyz'))
 
 if __name__ == '__main__':
   unittest.main()
