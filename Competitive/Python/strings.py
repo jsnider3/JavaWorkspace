@@ -47,6 +47,10 @@ def chars_used(word):
   ''' Get the number of unique characters in a string. '''
   return len(set(word))
 
+def common_substring(first, second):
+  ''' Do first and second have a substring in common? '''
+  return len(set(first).intersection(second)) > 1
+
 def dels_for_anagram(first, second):
   ''' Return the minimal number of characters that would
       need to be deleted from first and second to make them

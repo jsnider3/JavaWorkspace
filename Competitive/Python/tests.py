@@ -41,6 +41,10 @@ class Tests(unittest.TestCase):
           count += 1
     assert count == 4075
 
+  def test_common_substring(self):
+    assert strings.common_substring('hello', 'world')
+    assert not strings.common_substring('hi', 'world')
+
   def test_consecutive_sum_max(self):
     primes = hacklib.Primes()
     assert(2 == primes.consecutive_sum_max(5))
