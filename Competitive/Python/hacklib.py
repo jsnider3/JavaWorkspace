@@ -213,7 +213,7 @@ class Palindrome(object):
         a palindrome.'''
     charcounts = freq_counts(word)
     odds = [c for c in charcounts if charcounts[c] % 2]
-    return len(odds) == 1
+    return len(odds) <= 1
 
   def has_number(self, arg, base=10):
     ''' Check that arg is a palindrome.
