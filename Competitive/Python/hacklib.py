@@ -208,6 +208,13 @@ class Palindrome(object):
       first -= 1
     return largest
 
+  def from_anagram(self, word):
+    ''' Check if there is an anagram of word that is
+        a palindrome.'''
+    charcounts = freq_counts(word)
+    odds = [c for c in charcounts if charcounts[c] % 2]
+    return len(odds) == 1
+
   def has_number(self, arg, base=10):
     ''' Check that arg is a palindrome.
         Works for numbers in either base 10 or base 2. '''

@@ -47,6 +47,12 @@ class Tests(unittest.TestCase):
     assert(0 == primes.consecutive_sum_max(11))
     assert(6 == primes.consecutive_sum_max(41))
 
+  def test_Palindrome_from_anagram(self):
+    pals = hacklib.Palindrome()
+    assert pals.from_anagram('aaabbbb')
+    assert not pals.from_anagram('cdefghmnopqrstuvw')
+    assert pals.from_anagram('cdcdcdcdeeeef')
+
   def test_funny(self):
     assert strings.is_funny('acxz')
     assert not strings.is_funny('bcxz')
