@@ -47,6 +47,20 @@ def chars_used(word):
   ''' Get the number of unique characters in a string. '''
   return len(set(word))
 
+def dels_for_anagram(first, second):
+  ''' Return the minimal number of characters that would
+      need to be deleted from first and second to make them
+      anagrams.'''
+  dels = set(first).symmetric_difference(set(second))
+  shared = set(first).intersection(set(second))
+  rm = 0
+  for d in dels:
+    rm += first.count(d)
+    rm += second.count(d)
+  for sh in shared:
+    rm += abs(first.count(sh) - second.count(sh))
+  return rm
+
 def is_anagram(first, second):
   ''' return if first and second are anagrams
       of each other. '''

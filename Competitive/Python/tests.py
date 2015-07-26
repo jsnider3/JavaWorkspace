@@ -47,6 +47,9 @@ class Tests(unittest.TestCase):
     assert(0 == primes.consecutive_sum_max(11))
     assert(6 == primes.consecutive_sum_max(41))
 
+  def test_dels_for_anagram(self):
+    assert strings.dels_for_anagram('cde', 'abc') == 4
+
   def test_Palindrome_from_anagram(self):
     pals = hacklib.Palindrome()
     assert pals.from_anagram('aaabbbb')
