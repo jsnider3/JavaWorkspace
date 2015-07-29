@@ -51,6 +51,13 @@ class Tests(unittest.TestCase):
     assert(0 == primes.consecutive_sum_max(11))
     assert(6 == primes.consecutive_sum_max(41))
 
+  def test_decents(self):
+    decs = hacklib.Decents()
+    assert not decs.largest_of_len(1)
+    assert decs.largest_of_len(3) == 555
+    assert decs.largest_of_len(5) == 33333
+    assert decs.largest_of_len(11) == 55555533333
+
   def test_dels_for_anagram(self):
     assert strings.dels_for_anagram('cde', 'abc') == 4
 

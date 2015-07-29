@@ -117,6 +117,25 @@ class Convergents(object):
     return Convergents(2, iter(e_denoms()))
 
 #########################
+class Decents(object):
+  '''As per https://www.hackerrank.com/challenges/sherlock-and-the-beast.'''
+
+  def __init__(self):
+    '''Nothing to do here.'''
+    pass
+
+  def largest_of_len(self, leng):
+    '''Find the largest Decent number given len(str(num)) == leng.'''
+    if leng > 0:
+      fives = leng - leng % 3
+      while fives >= 0:
+        threes = leng - fives
+        if threes % 5 == 0:
+          return int('5' * fives + '3' * threes)
+        fives -= 3
+    return None
+
+#########################
 class Hexagonals(object):
   ''' Provides iterators and accessors for
       the hexagonal numbers. '''
