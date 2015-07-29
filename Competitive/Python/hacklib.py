@@ -730,6 +730,16 @@ def num_digits(num):
   '''return Number of digits in num'''
   return len(str(num))
 
+def pair_diffs(arr, diff):
+  ''' Return a list of tuples in arr whose difference is diff,
+      given that the nums in arr are distinct.'''
+  nums = set(arr)
+  pairs = []
+  for num in nums:
+    if num + diff in nums:
+      pairs.append((num, num + diff))
+  return pairs
+
 def partition(arr):
   ''' Given an array [a, b...],
       partition it based on the first element.'''

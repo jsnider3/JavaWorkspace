@@ -154,6 +154,10 @@ class Tests(unittest.TestCase):
     assert len(list(hacklib.no_repeats('BABABA'))) == 6
     assert len(list(hacklib.no_repeats('AAABBB'))) == 2
 
+  def test_pair_diffs(self):
+    pairs = hacklib.pair_diffs([1,5,3,4,2],2)
+    assert len(pairs) == 3
+
   def test_pandigitals(self):
     pan = Pandigitals()
     assert pan.get_pandigital_product(7254)
