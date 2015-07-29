@@ -126,6 +126,10 @@ class Tests(unittest.TestCase):
                [8, 5, 2],
                [9, 6, 3]]
     assert mat.mat == correct
+    grid = [[11, 2, 4],
+            [4, 5, 6],
+            [10, 8, -12]]
+    assert hacklib.Matrix(grid).diag_diff() == -15
 
   def test_max_subarray(self):
     assert sum(hacklib.max_subarray([1, 2, 3, 4])) == 10

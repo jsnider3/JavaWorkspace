@@ -133,6 +133,18 @@ class Matrix(object):
   def __str__(self):
     return "\n".join(str(row) for row in self.mat)
 
+  def diag_diff(self):
+    ''' Return the sum of the top left -> bottom right diagonal
+        minus the sum of the top right -> bottom left diagonal.'''
+    if self.rows != self.cols:
+      raise ValueError('Can only rotate square matrices.')
+    bottomdown = 0
+    upright = 0
+    for col in range(self.cols):
+      upright += self.mat[self.cols - col - 1][col]
+      bottomdown += self.mat[col][col]
+    return bottomdown - upright
+
   def rotate(self):
     ''' Rotate an array by 90 degrees clockwise in place. '''
     if self.rows != self.cols:
