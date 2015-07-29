@@ -60,6 +60,11 @@ class Tests(unittest.TestCase):
     assert not pals.from_anagram('cdefghmnopqrstuvw')
     assert pals.from_anagram('cdcdcdcdeeeef')
 
+  def test_fibonacci(self):
+    fibs = [0, 1, 1, 2, 3, 5, 8, 13, 21]
+    for x in range(len(fibs)):
+      assert hacklib.fibonacci(x) == fibs[x]
+
   def test_funny(self):
     assert strings.is_funny('acxz')
     assert not strings.is_funny('bcxz')

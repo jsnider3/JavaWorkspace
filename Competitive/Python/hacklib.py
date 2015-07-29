@@ -34,6 +34,22 @@ class Abundants(object):
         yield count
 
 #########################
+class ArithSequence(object):
+  ''' Generalization of the Fibonacci sequence to other
+      starting numbers.'''
+
+  def __init__(self, zeroth, first):
+    ''' Start with two numbers.'''
+    self.series = [zeroth, first]
+
+  def __getitem__(self, ind):
+    ''' Walk up to the ind-th number and cache what
+        we find.'''
+    while len(self.series) <= ind:
+      self.series.append(self.series[-1] + self.series[-2])
+    return self.series[ind]
+
+#########################
 class Collatz(object):
   ''' Create a tree representation of the collatz sequence.'''
   def __init__(self):
@@ -389,15 +405,8 @@ def digits_sum(num):
 
 def fibonacci(term):
   ''' Return the termth fibonacci number. O(n)'''
-  first = 0
-  second = 1
-  count = 1
-  while count < term:
-    tNext = first + second
-    first = second
-    second = tNext
-    count = count + 1
-  return second
+  Fibs = ArithSequence(0, 1)
+  return Fibs[term]
 
 def find_pythag_triplet(total):
   ''' Find the pythagorean triplet
