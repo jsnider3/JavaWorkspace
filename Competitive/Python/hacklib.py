@@ -740,6 +740,26 @@ def pair_diffs(arr, diff):
       pairs.append((num, num + diff))
   return pairs
 
+def pair_sums(arr, tot):
+  ''' Return a list of tuples of indexes of arr whose
+      sum is tot.'''
+  inds = {}
+  for ind in range(len(arr)):
+    if arr[ind] not in inds:
+      inds[arr[ind]] = []
+    inds[arr[ind]].append(ind)
+  pairs = set([])
+  for ind in range(len(arr)):
+    val = arr[ind]
+    diff = tot - val
+    if val <= diff and diff in inds:
+      for other_ind in inds[diff]:
+        if ind < other_ind:
+          pairs.add((ind, other_ind))
+        elif other_ind < ind:
+          pairs.add((other_ind, ind))
+  return pairs
+
 def partition(arr):
   ''' Given an array [a, b...],
       partition it based on the first element.'''

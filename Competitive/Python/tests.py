@@ -158,6 +158,21 @@ class Tests(unittest.TestCase):
     pairs = hacklib.pair_diffs([1,5,3,4,2],2)
     assert len(pairs) == 3
 
+  def test_pair_sums(self):
+    pairs = hacklib.pair_sums([1, 4, 5, 3, 2], 4)
+    assert len(pairs) == 1
+    assert list(pairs)[0] == (0,3)
+    pairs = hacklib.pair_sums([2, 2, 4, 3], 4)
+    assert len(pairs) == 1
+    assert list(pairs)[0] == (0,1)
+    pairs = hacklib.pair_sums([678, 227, 764, 37, 956,
+      982, 118, 212, 177, 597, 519, 968, 866, 121, 771, 343, 561], 295)
+    assert len(pairs) == 1
+    assert list(pairs)[0] == (6, 8)
+    pairs = hacklib.pair_sums([5, 75, 25], 100)
+    assert len(pairs) == 1
+    assert list(pairs)[0] == (1, 2)
+
   def test_pandigitals(self):
     pan = Pandigitals()
     assert pan.get_pandigital_product(7254)
