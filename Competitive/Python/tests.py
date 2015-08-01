@@ -269,6 +269,9 @@ class Tests(unittest.TestCase):
                '2 3 4 6 8']
     assert out == correct
 
+  def test_xor_maximum(self):
+    assert hacklib.xor_maximum(1, 10) == 15
+
 if __name__ == '__main__':
   unittest.main()
 

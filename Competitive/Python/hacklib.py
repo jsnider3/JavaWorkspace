@@ -964,6 +964,17 @@ def xor_file(text, key):
     key_ind %= len(key)
   return result
 
+def xor_maximum(low, high):
+  ''' Find the numbers (a, b) such that
+      first <= a <= b <= second and a ^ b is maximal.
+      Return the maximal value.'''
+  max_num = low ^ high
+  for first in range(low, high + 1):
+    for second in range(first, high + 1):
+      if first ^ second > max_num:
+        max_num = first ^ second
+  return max_num
+
 def main():
   ''' main '''
   print("REDACTED")
