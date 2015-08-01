@@ -168,6 +168,16 @@ class Matrix(object):
   def __str__(self):
     return "\n".join(str(row) for row in self.mat)
 
+  def local_maxes(self):
+    ''' Mark all of the local maxima with X's.'''
+    for col in range(1, self.cols - 1):
+      for row in range(1, self.rows - 1):
+        if (self.mat[row][col] > self.mat[row][col - 1] and
+           self.mat[row][col] > self.mat[row - 1][col] and
+           self.mat[row][col] > self.mat[row][col + 1] and
+           self.mat[row][col] > self.mat[row + 1][col]):
+          self.mat[row][col] = 'X'
+
   def diag_diff(self):
     ''' Return the sum of the top left -> bottom right diagonal
         minus the sum of the top right -> bottom left diagonal.'''

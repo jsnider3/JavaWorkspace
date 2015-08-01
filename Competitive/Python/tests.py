@@ -152,6 +152,17 @@ class Tests(unittest.TestCase):
             [4, 5, 6],
             [10, 8, -12]]
     assert hacklib.Matrix(grid).diag_diff() == -15
+    grid = [['1','1','1','2'],
+            ['1','9','1','2'],
+            ['1','8','9','2'],
+            ['1','2','3','4']]
+    corr = [['1','1','1','2'],
+            ['1','X','1','2'],
+            ['1','8','X','2'],
+            ['1','2','3','4']]
+    mat = hacklib.Matrix(grid)
+    mat.local_maxes()
+    assert mat.mat == corr
 
   def test_max_subarray(self):
     assert sum(hacklib.max_subarray([1, 2, 3, 4])) == 10
