@@ -941,6 +941,17 @@ def visual_insert(arr, num):
   output.append(" ".join(str(n) for n in arr))
   return output
 
+def visual_insertion_sort(nums):
+  '''Use insertion sort to sort a list
+     of numbers and print out every step.'''
+  for ind in range(1, len(nums)):
+    for find in range(ind):
+      if nums[find] >= nums[ind]:
+        move = nums[ind]
+        nums[find+1:ind+1] = nums[find:ind]
+        nums[find] = move
+    print(" ".join(str(n) for n in nums))
+
 def xor_file(text, key):
   ''' Go through a list of numbers
       and xor them with numbers in
