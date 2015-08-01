@@ -10,6 +10,13 @@ import unittest
 
 class Tests(unittest.TestCase):
 
+  def test_accumulate(self):
+    inp = [1, 12, 5, 111, 200, 1000, 10]
+    orig = [1, 12, 5, 111, 200, 1000, 10]
+    take = hacklib.accumulate(inp, 50)
+    assert inp == orig
+    assert take == [1, 5, 10, 12]
+
   def test_balanced_array(self):
     assert hacklib.balanced_array([1, 2, 3]) == None
     assert hacklib.balanced_array([1, 2, 3, 3]) == 2

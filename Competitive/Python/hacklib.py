@@ -355,6 +355,19 @@ class Triangulars(object):
 
 #########################
 
+def accumulate(arr, tot):
+  ''' Take as many values from arr as possible, given
+      that the sum must be less than or equal to tot.'''
+  arr = sorted(arr)
+  take = []
+  count = 0
+  for ind in range(len(arr)):
+    count += arr[ind]
+    if count >= tot:
+      take = arr[:ind]
+      break
+  return take
+
 def alphabet_score(word):
   ''' Sum the difference between
       each character + 1 and. '''
