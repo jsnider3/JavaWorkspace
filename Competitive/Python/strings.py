@@ -1,6 +1,7 @@
 ''' A library for solving coding challenges
     involving strings.
     @author: Josh Snider'''
+import math
 import string
 
 def british_number_string(num):
@@ -92,6 +93,13 @@ def is_pangram(phrase):
     if c not in phrase:
       return False
   return True
+
+def is_pi_phrase(phrase):
+  ''' Check if the word lengths of phrase
+      correspond to the digits of pi.'''
+  pi_str = "31415926535897932384626433833"
+  lens = "".join(list(str(len(s)) for s in phrase.split()))
+  return lens == pi_str[:len(lens)]
 
 def unique_str(words):
   ''' Determine if a string is composed entirely
