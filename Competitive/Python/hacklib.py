@@ -168,6 +168,15 @@ class Matrix(object):
   def __str__(self):
     return "\n".join(str(row) for row in self.mat)
 
+  def column(self, ind):
+    ''' Return a column of the matrix as a list.'''
+    if 0 > ind or ind >= self.cols:
+      raise ValueError('Colun index out of range.')
+    col = []
+    for row in range(self.rows):
+      col.append(self.mat[row][ind])
+    return col
+
   def local_maxes(self):
     ''' Mark all of the local maxima with X's.'''
     for col in range(1, self.cols - 1):
@@ -190,6 +199,17 @@ class Matrix(object):
       bottomdown += self.mat[col][col]
     return bottomdown - upright
 
+  def is_col_sorted(self):
+    ''' Check if each column is in sorted order.'''
+    for col in range(self.cols):
+      if not is_sorted(self.column(col)):
+        return False
+    return True
+
+  def is_row_sorted(self):
+    ''' Check if each row is in sorted order.'''
+    return all(is_sorted(row) for row in self.mat)
+
   def rotate(self):
     ''' Rotate an array by 90 degrees clockwise in place. '''
     if self.rows != self.cols:
@@ -208,6 +228,11 @@ class Matrix(object):
         self.mat[x][xmax - y] = swap[0]
         self.mat[ymax - y][xmax - x] = swap[1]
         self.mat[ymax - x][y] = swap[2]
+
+  def sort_by_rows(self):
+    ''' Sort each row in the matrix. '''
+    for row in self.mat:
+      row.sort()
 
   def zero(self):
     ''' Zero each row and column that contains a zero. '''
@@ -592,6 +617,16 @@ def is_rotation(first, second):
   if len(first) != len(second):
     return False
   return second in first + first
+
+def is_sorted(arr):
+  ''' Check that arr is in sorted order. '''
+  if len(arr):
+    elm = arr[0]
+    for mem in arr:
+      if mem < elm:
+        return False
+      elm = mem
+  return True
 
 def kth_element(arr, k):
   ''' Use quicksort to find the kth element of arr.'''
