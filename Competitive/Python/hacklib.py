@@ -975,6 +975,13 @@ def xor_maximum(low, high):
         max_num = first ^ second
   return max_num
 
+def zip_array_sum(first, second, tot):
+  ''' Check if there's a permutation of first and second
+      so that every element of zip (+) first second is
+      greater than tot.'''
+  return all(elm + oth >= tot for (elm, oth) in
+          zip(sorted(first), reversed(sorted(second))))
+
 def main():
   ''' main '''
   print("REDACTED")
