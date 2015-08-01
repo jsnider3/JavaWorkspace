@@ -251,6 +251,16 @@ class Palindrome(object):
     ''' Nothing to do.'''
     pass
 
+  def by_reduction(self, word):
+    ''' Return the number of character reductions
+        needed to make word a palindrome. As per,
+        www.hackerrank.com/challenges/the-love-letter-mystery.'''
+    reductions = 0
+    if word not in self:
+      for ind in range(len(word) // 2):
+        reductions += abs(ord(word[ind]) - ord(word[- 1 - ind]))
+    return reductions
+
   def find_largest_product(self, low, high):
     ''' Find the largest number P, which is a
         palindrome. Given P == A * B and

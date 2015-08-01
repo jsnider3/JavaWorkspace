@@ -68,6 +68,13 @@ class Tests(unittest.TestCase):
   def test_dels_for_anagram(self):
     assert strings.dels_for_anagram('cde', 'abc') == 4
 
+  def test_Palindrome_by_reduction(self):
+    pals = hacklib.Palindrome()
+    assert pals.by_reduction('abc') == 2
+    assert pals.by_reduction('abcba') == 0
+    assert pals.by_reduction('abcd') == 4
+    assert pals.by_reduction('cba') == 2
+
   def test_Palindrome_from_anagram(self):
     pals = hacklib.Palindrome()
     assert pals.from_anagram('aaabbbb')
