@@ -106,6 +106,9 @@ class Tests(unittest.TestCase):
   def test_kth(self):
     assert hacklib.kth_element([0, 1, 2, 4, 6, 5, 3], 3) == 3
 
+  def test_line_cover(self):
+    assert len(hacklib.line_cover([1, 2, 3, 17, 10], 4)) == 3
+
   def test_matrix(self):
     grid = [[0, 1, 2, 3],
             [4, 5, 6, 7],

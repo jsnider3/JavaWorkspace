@@ -611,6 +611,24 @@ def largest_product_in_series(series, length):
       largest = prod
   return largest
 
+def line_cover(locs, width):
+  ''' Given a list of 1D coordinates,
+      return a list of points such that each point
+      in loc is within width a covering point.'''
+  locs.sort()
+  coverings = []
+  high_cover = min(locs) - 2 * width
+  for ind in range(len(locs)):
+    if high_cover + width >= locs[ind]:
+      pass
+    elif high_cover + width < locs[ind]:
+      coverings.append(locs[ind])
+      high_cover = locs[ind]
+    elif ind == len(locs) - 1 or locs[ind + 1] - width > locs[ind]:
+      coverings.append(locs[ind])
+      high_cover = locs[ind]
+  return coverings
+
 def lonely_member(b):
   ''' In a list b where
       everything occurs twice
