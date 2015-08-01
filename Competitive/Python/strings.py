@@ -2,6 +2,7 @@
     involving strings.
     @author: Josh Snider'''
 import math
+import re
 import string
 
 def british_number_string(num):
@@ -85,6 +86,12 @@ def is_funny(word):
         abs(ord(rev[ind + 1]) - ord(rev[ind]))):
       return False
   return True
+
+def is_pan(word):
+  ''' Check if a word is a valid PAN.
+      Which is basically an Indian SSN.'''
+  pattern = re.compile("([A-Z]{5}[0-9]{4}[A-Z])")
+  return pattern.match(word)
 
 def is_pangram(phrase):
   ''' Determine if phrase contains each of [a-z] once.'''
