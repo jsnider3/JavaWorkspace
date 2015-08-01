@@ -261,6 +261,14 @@ class Tests(unittest.TestCase):
     assert strings.unique_str('abcdefghijklmnopqrstuvwxyz')
     assert (not strings.unique_str('aacdefghijklmnopqrstuvwxyz'))
 
+  def test_visual_insert(self):
+    out = hacklib.visual_insert([2, 4, 6, 8], 3)
+    correct = ['2 4 6 8 8',
+               '2 4 6 6 8',
+               '2 4 4 6 8',
+               '2 3 4 6 8']
+    assert out == correct
+
 if __name__ == '__main__':
   unittest.main()
 

@@ -926,6 +926,21 @@ def tuple_to_num(tupe):
   tupe = "".join(tupe)
   return int(tupe)
 
+def visual_insert(arr, num):
+  ''' Insert num into a sorted list arr
+      and print out the array every time
+      we copy a value.'''
+  ind = len(arr) - 1
+  arr.append(arr[ind])
+  output = [" ".join(str(n) for n in arr)]
+  while(ind != 0 and arr[ind - 1] > num):
+    arr[ind] = arr[ind - 1]
+    output.append(" ".join(str(n) for n in arr))
+    ind -= 1
+  arr[ind] = num
+  output.append(" ".join(str(n) for n in arr))
+  return output
+
 def xor_file(text, key):
   ''' Go through a list of numbers
       and xor them with numbers in
