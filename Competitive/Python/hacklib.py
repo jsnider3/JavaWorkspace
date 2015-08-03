@@ -500,6 +500,20 @@ def choose(n, r):
   else:
     return math.factorial(n)/(math.factorial(r) * math.factorial(n - r))
 
+def closest_numbers(arr):
+  ''' Return a list of tuples with minimal difference. '''
+  arr = sorted(arr)
+  diff = abs(arr[1] - arr[0])
+  pairs = []
+  for ind in range(0, len(arr) - 1):
+    pair = (min(arr[ind:ind+2]),max(arr[ind:ind+2]))
+    if abs(pair[1]-pair[0]) == diff:
+      pairs.append(pair)
+    elif abs(pair[1]-pair[0]) < diff:
+      diff = abs(pair[1]-pair[0])
+      pairs = [pair]
+  return sorted(pairs)
+
 def digits_exp(num, pwr):
   ''' wrapper for digits_foo '''
   return digits_foo(num, lambda x: x ** pwr)

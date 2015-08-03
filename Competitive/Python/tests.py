@@ -48,6 +48,9 @@ class Tests(unittest.TestCase):
           count += 1
     assert count == 4075
 
+  def test_closest_numbers(self):
+    assert hacklib.closest_numbers([5, 4, 3, 2]) == [(2,3),(3,4),(4,5)]
+
   def test_common_substring(self):
     assert strings.common_substring('hello', 'world')
     assert not strings.common_substring('hi', 'world')
