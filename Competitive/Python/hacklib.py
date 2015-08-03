@@ -38,12 +38,20 @@ class ArithSequence(object):
   ''' Generalization of the Fibonacci sequence to other
       starting numbers.'''
 
-  def __contains(self, num):
-    pass
+  def __contains__(self, num):
+    '''Check if num is in self, assuming
+       the series is monotonically non-decreasing.'''
+    assert all(num >= 0 for num in self.series[0:2])
+    while self.series[-1] < num:
+      self.series.append(self.series[-1] + self.series[-2])
+    if self.series[-1] == num:
+      return True
+    else:
+      return binary_search(self.series, num) != None
 
   def __init__(self, zeroth, first):
     ''' Start with two numbers.'''
-    self.series = OrderedSet([zeroth, first]
+    self.series = [zeroth, first]
 
   def __getitem__(self, ind):
     ''' Walk up to the ind-th number and cache what
@@ -447,6 +455,25 @@ def balanced_array(arr):
     if left[num] == right[num]:
       return num
   return None
+
+def binary_search(arr, elm):
+  ''' Search for elm in a sorted array,
+      O(log(n)) time.'''
+  if not len(arr):
+    return None
+  low = 0
+  high = len(arr) - 1
+  mid = 0
+  while low <= high:
+    mid = (high + low) // 2
+    if low == high and arr[mid] != elm:
+      return None
+    if arr[mid] < elm:
+      low = mid + 1
+    elif arr[mid] > elm:
+      high = mid
+    else:
+      return mid
 
 def champernowne(digit):
   ''' Get the nth digit of
