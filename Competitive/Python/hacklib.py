@@ -38,9 +38,12 @@ class ArithSequence(object):
   ''' Generalization of the Fibonacci sequence to other
       starting numbers.'''
 
+  def __contains(self, num):
+    pass
+
   def __init__(self, zeroth, first):
     ''' Start with two numbers.'''
-    self.series = [zeroth, first]
+    self.series = OrderedSet([zeroth, first]
 
   def __getitem__(self, ind):
     ''' Walk up to the ind-th number and cache what
