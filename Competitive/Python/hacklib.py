@@ -49,16 +49,23 @@ class ArithSequence(object):
     else:
       return binary_search(self.series, num) != None
 
-  def __init__(self, zeroth, first):
-    ''' Start with two numbers.'''
-    self.series = [zeroth, first]
-
   def __getitem__(self, ind):
     ''' Walk up to the ind-th number and cache what
         we find.'''
     while len(self.series) <= ind:
       self.series.append(self.series[-1] + self.series[-2])
     return self.series[ind]
+
+  def __init__(self, zeroth, first):
+    ''' Start with two numbers.'''
+    self.series = [zeroth, first]
+
+  def __iter__(self):
+    ''' Count up forever.'''
+    count = 0
+    while True:
+      yield self[count]
+      count += 1
 
 #########################
 class Collatz(object):

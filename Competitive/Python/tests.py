@@ -85,6 +85,10 @@ class Tests(unittest.TestCase):
     fibs = [0, 1, 1, 2, 3, 5, 8, 13, 21]
     for x in range(len(fibs)):
       assert hacklib.fibonacci(x) == fibs[x]
+    fibseq = hacklib.ArithSequence(0, 1)
+    assert 5 in fibseq
+    assert 7 not in fibseq
+    assert 8 in fibseq
 
   def test_funny(self):
     assert strings.is_funny('acxz')
