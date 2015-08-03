@@ -108,6 +108,14 @@ def is_pi_phrase(phrase):
   lens = "".join(list(str(len(s)) for s in phrase.split()))
   return lens == pi_str[:len(lens)]
 
+def shared_prefix(first, second):
+  '''Get the longest prefix shared by two strings.'''
+  end = min(len(first), len(second))
+  for leng in range(0, end):
+    if first[leng] != second[leng]:
+      return first[:leng]
+  return first[:end]
+
 def unique_str(words):
   ''' Determine if a string is composed entirely
       of unique characters. '''

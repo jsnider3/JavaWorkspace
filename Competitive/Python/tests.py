@@ -278,6 +278,10 @@ class Tests(unittest.TestCase):
     assert next(shareds) == 40755
     assert next(shareds) == 1533776805
 
+  def test_shared_prefix(self):
+    assert strings.shared_prefix('abcdef', 'abcde') == 'abcde'
+    assert strings.shared_prefix('abcdef', 'bcde') == ''
+
   def test_totient(self):
     correct = [(2, 1), (3, 2), (4, 2),
                (5, 4), (6, 2), (7, 6),
