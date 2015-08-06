@@ -24,13 +24,13 @@ public class RockPaperScissors {
 	int missionoffer;
 	int freeplay;
 	int subif;
-	
+
 	String compPick;
 	String userPick;
 	Random generator;
 	Scanner input;
-	
-	
+
+
 
 	public RockPaperScissors(){
 		generator = new Random();
@@ -101,7 +101,7 @@ public class RockPaperScissors {
 				button2.setText("Paper");
 				button3.setText("Scissors");
 				storymode = 3;
-				
+
 			}
 			else if(storymode == 3 ){
 				//pressing rock
@@ -160,8 +160,8 @@ public class RockPaperScissors {
 						maintextarea.setText("I can't believe it!\n You've won!\n You've saved everyone!\n You're a hero!");
 						gameover = 1;
 					}
-				
-				
+
+
 			}
 		}
 
@@ -188,7 +188,7 @@ public class RockPaperScissors {
 				if(x == 0 && subif == 0){ //This is where the computer picks its move.
 					compPick = "rock";
 					uwins ++;
-					maintextarea.setText("You picked " +userPick +".\n" +"Kim Jong-il picks " + compPick +"\nYou win."); 
+					maintextarea.setText("You picked " +userPick +".\n" +"Kim Jong-il picks " + compPick +"\nYou win.");
 					score.setText("The score is " + cwins +" for Kim Jong-il, " + uwins +" for you, and " + ties +" ties.");
 					}
 					else if(x == 1){
@@ -206,7 +206,7 @@ public class RockPaperScissors {
 				if(x == 3 && diff == 0){
 					compPick = "rock";
 					uwins ++;
-					maintextarea.setText("You picked " +userPick +".\n" +"Kim Jong-il picks " + compPick +"\nYou win."); 
+					maintextarea.setText("You picked " +userPick +".\n" +"Kim Jong-il picks " + compPick +"\nYou win.");
 					score.setText("The score is " + cwins +" for Kim Jong-il, " + uwins +" for you, and " + ties +" ties.");
 					x = 0;
 					subif = 1;

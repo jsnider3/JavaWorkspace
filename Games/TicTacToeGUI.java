@@ -7,9 +7,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 //Optimal play for Tic Tac Toe can be found in the 832nd XKCD strip.
-		
+
 public class TicTacToeGUI{
-	
+
 	JFrame frame;
 	JPanel panel;
 	boolean PLAYER_X;//True means player is X, false means player is O.
@@ -18,7 +18,7 @@ public class TicTacToeGUI{
 	JButton[] buttonList;
 	TicTacToeBoard board;
 	//boolean unfrozen;//=false;
-	
+
 	public TicTacToeGUI(TicTacToeBoard brd, boolean playerX){
 		board=brd;
 		PLAYER_X=playerX;
@@ -31,7 +31,7 @@ public class TicTacToeGUI{
 		}
 		frame.setVisible(true);
 	}
-	
+
 	public void setUpGraphics(){
 		frame = new JFrame("Tic Tac Toe");
 		panel = new JPanel();
@@ -46,19 +46,19 @@ public class TicTacToeGUI{
 		frame.setSize(300,300);
 		//Showtime.
 	}
-	
+
 	protected class TicTacToeListener implements ActionListener{
 		short num;
-		
+
 		public TicTacToeListener(short n){
 			num=n;
 		}
-		
+
 		public void actionPerformed(ActionEvent arg0) {
 			playerMove(num);
 		}
 	}
-	
+
 	private void playerMove(short s){
 		if(buttonList[s].getText()==""&&!board.isOver()){//If the button is blank and the game isn't over yet.
 			buttonList[s].setText(USER_CHAR);//Set the button's text equal to USER_CHAR.
@@ -86,16 +86,16 @@ public class TicTacToeGUI{
 			}
 			board.printVerbose();
 		}
-		
+
 	}
-	
+
 	public void compMove(){
 		short optimalMove = PLAYER_X?TicTacToeBoard.min(board.children()).recentMove:TicTacToeBoard.max(board.children()).recentMove;
 		buttonList[optimalMove].setText(COMP_CHAR);
 		board.Move(optimalMove);
 		//unfrozen=true;
 	}
-	
+
 	public static void start(){
 		int t=JOptionPane.showConfirmDialog(null,"Do you want to go first?");
 		if(t==JOptionPane.YES_OPTION){
@@ -108,7 +108,7 @@ public class TicTacToeGUI{
 			System.exit(0);
 		}
 	}
-	
+
 	public static void main(String[] args){
 		start();
 	}

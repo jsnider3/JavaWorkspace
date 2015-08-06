@@ -15,30 +15,30 @@ public class CheckersBoard{
 		tidyUpState();
 		score=score();
 	}
-	
+
 	public CheckersBoard(CheckersBoard t, short s){
 		//TODO
 	}
-	
+
 	private final void tidyUpState(){
 		//TODO
 	}
-	
+
 	public final CheckersBoard max(ArrayList<CheckersBoard> input){//Provides best move for X.
 		//TODO
 		return this;
 	}
-	
+
 	public final CheckersBoard min(ArrayList<CheckersBoard> input){//Provides best move for O.
 		//TODO
 		return this;
 	}
-	
+
 	public final ArrayList<CheckersBoard> children(){
 		//TODO
 		return null;
 	}
-	
+
 	public final void Move(short s){
 		//TODO
 	}
@@ -47,12 +47,12 @@ public class CheckersBoard{
 		//TODO
 		return false;
 	}
-	
+
 	public final boolean isDraw(){
 		//TODO
 		return false;
 	}
-	
+
 	public final boolean isOver(){
 		//TODO
 		return hasWon("Red")||hasWon("Black");
@@ -62,12 +62,12 @@ public class CheckersBoard{
 		//TODO
 		return null;
 	}
-	
+
 	public final short score(){
 		//TODO
 		return 0;
 	}
-	
+
 	public final String toString(){
 		//TODO
 		return "toString() not yet finished.";

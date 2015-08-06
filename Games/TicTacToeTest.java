@@ -10,7 +10,7 @@ public class TicTacToeTest {
 		//checkScoring();
 		checkChildren();
 	}
-	
+
 	public static void checkScoring(){
 		String[][][] array={{{"X","X","X"},{" ","O","O"},{"O"," "," "}},
 							{{"X","X"," "},{" ","O","O"},{"O"," "," "}},
