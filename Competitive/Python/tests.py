@@ -292,6 +292,13 @@ class Tests(unittest.TestCase):
     assert strings.shared_prefix('abcdef', 'abcde') == 'abcde'
     assert strings.shared_prefix('abcdef', 'bcde') == ''
 
+  def test_successor(self):
+    assert hacklib.successor(['a', 'b']) == ['b', 'a']
+    assert hacklib.successor(['b', 'b']) == None
+    assert hacklib.successor(['h', 'e', 'f', 'g']) == ['h', 'e', 'g', 'f']
+    assert hacklib.successor(['d', 'h', 'c', 'k']) == ['d', 'h', 'k', 'c']
+    assert hacklib.successor(['d', 'k', 'h', 'c']) == ['h', 'c', 'd', 'k']
+
   def test_totient(self):
     correct = [(2, 1), (3, 2), (4, 2),
                (5, 4), (6, 2), (7, 6),

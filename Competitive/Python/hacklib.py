@@ -1027,16 +1027,34 @@ def substring_div43(num):
   if num_digits(num) != 10:
     return False
   strn = str(num)
-  if (int(strn[1:4]) % 2 == 0 and
+  return (int(strn[1:4]) % 2 == 0 and
      int(strn[2:5]) % 3 == 0 and
      int(strn[3:6]) % 5 == 0 and
      int(strn[4:7]) % 7 == 0 and
      int(strn[5:8]) % 11 == 0 and
      int(strn[6:9]) % 13 == 0 and
-     int(strn[7:10]) % 17 == 0):
-    return True
+     int(strn[7:10]) % 17 == 0)
+
+def successor(arr):
+  ''' Given an array, find the smallest permutation
+      that is bigger than it. None means failure.'''
+  if list(sorted(arr)) != arr[-1::-1]:
+    #Find the first character that's not in reverse sorted order,
+    pivot = None
+    for ind in reversed(range(len(arr)-1)):
+      if arr[ind] < arr[ind + 1]:
+        pivot = ind
+        break
+    assert(pivot is not None)
+    # swap it with the lowest element to its right and then sort
+    # everything after where you pivoted.
+    swp = [num for num in arr[pivot+1:] if num > arr[pivot]]
+    repl = arr[pivot+1:].index(min(swp)) + pivot + 1
+    arr[pivot], arr[repl] = arr[repl], arr[pivot]
+    arr[pivot + 1 :] = list(sorted(arr[pivot + 1 :]))
+    return arr
   else:
-    return False
+    return None
 
 def sum_squares(num):
   ''' Return the sum of the squares of [1, num] '''
