@@ -808,7 +808,7 @@ def lowest_common_multiple(numbers):
 
 def make_change(coins, total):
   ''' Dynamic programming solution to
-      make change. '''
+      count the possible ways to make change. '''
   num_coins = len(coins)
   solution = numpy.zeros((total + 1, num_coins))
   for index in range(num_coins):

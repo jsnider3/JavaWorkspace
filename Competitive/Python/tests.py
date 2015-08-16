@@ -142,6 +142,11 @@ class Tests(unittest.TestCase):
   def test_line_cover(self):
     assert len(hacklib.line_cover([1, 2, 3, 17, 10], 4)) == 3
 
+  def test_make_change(self):
+    assert hacklib.make_change([1, 2, 3], 4) == 4
+    assert hacklib.make_change([2, 5, 3, 6], 10) == 5
+    assert hacklib.make_change([2, 5, 3, 6], 0) == 1
+
   def test_matrix(self):
     grid = [[0, 1, 2, 3],
             [4, 5, 6, 7],

@@ -45,6 +45,16 @@ def british_number_string(num):
   print(strn)
   return strn
 
+def caesar(phrase, shift):
+  ''' Caesar shift a phrase.'''
+  pass #TODO
+
+def changes_for_anagram(first, second):
+  ''' How many letters in first would need to be changed
+      to make it an anagram of second.'''
+  if len(first) == len(second):
+    return dels_for_anagram(first, second) // 2
+
 def chars_used(word):
   ''' Get the number of unique characters in a string. '''
   return len(set(word))
