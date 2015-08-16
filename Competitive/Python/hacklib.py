@@ -514,6 +514,17 @@ def closest_numbers(arr):
       pairs = [pair]
   return sorted(pairs)
 
+def common_elements(*arrs):
+  ''' Given a list of arrays return their common elements.'''
+  sets = [set(arr) for arr in arrs]
+  if len(sets):
+    common = sets[0]
+    for group in sets:
+      common = common.intersection(group)
+    return common
+  else:
+    return []
+
 def digits_exp(num, pwr):
   ''' wrapper for digits_foo '''
   return digits_foo(num, lambda x: x ** pwr)

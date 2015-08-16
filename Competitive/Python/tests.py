@@ -51,6 +51,13 @@ class Tests(unittest.TestCase):
   def test_closest_numbers(self):
     assert hacklib.closest_numbers([5, 4, 3, 2]) == [(2,3),(3,4),(4,5)]
 
+  def test_common_elements(self):
+    lns = []
+    lns.append(list('labcdde'))
+    lns.append(list('baccd'))
+    lns.append(list('eeabg'))
+    assert len(hacklib.common_elements(*lns)) == 2
+
   def test_common_substring(self):
     assert strings.common_substring('hello', 'world')
     assert not strings.common_substring('hi', 'world')
