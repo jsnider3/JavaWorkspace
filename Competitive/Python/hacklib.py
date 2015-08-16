@@ -729,6 +729,17 @@ def largest_grid_product(grid):
         max_product = max(max_product, prod)
   return max_product
 
+def largest_permutation(arr, swaps):
+  ''' Make the largest permutation of arr with a given
+      number of swaps.'''
+  for walk in range(len(arr)):
+    if swaps > 0:
+      ind = arr[walk:].index(max(arr[walk:])) + walk
+      if ind != walk:
+        arr[ind], arr[walk] = arr[walk], arr[ind]
+        swaps -= 1
+  return arr
+
 def largest_product_in_series(series, length):
   ''' Find the subsequence of given length with
       the largest product. '''

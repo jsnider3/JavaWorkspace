@@ -139,6 +139,11 @@ class Tests(unittest.TestCase):
   def test_kth(self):
     assert hacklib.kth_element([0, 1, 2, 4, 6, 5, 3], 3) == 3
 
+  def test_largest_permutation(self):
+    assert hacklib.largest_permutation([4, 2, 3, 5, 1], 1) == [5, 2, 3, 4, 1]
+    assert hacklib.largest_permutation([2, 1, 3], 1) == [3, 1, 2]
+    assert hacklib.largest_permutation([2, 1], 1) == [2, 1]
+
   def test_line_cover(self):
     assert len(hacklib.line_cover([1, 2, 3, 17, 10], 4)) == 3
 
