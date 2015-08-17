@@ -110,6 +110,11 @@ class Primes(object):
         return factors
     return [num]
 
+  def full_repetend(self):
+    for n in self:
+      if is_primitive_root(n, 10):
+        yield n
+
   def in_range(self, start, limit):
     '''List of primes in [start, limit)'''
     #TODO Optimize

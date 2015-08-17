@@ -333,6 +333,17 @@ class Palindrome(object):
       strn = "{0:b}".format(arg)
     return strn in self
 
+  def split_index(self, word):
+    ''' Given a string find the lowest index that we can split
+        it at to make a palindrome. Return None on failure.'''
+    if word in self:
+      return None
+    for shift in range(len(word)):
+      back = len(word) - shift - 1
+      if word[shift] != word[back]:
+        if word[:shift] + word[shift+1:] in self:
+          return shift
+
 #########################
 class Pentagonals(object):
   ''' Provides iterators and accessors for
@@ -671,6 +682,11 @@ def is_power_of(num, base):
     count += 1
   return base ** count == num
 
+def is_primitive_root(num, base):
+  ''' Check if a number if a primative root of a given base. '''
+  return (fractions.gcd(num, base) == 1 and
+          multiplicative_order(num) == totient(base) % base)
+
 def is_rotation(first, second):
   ''' return if first and second are
       rotations of each other. '''
@@ -853,6 +869,10 @@ def max_subarray(arr):
     tot += arr[ind]
     if tot == max_tot:
       return arr[ind : max_ind + 1]
+
+def multiplicative_order(num):
+  ''' Return the multiplicative order of a number.'''
+  pass
 
 def nim_3n(n):
   return "11" not in bin(n)

@@ -302,6 +302,12 @@ class Tests(unittest.TestCase):
     assert strings.shared_prefix('abcdef', 'abcde') == 'abcde'
     assert strings.shared_prefix('abcdef', 'bcde') == ''
 
+  def test_split_index(self):
+    pals = hacklib.Palindrome()
+    assert pals.split_index('aaab') == 3
+    assert pals.split_index('baaa') == 0
+    assert pals.split_index('aaa') == None
+
   def test_successor(self):
     assert hacklib.successor(['a', 'b']) == ['b', 'a']
     assert hacklib.successor(['b', 'b']) == None
