@@ -17,6 +17,16 @@ class Tests(unittest.TestCase):
     assert inp == orig
     assert take == [1, 5, 10, 12]
 
+  def test_assign_candies(self):
+    assert hacklib.assign_candies([1, 2, 2]) == 4
+    assert hacklib.assign_candies([5, 4, 3, 2, 1]) == 15
+    assert hacklib.assign_candies([1, 2, 3, 2, 1]) == 9
+    assert hacklib.assign_candies([2, 4, 2, 6, 1, 7, 8, 9, 2, 1]) == 19
+    with open('assign_candies_input01.txt') as fil:
+      lines = fil.readlines()
+      ranks = [int(line) for line in lines[1:]]
+      assert hacklib.assign_candies(ranks) == 33556
+
   def test_balanced_array(self):
     assert hacklib.balanced_array([1, 2, 3]) == None
     assert hacklib.balanced_array([1, 2, 3, 3]) == 2

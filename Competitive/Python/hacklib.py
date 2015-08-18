@@ -457,6 +457,38 @@ def ascii_sum(strn):
   ''' Sum the ascii values in a string'''
   return sum([ord(x) for x in strn])
 
+def assign_candies(arr):
+    ''' Given a list of numbers. Assign a number to each
+        such that if a number is bigger than a neighbor
+        it has more candies than it. Return the minimal amount
+        of candy. From https://www.hackerrank.com/challenges/candies.'''
+    candies = 1
+    downtrend = 1
+    uptrend = 1
+    prev = arr[0]
+    prevCandies = [1]
+    for candy in arr[1:]:
+        if candy == prev:
+            downtrend = 1
+            uptrend = 1
+            candies += 1
+            prevCandies = [1]
+        elif candy < prev:
+            prevCandies.append(1)
+            candies += 1
+            for ind in reversed(range(1, len(prevCandies))):
+              if prevCandies[ind] == prevCandies[ind-1]:
+                prevCandies[ind-1]+= 1
+                candies += 1
+            uptrend = 1
+        elif candy > prev:
+            downtrend = 1
+            uptrend += 1
+            candies += uptrend
+            prevCandies = [uptrend]
+        prev = candy
+    return candies
+
 def balanced_array(arr):
   ''' If there is an int n where sum(arr[:n]) = sum(arr[n+1:]),
       return it. Otherwise return None.'''
