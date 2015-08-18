@@ -50,6 +50,9 @@ class Tests(unittest.TestCase):
       unbalanced.add(x)
     assert not unbalanced.is_balanced()
 
+  def test_caesar(self):
+    assert strings.caesar('middle-Outz', 2) == 'okffng-Qwvb'
+
   def test_choices(self):
     count = 0
     for n in range(1, 101):

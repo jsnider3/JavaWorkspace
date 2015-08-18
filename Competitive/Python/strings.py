@@ -47,7 +47,16 @@ def british_number_string(num):
 
 def caesar(phrase, shift):
   ''' Caesar shift a phrase.'''
-  pass #TODO
+  shift %= 26
+  res = []
+  for char in phrase:
+    if char.isupper():
+      res.append(chr((ord(char)-ord('A')+shift)%26+ord('A')))
+    elif char.islower():
+      res.append(chr((ord(char)-ord('a')+shift)%26+ord('a')))
+    else:
+      res.append(char)
+  return ''.join(res)
 
 def changes_for_anagram(first, second):
   ''' How many letters in first would need to be changed
