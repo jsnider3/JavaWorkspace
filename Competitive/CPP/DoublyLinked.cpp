@@ -4,9 +4,8 @@
     they are not a good example of idiomatic C++.
 
   See HackerRank -> Data Structures -> Linked List.
-  Print elements of a linked list on console 
   head pointer input could be NULL as well for empty list
-  Node is defined as 
+  Node is defined as
   struct Node
   {
      int data;
@@ -34,7 +33,7 @@ Reverse(Node* head)
 }
 
 /*
-* Insert Node in a doubly sorted linked list 
+* Insert Node in a doubly sorted linked list.
 */
 Node*
 SortedInsert(Node *head, int data)
