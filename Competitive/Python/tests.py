@@ -17,6 +17,11 @@ class Tests(unittest.TestCase):
     assert inp == orig
     assert take == [1, 5, 10, 12]
 
+  def test_and_product(self):
+    assert hacklib.and_product(12, 15) == 12
+    assert hacklib.and_product(2, 3) == 2
+    assert hacklib.and_product(13, 8) == 8
+
   def test_assign_candies(self):
     assert hacklib.assign_candies([1, 2, 2]) == 4
     assert hacklib.assign_candies([5, 4, 3, 2, 1]) == 15

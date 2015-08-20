@@ -453,6 +453,22 @@ def alphabet_score(word):
     total += val
   return total
 
+def and_product(fst, secnd):
+    '''Returns functools.reduce(&&, range(fst, secnd+1)) which
+        is the same as their shared binary prefix with 0's on the end.'''
+    fst = list(bin(fst))[2:]
+    secnd = list(bin(secnd))[2:]
+    if len(fst) != len(secnd):
+        return 0
+    num = 0
+    same = True
+    for ind in range(len(fst)):
+        num *= 2
+        same &= fst[ind] == secnd[ind]
+        if same:
+            num += int(fst[ind])
+    return num
+
 def ascii_sum(strn):
   ''' Sum the ascii values in a string'''
   return sum([ord(x) for x in strn])
