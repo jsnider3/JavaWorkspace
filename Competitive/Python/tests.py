@@ -338,6 +338,13 @@ class Tests(unittest.TestCase):
     assert hacklib.successor(['d', 'h', 'c', 'k']) == ['d', 'h', 'k', 'c']
     assert hacklib.successor(['d', 'k', 'h', 'c']) == ['h', 'c', 'd', 'k']
 
+  def test_tile_four_by_n(self):
+    correct = [(1, 1), (2, 1), (3, 1),
+               (4, 2), (5, 3), (6, 4),
+               (7, 5), (8, 7), (9, 10)]
+    for (k, v) in correct:
+      assert hacklib.tile_four_by_n(k) == v
+
   def test_totient(self):
     correct = [(2, 1), (3, 2), (4, 2),
                (5, 4), (6, 2), (7, 6),

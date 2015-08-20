@@ -1156,6 +1156,16 @@ def sum_squares(num):
     total += (count ** 2)
   return total
 
+def tile_four_by_n(width):
+  ''' How many ways are there to tile a 4 X N floor
+      with 4 X 1 and 1 X 4 tiles? '''
+  ways = 1
+  for blocks in range(1, width // 4 + 1):
+    verts = width - blocks * 4
+    spots = blocks + 1
+    ways += int(choose(verts + spots - 1, spots - 1))
+  return ways
+
 def totient(num):
   ''' Requires python 3 to be correct. '''
   primes = Primes()
