@@ -359,6 +359,11 @@ class Tests(unittest.TestCase):
   def test_xor_maximum(self):
     assert hacklib.xor_maximum(1, 10) == 15
 
+  def test_xor_sansa(self):
+    assert hacklib.xor_sansa([1, 2, 3]) == 2
+    assert hacklib.xor_sansa([4, 5, 7, 5]) == 0
+
+
   def test_zip_array_sum(self):
     assert hacklib.zip_array_sum([2, 1, 3], [7, 8, 9], 10)
     assert not hacklib.zip_array_sum([1, 2, 2, 1], [3, 3, 3, 4], 5)

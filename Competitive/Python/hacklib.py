@@ -1204,6 +1204,21 @@ def xor_maximum(low, high):
         max_num = first ^ second
   return max_num
 
+def xor_sansa(arr):
+  ''' For an array [1, 2, 3, 4, 5],
+      return 1 xor 2 xor ... (1 xor 2) xor (2 xor 3) ...
+      (1 xor 2 xor 3 xor 4 xor 5).'''
+    sansa = 0
+    cache =  []
+    for _ in range(len(arr)+1):
+        cache.append(0)
+    count = 0
+    for start in range(len(arr)):
+        for end in range(start, len(arr)):
+            cache[start] = cache[start] ^ arr[end]
+            sansa = sansa ^ cache[start]
+    return sansa
+
 def zip_array_sum(first, second, tot):
   ''' Check if there's a permutation of first and second
       so that every element of zip (+) first second is
