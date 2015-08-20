@@ -343,6 +343,12 @@ class Tests(unittest.TestCase):
     taketen = list(taketen)
     assert taketen == correct
 
+  def test_two_power_rank(self):
+    correct = [(1, 0), (2, 1), (3, 1), (4, 2), (5, 1),
+               (6, 2), (7, 2), (8, 3), (9, 1), (10, 2)]
+    for (k, v) in correct:
+      assert hacklib.two_power_rank(k) == v
+
   def test_various(self):
     assert hacklib.substring_div43(1406357289)
     assert strings.unique_str('abcdefghijklmnopqrstuvwxyz')
@@ -362,7 +368,6 @@ class Tests(unittest.TestCase):
   def test_xor_sansa(self):
     assert hacklib.xor_sansa([1, 2, 3]) == 2
     assert hacklib.xor_sansa([4, 5, 7, 5]) == 0
-
 
   def test_zip_array_sum(self):
     assert hacklib.zip_array_sum([2, 1, 3], [7, 8, 9], 10)

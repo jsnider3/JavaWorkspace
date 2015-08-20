@@ -1147,6 +1147,17 @@ def triangle_max_path(aTriangle):
   triangle.reverse()
   return tMax[0]
 
+def two_power_rank(num):
+  ''' Subtract the highest power of two less than num from num.
+      Return how many times it takes to reduce num to 1.'''
+  assert num > 0
+  if num == 1:
+    return 0
+  count = 1
+  while 2 * count < num:
+    count *= 2
+  return 1 + two_power_rank(num-count)
+
 def tuple_to_num(tupe):
   ''' Take a tuple of form (1, 2, 3, ... )
       and make it the number 123... '''
@@ -1208,16 +1219,16 @@ def xor_sansa(arr):
   ''' For an array [1, 2, 3, 4, 5],
       return 1 xor 2 xor ... (1 xor 2) xor (2 xor 3) ...
       (1 xor 2 xor 3 xor 4 xor 5).'''
-    sansa = 0
-    cache =  []
-    for _ in range(len(arr)+1):
-        cache.append(0)
-    count = 0
-    for start in range(len(arr)):
-        for end in range(start, len(arr)):
-            cache[start] = cache[start] ^ arr[end]
-            sansa = sansa ^ cache[start]
-    return sansa
+  sansa = 0
+  cache =  []
+  for _ in range(len(arr)+1):
+    cache.append(0)
+  count = 0
+  for start in range(len(arr)):
+    for end in range(start, len(arr)):
+      cache[start] = cache[start] ^ arr[end]
+      sansa = sansa ^ cache[start]
+  return sansa
 
 def zip_array_sum(first, second, tot):
   ''' Check if there's a permutation of first and second
