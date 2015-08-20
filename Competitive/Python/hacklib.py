@@ -1101,6 +1101,20 @@ def square_sum(num):
   total = sum(range(1, num + 1))
   return total ** 2
 
+def stock_maximize(prices):
+  ''' Take an array of stock prices and calculate the maximum
+      profit that could be made if you're limited to buying one share
+      a day and can't short sell.'''
+  profit = 0
+  if len(prices):
+    peak = prices[-1]
+    for bid in reversed(prices):
+      if bid < peak:
+        profit += peak - bid
+      elif peak < bid:
+        peak = bid
+  return profit
+
 def substring_div43(num):
   ''' As defined by Euler 43. '''
   if num_digits(num) != 10:

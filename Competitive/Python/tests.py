@@ -326,6 +326,11 @@ class Tests(unittest.TestCase):
     assert pals.split_index('baaa') == 0
     assert pals.split_index('aaa') == None
 
+  def test_stock_maximize(self):
+    assert hacklib.stock_maximize([5, 3, 2]) == 0
+    assert hacklib.stock_maximize([1, 2, 100]) == 197
+    assert hacklib.stock_maximize([1, 3, 1, 2]) == 3
+
   def test_successor(self):
     assert hacklib.successor(['a', 'b']) == ['b', 'a']
     assert hacklib.successor(['b', 'b']) == None
