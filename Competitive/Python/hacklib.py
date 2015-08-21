@@ -192,6 +192,9 @@ class Matrix(object):
     if min(lens) != max(lens):
       raise ValueError('A matrix must have rows of equal length.')
 
+  def __len__(self):
+    return self.rows * self.cols
+
   def __str__(self):
     return "\n".join(str(row) for row in self.mat)
 
@@ -204,16 +207,6 @@ class Matrix(object):
       col.append(self.mat[row][ind])
     return col
 
-  def local_maxes(self):
-    ''' Mark all of the local maxima with X's.'''
-    for col in range(1, self.cols - 1):
-      for row in range(1, self.rows - 1):
-        if (self.mat[row][col] > self.mat[row][col - 1] and
-           self.mat[row][col] > self.mat[row - 1][col] and
-           self.mat[row][col] > self.mat[row][col + 1] and
-           self.mat[row][col] > self.mat[row + 1][col]):
-          self.mat[row][col] = 'X'
-
   def diag_diff(self):
     ''' Return the sum of the top left -> bottom right diagonal
         minus the sum of the top right -> bottom left diagonal.'''
@@ -225,6 +218,37 @@ class Matrix(object):
       upright += self.mat[self.cols - col - 1][col]
       bottomdown += self.mat[col][col]
     return bottomdown - upright
+
+  def find(self, other):
+    ''' Try to find another matrix in this one. If found,
+        return (rx, cx) the coordinates of the topleft. Otherwise,
+        return None. '''
+    assert isinstance(other, Matrix)
+    if self.rows >= other.rows and self.cols >= other.cols:
+      for row in range(0, self.rows - other.rows+1):
+        for col in range(0, self.cols - other.cols+1):
+          if other.mat[0][0] == self.mat[row][col]:
+            if self.find_at(other, row, col):
+                return (row, col)
+
+  def find_at(self, other, row, col):
+    ''' Try to find another matrix at the given location.'''
+    for rshift in range(other.rows):
+        for cshift in range(other.cols):
+          if (other.mat[rshift][cshift] !=
+             self.mat[row + rshift][col + cshift]):
+            return False
+    return True
+
+  def local_maxes(self):
+    ''' Mark all of the local maxima with X's.'''
+    for col in range(1, self.cols - 1):
+      for row in range(1, self.rows - 1):
+        if (self.mat[row][col] > self.mat[row][col - 1] and
+           self.mat[row][col] > self.mat[row - 1][col] and
+           self.mat[row][col] > self.mat[row][col + 1] and
+           self.mat[row][col] > self.mat[row + 1][col]):
+          self.mat[row][col] = 'X'
 
   def is_col_sorted(self):
     ''' Check if each column is in sorted order.'''

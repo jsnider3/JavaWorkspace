@@ -217,6 +217,23 @@ class Tests(unittest.TestCase):
     mat = hacklib.Matrix(grid)
     mat.local_maxes()
     assert mat.mat == corr
+    big  = [['1','1','1','2'],
+            ['1','9','1','2'],
+            ['1','8','9','2'],
+            ['1','2','3','4']]
+    smal = [['1','1','1'],
+            ['1','9','1'],
+            ['1','8','9']]
+    assert hacklib.Matrix(big).find(hacklib.Matrix(smal))
+    smal = [['1','1','1','2'],
+            ['1','9','1','2'],
+            ['1','8','9','2'],
+            ['1','2','3','4']]
+    assert hacklib.Matrix(big).find(hacklib.Matrix(smal))
+    big  = [['1','1','1'],
+            ['1','9','1'],
+            ['1','8','9']]
+    assert not hacklib.Matrix(big).find(hacklib.Matrix(smal))
 
   def test_max_subarray(self):
     assert sum(hacklib.max_subarray([1, 2, 3, 4])) == 10
