@@ -46,6 +46,9 @@ class Primes(object):
         yield count
       count += 2
 
+  def __len__(self):
+    raise NotImplementedError("There are infinite primes.")
+
   def consecutive_sum_max(self, num):
     '''Return num as a list of consecutive primes
        with maximum length. This is the same as

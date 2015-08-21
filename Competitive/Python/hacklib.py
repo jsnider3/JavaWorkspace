@@ -33,6 +33,9 @@ class Abundants(object):
       if count in self:
         yield count
 
+  def __len__(self):
+    raise NotImplementedError("There are infinite abundants.")
+
 #########################
 class ArithSequence(object):
   ''' Generalization of the Fibonacci sequence to other
@@ -66,6 +69,9 @@ class ArithSequence(object):
     while True:
       yield self[count]
       count += 1
+
+  def __len__(self):
+    raise NotImplementedError("This is an infinite sequence.")
 
 #########################
 class Collatz(object):
@@ -170,6 +176,9 @@ class Hexagonals(object):
     while True:
       yield self[count]
       count += 1
+
+  def __len__(self):
+    raise NotImplementedError("This is an infinite sequence.")
 
 #########################
 class Matrix(object):
@@ -282,6 +291,9 @@ class Naturals(object):
       yield count
       count += 1
 
+  def __len__(self):
+    raise NotImplementedError("This is an infinite sequence.")
+
 #########################
 class Palindrome(object):
   ''' A palindrome is a string s where s == reversed(s).'''
@@ -361,6 +373,9 @@ class Pentagonals(object):
       yield self[count]
       count += 1
 
+  def __len__(self):
+    raise NotImplementedError("This is an infinite sequence.")
+
   def pair(self, m, n):
     ''' See Euler 44 '''
     return max(m, n) - min(m, n) in self and m + n in self
@@ -403,6 +418,9 @@ class Squares(object):
       yield count ** 2
       count += 1
 
+  def __len__(self):
+    raise NotImplementedError("This is an infinite sequence.")
+
 #########################
 class Triangulars(object):
   ''' Provides iterators and accessors for
@@ -426,6 +444,9 @@ class Triangulars(object):
       total += count
       count += 1
       yield total
+
+  def __len__(self):
+    raise NotImplementedError("This is an infinite sequence.")
 
 #########################
 
