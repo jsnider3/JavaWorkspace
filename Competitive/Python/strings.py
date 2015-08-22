@@ -135,6 +135,19 @@ def shared_prefix(first, second):
       return first[:leng]
   return first[:end]
 
+def swap_case(phrase):
+  ''' Return a string with all the lower case letters made
+      upper case and all the upper case letters made lower case. '''
+  swapd = []
+  for char in phrase:
+    if char.isupper():
+      swapd.append(char.lower())
+    elif char.islower():
+      swapd.append(char.upper())
+    else:
+      swapd.append(char)
+  return ''.join(swapd)
+
 def unique_str(words):
   ''' Determine if a string is composed entirely
       of unique characters. '''

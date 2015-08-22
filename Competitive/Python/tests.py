@@ -374,6 +374,10 @@ class Tests(unittest.TestCase):
     assert hacklib.successor(['d', 'h', 'c', 'k']) == ['d', 'h', 'k', 'c']
     assert hacklib.successor(['d', 'k', 'h', 'c']) == ['h', 'c', 'd', 'k']
 
+  def test_swap_case(self):
+    assert (strings.swap_case("Please sWaP this pHRASE PLeas!")
+                           == "pLEASE SwAp THIS Phrase plEAS!")
+
   def test_tile_four_by_n(self):
     correct = [(1, 1), (2, 1), (3, 1),
                (4, 2), (5, 3), (6, 4),
