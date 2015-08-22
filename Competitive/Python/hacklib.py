@@ -727,6 +727,13 @@ def freq_counts(lst):
     freqs[elem] += 1
   return freqs
 
+def freq_sort(lst):
+  ''' Return the elements of a list from most to least common.
+      Ties are broken by the natural order of the elements.'''
+  elms = set(lst)
+  elms = sorted(list(elms))
+  return sorted(elms, key= lambda x: lst.count(x), reverse=True)
+
 def get_amicable_pair(low):
   ''' If low is the smallest number of an amicable pair
       return the pair, else return None. '''

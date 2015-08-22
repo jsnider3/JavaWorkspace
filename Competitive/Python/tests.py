@@ -128,6 +128,9 @@ class Tests(unittest.TestCase):
     assert 7 not in fibseq
     assert 8 in fibseq
 
+  def test_freq_sort(self):
+    assert hacklib.freq_sort('aabbbccde') == ['b', 'a', 'c', 'd', 'e']
+
   def test_funny(self):
     assert strings.is_funny('acxz')
     assert not strings.is_funny('bcxz')
