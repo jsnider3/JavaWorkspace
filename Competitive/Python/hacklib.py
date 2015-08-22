@@ -586,6 +586,12 @@ def binary_search(arr, elm):
     else:
       return mid
 
+def bitstring_or(fst, secnd):
+  ''' Bitwise or for strings of 1 and 0. '''
+  assert len(fst) == len(secnd)
+  bitchar_or = lambda x, y: "1" if x == "1" or y == "1" else "0"
+  return str(list(bitchar_or(x, y) for (x,y) in zip(fst, secnd)))
+
 def champernowne(digit):
   ''' Get the nth digit of
       champernowne's constant. '''

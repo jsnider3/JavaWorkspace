@@ -36,6 +36,10 @@ class Tests(unittest.TestCase):
     assert hacklib.balanced_array([1, 2, 3]) == None
     assert hacklib.balanced_array([1, 2, 3, 3]) == 2
 
+  def test_bitstring_or(self):
+    assert hacklib.bitstring_or('10101', '11100') == '11101'
+    assert hacklib.bitstring_or('11010', '00101') == '11111'
+
   def test_bst(self):
     nums = [1, 2, 3, 4, 5, 6, 7]
     bst = BinarySearchTree.from_array(nums)
