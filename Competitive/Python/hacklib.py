@@ -1046,6 +1046,19 @@ def points_on_slope(rise, run):
   points = 1 + fractions.gcd(rise, run)
   return points
 
+def possible_ends(length, fst, secnd):
+  ''' Given a series of length n starting at 0
+      where each element differs from the previous by
+      either fst or secnd, what are the possible endings?'''
+  fst, secnd = min(fst, secnd), max(fst, secnd)
+  assert length > 0
+  ends = [fst * (length - 1)]
+  if fst != secnd:
+    diff = secnd - fst
+    for _ in range(length - 1):
+      ends.append(ends[-1] + diff)
+  return ends
+
 def product(ls):
   ''' sum but for multiplication '''
   return functools.reduce(lambda x, y: x * y, ls)

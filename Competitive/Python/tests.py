@@ -297,6 +297,11 @@ class Tests(unittest.TestCase):
     taketen = list(taketen)
     assert taketen == correct
 
+  def test_possible_ends(self):
+    assert hacklib.possible_ends(3, 1, 2) == [2, 3, 4]
+    assert hacklib.possible_ends(4, 10, 100) == [30, 120, 210, 300]
+    assert hacklib.possible_ends(4, 10, 10) == [30]
+
   def test_primes(self):
     primes = hacklib.Primes()
     taketen = primes[1:11]
