@@ -36,6 +36,12 @@ class Tests(unittest.TestCase):
     assert hacklib.balanced_array([1, 2, 3]) == None
     assert hacklib.balanced_array([1, 2, 3, 3]) == 2
 
+  def test_bitstring_fillin(self):
+    assert hacklib.bitstring_fillin('?') == ['0', '1']
+    assert hacklib.bitstring_fillin('1') == ['1']
+    assert hacklib.bitstring_fillin('?1?0') == ['0100', '0110',
+                                                '1100', '1110']
+
   def test_bitstring_or(self):
     assert hacklib.bitstring_or('10101', '11100') == '11101'
     assert hacklib.bitstring_or('11010', '00101') == '11111'

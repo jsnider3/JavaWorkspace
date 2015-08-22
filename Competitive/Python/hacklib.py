@@ -586,11 +586,31 @@ def binary_search(arr, elm):
     else:
       return mid
 
+def bitstring_fillin(bitstring):
+  ''' Given a bitstring where some characters are hidden
+      with '?', return every possible string it could be.'''
+  if bitstring.count('?') == 0:
+    return [bitstring]
+  else:
+    fillers = '1' * bitstring.count('?')
+    locs = [ind for ind in range(len(bitstring)) if bitstring[ind] == '?']
+    results = []
+    while True:
+      arr = list(bitstring)
+      for (loc, fill) in zip(locs, fillers):
+        arr[loc] = fill
+      results.append(''.join(arr))
+      if fillers == '0' * bitstring.count('?'):
+        return results[::-1]
+      else:
+        next_fill = bin(int(fillers, 2) - 1)[2:]
+        fillers = '0' * (bitstring.count('?') - len(next_fill)) + next_fill
+
 def bitstring_or(fst, secnd):
   ''' Bitwise or for strings of 1 and 0. '''
   assert len(fst) == len(secnd)
   bitchar_or = lambda x, y: "1" if x == "1" or y == "1" else "0"
-  return str(list(bitchar_or(x, y) for (x,y) in zip(fst, secnd)))
+  return ''.join(list(bitchar_or(x, y) for (x,y) in zip(fst, secnd)))
 
 def champernowne(digit):
   ''' Get the nth digit of
