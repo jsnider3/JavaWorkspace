@@ -164,6 +164,10 @@ class Tests(unittest.TestCase):
     assert not strings.is_pan('ABCD12345Y')
     assert not strings.is_pan('avBCDS1234Y')
 
+  def test_knapsack_isopriced(self):
+    assert hacklib.knapsack_isopriced([1, 6, 9], 12) == 12
+    assert hacklib.knapsack_isopriced([3, 4, 4, 4, 8], 9) == 9
+
   def test_kth(self):
     assert hacklib.kth_element([0, 1, 2, 4, 6, 5, 3], 3) == 3
 

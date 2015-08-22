@@ -839,6 +839,24 @@ def kth_element(arr, k):
   gre = [x for x in arr if x > arr[0]]
   return kth_element(gre, k)
 
+def knapsack_isopriced(weights, total):
+  ''' Given a bunch of weights. Return
+      a mix of weights that sum to as high as possible,
+      but not greater than the given total. This is
+      different from regular knapsack in that the weights
+      and values are equal. '''
+  assert all(weight > 0 for weight in weights)
+  sums = []
+  sums.append(0)
+  for _ in range(1, total + 1):
+    best = 0
+    for weight in weights:
+      if len(sums) - weight >= 0:
+        best = max(best, weight + sums[-weight])
+    sums.append(best)
+  assert len(sums) == total + 1
+  return sums[-1]
+
 def largest_grid_product(grid):
   rows = len(grid)
   max_product = -float("inf")
