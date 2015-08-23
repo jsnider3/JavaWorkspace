@@ -167,6 +167,9 @@ class Tests(unittest.TestCase):
     assert not strings.is_pan('ABCD12345Y')
     assert not strings.is_pan('avBCDS1234Y')
 
+  def test_k_split(self):
+    assert hacklib.k_split('ABCDEFGHI', 3) == ['ABC', 'DEF', 'GHI']
+
   def test_knapsack_isopriced(self):
     assert hacklib.knapsack_isopriced([1, 6, 9], 12) == 12
     assert hacklib.knapsack_isopriced([3, 4, 4, 4, 8], 9) == 9
@@ -408,6 +411,9 @@ class Tests(unittest.TestCase):
                (6, 2), (7, 2), (8, 3), (9, 1), (10, 2)]
     for (k, v) in correct:
       assert hacklib.two_power_rank(k) == v
+
+  def test_uniq(self):
+    assert hacklib.uniq('ABCADEFGGB') == ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
   def test_various(self):
     assert hacklib.substring_div43(1406357289)

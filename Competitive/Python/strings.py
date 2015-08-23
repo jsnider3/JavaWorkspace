@@ -153,3 +153,12 @@ def unique_str(words):
       of unique characters. '''
   return len(words) == chars_used(words)
 
+def welcome_mat(rows, cols):
+  ''' Print a welcome mat. '''
+  assert rows % 2 and cols == rows * 3
+  for i in range(1, rows, 2):
+    print ('-' * ((cols - i*3)//2) + '.|.'*i + '-' * ((cols - i*3)//2))
+  print ('-' * ((cols - 7)//2) + 'WELCOME' + '-' * ((cols - 7)//2))
+  for i in range(rows-2, -1, -2):
+    print ('-' * ((cols - i*3)//2) + '.|.'*i + '-' * ((cols - i*3)//2))
+

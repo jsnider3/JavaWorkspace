@@ -864,6 +864,16 @@ def knapsack_isopriced(weights, total):
   assert len(sums) == total + 1
   return sums[-1]
 
+def k_split(arr, leng):
+  ''' Split arr into subarrays of length leng. '''
+  assert len(arr) % leng == 0
+  splits = []
+  ind = 0
+  while ind < len(arr):
+      splits.append(arr[ind:ind+leng])
+      ind += leng
+  return splits
+
 def largest_grid_product(grid):
   rows = len(grid)
   max_product = -float("inf")
@@ -1314,6 +1324,16 @@ def tuple_to_num(tupe):
   tupe = [str(c) for c in tupe]
   tupe = "".join(tupe)
   return int(tupe)
+
+def uniq(seq):
+    ''' Return a sequence with elements that appear
+        multiple times only appearing once when they
+        first do.'''
+    copy = []
+    for elm in seq:
+        if elm not in copy:
+            copy.append(elm)
+    return copy
 
 def visual_insert(arr, num):
   ''' Insert num into a sorted list arr
