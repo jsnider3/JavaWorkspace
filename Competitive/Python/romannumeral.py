@@ -52,5 +52,3 @@ class RomanNumeral(object):
         letters as possible. '''
     num = int(self)
     return RomanNumeral.from_int(num).text
-
-

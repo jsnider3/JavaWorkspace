@@ -4,6 +4,7 @@ from graph import Graph
 import hacklib
 import itertools
 from pandigitals import Pandigitals
+from primes import Primes
 from romannumeral import RomanNumeral
 import strings
 import unittest
@@ -46,7 +47,16 @@ class Tests(unittest.TestCase):
     assert hacklib.bitstring_or('10101', '11100') == '11101'
     assert hacklib.bitstring_or('11010', '00101') == '11111'
 
+  def test_british_number_string(self):
+    assert (strings.british_number_string(4734) ==
+            'four thousand seven hundred and thirty four')
+    assert (strings.british_number_string(3214) ==
+            'three thousand two hundred and fourteen')
+    assert (strings.british_number_string(5600) ==
+            'five thousand six hundred')
+
   def test_bst(self):
+    assert BinarySearchTree.from_array([]) is None
     nums = [1, 2, 3, 4, 5, 6, 7]
     bst = BinarySearchTree.from_array(nums)
     for x in nums:
@@ -60,6 +70,20 @@ class Tests(unittest.TestCase):
     assert len(bst) == 6
     for x in nums:
       assert x in bst or x == 5
+    bst = bst.remove(3)
+    assert len(bst) == 5
+    for x in nums:
+      assert x in bst or x == 5 or x == 3
+    bst = bst.remove(4)
+    assert len(bst) == 4
+    for x in nums:
+      assert x in bst or x == 5 or x == 3 or x == 4
+    bst.add(0)
+    assert len(bst) == 5
+    assert list(bst.pre_order()) == [2, 1, 0, 6, 7]
+    assert list(bst.post_order()) == [0, 1, 7, 6, 2]
+    for x in list(bst.pre_order()):
+      bst = bst.remove(x)
     unbalanced = BinarySearchTree(0)
     for x in nums:
       unbalanced.add(x)
@@ -91,7 +115,7 @@ class Tests(unittest.TestCase):
     assert not strings.common_substring('hi', 'world')
 
   def test_consecutive_sum_max(self):
-    primes = hacklib.Primes()
+    primes = Primes()
     assert(2 == primes.consecutive_sum_max(5))
     assert(0 == primes.consecutive_sum_max(11))
     assert(6 == primes.consecutive_sum_max(41))
@@ -118,6 +142,15 @@ class Tests(unittest.TestCase):
     assert pals.from_anagram('aaabbbb')
     assert not pals.from_anagram('cdefghmnopqrstuvw')
     assert pals.from_anagram('cdcdcdcdeeeef')
+
+  def test_factors(self):
+    primes = Primes()
+    assert primes.factors(0) == []
+    assert primes.factors(1) == []
+    assert primes.factors(2) == [2]
+    assert primes.factors(6) == [2, 3]
+    assert primes.factors(8) == [2, 2, 2]
+    assert primes.factors(29) == [29]
 
   def test_fibonacci(self):
     fibs = [0, 1, 1, 2, 3, 5, 8, 13, 21]
@@ -156,8 +189,13 @@ class Tests(unittest.TestCase):
     taketen = list(taketen)
     assert taketen == correct
 
+  def test_is_anagram(self):
+    assert strings.is_anagram('abcedd', 'decbad')
+    assert not strings.is_anagram('abcedd', 'ecbad')
+    assert not strings.is_anagram('abcedd', 'dgecbad')
+
   def test_is_circular(self):
-    primes = hacklib.Primes()
+    primes = Primes()
     assert primes.is_circular(2)
     assert primes.is_circular(971)
     assert not primes.is_circular(999953)
@@ -323,14 +361,21 @@ class Tests(unittest.TestCase):
     assert hacklib.possible_ends(4, 10, 10) == [30]
 
   def test_primes(self):
-    primes = hacklib.Primes()
+    primes = Primes()
+    assert 0 not in primes
+    assert 1 not in primes
     taketen = primes[1:11]
     correct = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
     taketen = list(taketen)
     assert taketen == correct
     for x in range(1, 11):
       assert primes[x] == correct[x - 1]
+    assert 104744 not in primes
     assert primes[10001] == 104743
+    itr = iter(primes)
+    for _ in range(10100):
+      next(itr)
+    assert list(primes.countdown(29))[::-1] == correct
 
   def test_reorder_chars(self):
     cases = [('the theater', 'hte hteater'),
@@ -349,6 +394,8 @@ class Tests(unittest.TestCase):
     assert int(roman) == 14
     roman = RomanNumeral("VIII")
     assert int(roman) == 8
+    assert str(RomanNumeral.from_int(6)) == "VI"
+    assert int(RomanNumeral("VIIIIIIIIII")) == 15
 
   def test_shared_members(self):
     iters = [iter(hacklib.Triangulars()), iter(hacklib.Pentagonals()),

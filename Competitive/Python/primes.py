@@ -61,7 +61,7 @@ class Primes(object):
     while True:
       if accum[-1] >= num:
         return 0
-      if sum(accum) < num:
+      elif sum(accum) < num:
         stop += 1
         accum.append(self[stop])
       elif sum(accum) > num:
@@ -95,22 +95,22 @@ class Primes(object):
     return fractions.gcd(first, second) == 1
 
   def countdown(self, start):
+    ''' Return all the primes <= start from
+        greatest to least. '''
     while start > 1:
       if start in self:
         yield start
       start -= 1
 
   def factors(self, num):
-    '''Factorize num'''
-    if num == 0:
+    '''Factorize num and return them in sorted order.'''
+    if num == 0 or num == 1:
       return []
-    if num == 1:
-      return []
-    for count in self.less_than(int(num ** .5) + 1):
+    for count in self.less_than(num // 2 + 1):
       if (num % count) == 0:
         factors = self.factors(num // count)
         factors.append(count)
-        return factors
+        return factors[::-1]
     return [num]
 
   def full_repetend(self):

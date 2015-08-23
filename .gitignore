@@ -9,5 +9,8 @@
 *.cmi
 *.cmx
 a.out
+#Ignore test coverage files.
+*.coverage
+htmlcov/
 #Ignore homework dirs.
 JNW2v1.2.3

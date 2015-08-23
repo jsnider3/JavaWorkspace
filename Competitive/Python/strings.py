@@ -42,7 +42,6 @@ def british_number_string(num):
       words.append(ones[strn[0]])
     strn = strn[1:]
   strn = " ".join(words)
-  print(strn)
   return strn
 
 def caesar(phrase, shift):

@@ -42,16 +42,18 @@ class BinarySearchTree(object):
 
   def add(self, dat):
     ''' Add dat to this tree.'''
-    if self.data < dat:
+    if not isinstance(dat, BinarySearchTree):
+      dat = BinarySearchTree(dat)
+    if self.data < dat.data:
       if self.right:
         self.right.add(dat)
       else:
-        self.right = BinarySearchTree(dat)
-    elif self.data > dat:
+        self.right = dat
+    elif self.data > dat.data:
       if self.left:
         self.left.add(dat)
       else:
-        self.left = BinarySearchTree(dat)
+        self.left = dat
 
   def children(self):
     ''' Our immediate children.'''
