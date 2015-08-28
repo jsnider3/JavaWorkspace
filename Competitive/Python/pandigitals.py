@@ -22,6 +22,7 @@ class Pandigitals(object):
         yield hacklib.tuple_to_num(pan)
 
   def __reversed__(self):
+    ''' Unacceptably slow.'''
     count = 987654321
     while count:
       if count in self:

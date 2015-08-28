@@ -57,6 +57,10 @@ def caesar(phrase, shift):
       res.append(char)
   return ''.join(res)
 
+def case_insensitive_contains(phrase, pattern):
+  ''' Determine if phrase has pattern (case insensitive).'''
+  return re.search(pattern, phrase, re.IGNORECASE) != None
+
 def changes_for_anagram(first, second):
   ''' How many letters in first would need to be changed
       to make it an anagram of second.'''

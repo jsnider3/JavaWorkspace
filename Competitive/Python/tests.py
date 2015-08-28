@@ -89,6 +89,11 @@ class Tests(unittest.TestCase):
       unbalanced.add(x)
     assert not unbalanced.is_balanced()
 
+  def test_case_insensitive_contains(self):
+    assert strings.case_insensitive_contains('hello Python', 'pYtHoN')
+    assert strings.case_insensitive_contains('hello Python', 'lo P')
+    assert not strings.case_insensitive_contains('hello Python', 'lo Pi')
+
   def test_caesar(self):
     assert strings.caesar('middle-Outz', 2) == 'okffng-Qwvb'
 
@@ -161,6 +166,10 @@ class Tests(unittest.TestCase):
     assert 7 not in fibseq
     assert 8 in fibseq
 
+  def test_fillings(self):
+    assert hacklib.fillings([1, 4, 2, 5, 1, 2, 3]) == 5
+    assert hacklib.fillings([1, 2, 3, 2, 1]) == 0
+
   def test_freq_sort(self):
     assert hacklib.freq_sort('aabbbccde') == ['b', 'a', 'c', 'd', 'e']
 
@@ -222,6 +231,10 @@ class Tests(unittest.TestCase):
 
   def test_line_cover(self):
     assert len(hacklib.line_cover([1, 2, 3, 17, 10], 4)) == 3
+
+  def test_list_cover(self):
+    assert hacklib.list_cover([[0, 4], [2], [3]]) == [2, 4]
+    assert hacklib.list_cover([[0], [1], [2], [3], [4]]) == [0, 4]
 
   def test_make_change(self):
     assert hacklib.make_change([1, 2, 3], 4) == 4
@@ -297,6 +310,11 @@ class Tests(unittest.TestCase):
     assert sum(hacklib.max_subarray([1, 2, 3, 4])) == 10
     assert sum(hacklib.max_subarray([2, -1, 2, 3, 4, -5])) == 10
 
+  def test_nodes_with_branching(self):
+    assert hacklib.nodes_with_branching(1, 7) == 8
+    assert hacklib.nodes_with_branching(2, 7) == 57
+    assert hacklib.nodes_with_branching(3, 7) == 7*7*7 + 7*7 + 7 + 1
+
   def test_no_repeats(self):
     assert len(list(hacklib.no_repeats('AAAA'))) == 1
     assert len(list(hacklib.no_repeats('BBBBB'))) == 1
@@ -328,6 +346,7 @@ class Tests(unittest.TestCase):
     assert pan.get_pandigital_product(7254)
     assert pan.is_pandigital_multiple(192384576)
     assert pan.is_pandigital_multiple(932718654)
+    assert not pan.is_pandigital_multiple(932718644)
     count = 0
     for n in range(100, 100000):
       prod = pan.get_pandigital_product(n)
@@ -354,6 +373,11 @@ class Tests(unittest.TestCase):
     correct = [1, 5, 12, 22, 35, 51, 70, 92, 117, 145]
     taketen = list(taketen)
     assert taketen == correct
+
+  def test_permutation_set(self):
+    lst = list(hacklib.permutation_set([1, 1, 2, 3]))
+    assert len(lst) == 12
+    assert lst == hacklib.uniq(lst)
 
   def test_possible_ends(self):
     assert hacklib.possible_ends(3, 1, 2) == [2, 3, 4]
@@ -465,7 +489,7 @@ class Tests(unittest.TestCase):
   def test_various(self):
     assert hacklib.substring_div43(1406357289)
     assert strings.unique_str('abcdefghijklmnopqrstuvwxyz')
-    assert (not strings.unique_str('aacdefghijklmnopqrstuvwxyz'))
+    assert not strings.unique_str('aacdefghijklmnopqrstuvwxyz')
 
   def test_visual_insert(self):
     out = hacklib.visual_insert([2, 4, 6, 8], 3)
@@ -474,6 +498,16 @@ class Tests(unittest.TestCase):
                '2 4 4 6 8',
                '2 3 4 6 8']
     assert out == correct
+
+  def test_word_location_map(self):
+    document = "many microsoft employees own an microsoft xbox"
+    res = hacklib.word_location_map(document)
+    assert res == {"many" : [0],
+                   "microsoft" : [1, 5],
+                   "employees" : [2],
+                   "own" : [3],
+                   "an" : [4],
+                   "xbox" : [6]}
 
   def test_xor_maximum(self):
     assert hacklib.xor_maximum(1, 10) == 15

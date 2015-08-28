@@ -211,7 +211,7 @@ class Matrix(object):
     ''' Return the sum of the top left -> bottom right diagonal
         minus the sum of the top right -> bottom left diagonal.'''
     if self.rows != self.cols:
-      raise ValueError('Can only rotate square matrices.')
+      raise ValueError('Diag diff is only valid for square matrices.')
     bottomdown = 0
     upright = 0
     for col in range(self.cols):
@@ -672,10 +672,43 @@ def digits_sum(num):
   ''' wrapper for digits_foo '''
   return digits_exp(num, 1)
 
+def eight_queens_is_valid(soltn):
+  ''' Is this a valid solution for the eight queens problem?'''
+  return (len(soltn) == 8 and
+          len(set(soltn)) == 8 and
+          all(col >= 0 and col < 8 for col in soltn) and
+          no_diag_collisions)
+
+def eight_queens_solutions():
+  ''' Generate solutions for the eight queens problems.
+      Solution is a list of ints eight long. The queen
+      goes in position (index, arr[index]).'''
+  nums = list(range(1, x + 1))
+  for soltn in itertools.permutations(nums):
+    if is_valid_eight_queens(soltn):
+      yield soltn
+
 def fibonacci(term):
   ''' Return the termth fibonacci number. O(n)'''
   Fibs = ArithSequence(0, 1)
   return Fibs[term]
+
+def fillings(heights):
+  ''' In a list of ints, how much must be added
+      to ensure that no element of an array is a local
+      minima. '''
+  count = 0
+  if len(heights) > 2:
+    leftmax = [0]
+    for height in heights:
+      leftmax.append(max(leftmax[-1], height))
+    rightmax = [0]
+    for height in reversed(heights):
+      rightmax.append(max(rightmax[-1], height))
+    rightmax = list(reversed(rightmax))
+    for ind in range(len(heights)):
+      count += max(min(leftmax[ind], rightmax[ind]) - heights[ind], 0)
+  return count
 
 def find_pythag_triplet(total):
   ''' Find the pythagorean triplet
@@ -940,6 +973,26 @@ def line_cover(locs, width):
       high_cover = locs[ind]
   return coverings
 
+def list_cover(loc_lists):
+  ''' Find a range [x, y] which covers at least one element
+      of each list and where y - x is minimal.'''
+  assert type(loc_lists) == list
+  assert all(type(ls) == list for ls in loc_lists)
+  assert all(len(x) for x in loc_lists)
+  ind = 0
+  while ind < len(loc_lists) and len(loc_lists[ind]) == 1:
+    ind += 1
+  min_cover = None
+  if ind != len(loc_lists):
+    for val in loc_lists[ind]:
+      cover = list_cover(loc_lists[:ind] + [[val]] + loc_lists[ind+1:])
+      if not min_cover or cover[1] - cover[0] < min_cover[1] - min_cover[0]:
+        min_cover = cover
+  else:
+    vals = [arr[0] for arr in loc_lists]
+    min_cover = [min(vals), max(vals)]
+  return min_cover
+
 def lonely_member(b):
   ''' In a list b where
       everything occurs twice
@@ -1041,6 +1094,14 @@ def nim_winner(heaps):
   xord = functools.reduce(nim_sum, heaps)
   return not xord
 
+def nodes_with_branching(height, branches):
+  ''' The maximum number of nodes that can be in a tree of
+        a given height and uniform branching factor.'''
+  count = 1
+  for num in range(1, height + 1):
+    count += branches ** num
+  return count
+
 def no_repeats(lst):
   ''' Take a series and yield a series without two
       following elements being equal.'''
@@ -1100,6 +1161,21 @@ def partition(arr):
   return ([x for x in arr if x < arr[0]]
           + [x for x in arr if x == arr[0]]
           + [x for x in arr if x > arr[0]])
+
+def permutation_set(arr):
+  ''' Returns a generator that returns all
+      of the unique permutations of arr in sorted order. '''
+  seen = set([])
+  def helper(prefix, end):
+    if len(end):
+      for ind in range(len(end)):
+        for perm in helper(prefix + [end[ind]], end[:ind] + end[ind+1:]):
+          yield perm
+    elif str(prefix) not in seen:
+      seen.add(str(prefix))
+      yield prefix
+  for perm in helper([], list(sorted(arr))):
+    yield perm
 
 def points_on_slope(rise, run):
   '''Count the number of points on a slope that
@@ -1294,6 +1370,17 @@ def totient(num):
   phi = num * prod
   return int(phi)
 
+def towers_of_hanoi(arr):
+  ''' We have three poles and we want to move a stack of disks
+      from one to a third. We have three rules:
+      1) We can only move one disk at a time.
+      2) We can only move the top one on a stack.
+      3) All disks are of different sizes and we can only put one
+         on smaller bigger disks.
+      To move a tower of size n to another peg
+      takes 2^n - 1 moves. '''
+  pass
+
 def triangle_max_path(aTriangle):
   triangle = list(reversed(aTriangle))
   tMax = triangle[0][:]
@@ -1360,6 +1447,19 @@ def visual_insertion_sort(nums):
         nums[find+1:ind+1] = nums[find:ind]
         nums[find] = move
     print(" ".join(str(n) for n in nums))
+
+def word_location_map(document):
+  ''' Take a document of space seperated strings and
+      return a map where keys are words in the dictionary
+      and values are lists of positions where they occur.'''
+  split = document.split()
+  loc_map = {}
+  for ind in range(len(split)):
+    word = split[ind]
+    if word not in loc_map:
+      loc_map[word] = []
+    loc_map[word].append(ind)
+  return loc_map
 
 def xor_file(text, key):
   ''' Go through a list of numbers
