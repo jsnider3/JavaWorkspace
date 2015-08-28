@@ -975,22 +975,50 @@ def line_cover(locs, width):
 
 def list_cover(loc_lists):
   ''' Find a range [x, y] which covers at least one element
-      of each list and where y - x is minimal.'''
+      of each list and where y - x is minimal. This code
+      is hideous and needs to be rewritten. '''
   assert type(loc_lists) == list
+  assert len(loc_lists)
   assert all(type(ls) == list for ls in loc_lists)
   assert all(len(x) for x in loc_lists)
-  ind = 0
-  while ind < len(loc_lists) and len(loc_lists[ind]) == 1:
-    ind += 1
   min_cover = None
-  if ind != len(loc_lists):
-    for val in loc_lists[ind]:
-      cover = list_cover(loc_lists[:ind] + [[val]] + loc_lists[ind+1:])
+  if len(loc_lists[0]) > 1:
+    # For each element of the first list create a range [val, val]
+    for val in loc_lists[0]:
+      cover = list_cover([[val]] + loc_lists[1:])
       if not min_cover or cover[1] - cover[0] < min_cover[1] - min_cover[0]:
         min_cover = cover
   else:
-    vals = [arr[0] for arr in loc_lists]
-    min_cover = [min(vals), max(vals)]
+    # For every other list:
+    bottom = loc_lists[0][0]
+    top = loc_lists[0][0]
+    for ind in range(1, len(loc_lists)):
+      if loc_lists[ind][0] >= top:
+        loc_lists[ind] = [loc_lists[ind][0]]
+        top = loc_lists[ind][0]
+      elif loc_lists[ind][-1] <= bottom:
+        loc_lists[ind] = [loc_lists[ind][-1]]
+        bottom = loc_lists[ind][-1]
+      elif any(num >= bottom and num <= top for num in loc_lists[ind]):
+        for val in loc_lists[ind]:
+          if val >= bottom and val <= top:
+            loc_lists[ind] = [val]
+            break
+      else:
+        #   else select the closest one thats too low and the closest one
+        #      thats too high and recurse on them.
+        for subind in range(len(loc_lists[ind]) - 1):
+          if (loc_lists[ind][subind] < bottom and
+              loc_lists[ind][subind + 1] > top):
+            lo_cover = list_cover(loc_lists[:ind] + [[loc_lists[ind][subind]]]
+                                                  + loc_lists[ind + 1:])
+            hi_cover = list_cover(loc_lists[:ind] + [[loc_lists[ind][subind + 1]]]
+                                                  + loc_lists[ind + 1:])
+            if hi_cover[1] - hi_cover[0] < lo_cover[1] - lo_cover[0]:
+              return hi_cover
+            else:
+              return lo_cover
+    min_cover = [bottom, top]
   return min_cover
 
 def lonely_member(b):
