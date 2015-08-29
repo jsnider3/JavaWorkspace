@@ -751,8 +751,8 @@ def find_pythag_triplet(total):
 def find_right_triangles(perim):
   '''Find all right triangles having given perimeter.'''
   triangles = []
-  for opp in range(1, perim / 3):
-    for adj in range(1, perim / 2):
+  for opp in range(1, perim // 3):
+    for adj in range(1, perim // 2):
       hyp = math.sqrt(opp ** 2 + adj ** 2)
       if hyp.is_integer() and opp + adj + hyp == perim:
         triangles.append((opp, adj, int(hyp)))
