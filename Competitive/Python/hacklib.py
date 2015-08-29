@@ -13,25 +13,24 @@ from primes import Primes
 class Abundants(object):
   ''' Generate the abundant numbers
       and check if given numbers are abundant.'''
-  _List = []
 
   def __contains__(self, key):
-    if key in self._List:
+    if key in self.cache:
       return True
     abundant = sum(proper_divisors(key)) > key
-    if abundant:
-      self._List.append(key)
-      self._List.sort()
     return abundant
 
+  def __init__(self):
+    self.cache = [12]
+
   def __iter__(self):
-    for num in self._List:
-      yield num
-    count = self._List[-1:]
+    count = 11
     while True:
       count += 1
       if count in self:
         yield count
+        if count not in self.cache:
+          self.cache.append(count)
 
   def __len__(self):
     raise NotImplementedError("There are infinite abundants.")
@@ -304,9 +303,9 @@ class Naturals(object):
   ''' Provides iterators for
       the naturals. '''
 
-  def __contains(self, num):
+  def __contains__(self, num):
     ''' The naturals are the positive integers. '''
-    return num > 0 and int(num) == num
+    return int(num) == num and num > 0
 
   def __iter__(self):
     ''' 1, 2, 3... '''
@@ -405,6 +404,44 @@ class Pentagonals(object):
     return max(m, n) - min(m, n) in self and m + n in self
 
 #########################
+class Segment(object):
+  ''' A range of numbers from [bottom, top].'''
+
+  def __add__(self, other):
+    if type(other) == int:
+      return Segment(min(self.bottom, other), max(self.top, other))
+    elif type(other) == Segment:
+      return Segment(min(self.bottom, other.bottom), max(self.top, other.top))
+    else:
+      raise ValueError("Can't add segment and " + str(type(other)))
+
+  def __contains__(self, num):
+    return type(num) == int and num >= self.bottom and num <= self.top
+
+  def __eq__(self, other):
+    return (type(other) == Segment and
+            other.bottom == self.bottom and
+            other.top == self.top)
+
+  def __gt__(self, num):
+    return type(num) == int and num < self.bottom
+
+  def __init__(self, bottom, top):
+    self.bottom, self.top = min(bottom, top), max(bottom, top)
+
+  def __len__(self):
+    return self.top - self.bottom
+
+  def __lt__(self, num):
+    return type(num) == int and num > self.top
+
+  def __repr__(self):
+    return str(self)
+
+  def __str__(self):
+    return "Segment(" + str(self.bottom) + ", " + str(self.top) + ")"
+
+#########################
 class SquareChain(object):
   ''' Create a tree representation of the sequence in Euler #92.'''
   def __init__(self):
@@ -439,7 +476,7 @@ class Squares(object):
   def __iter__(self):
     count = 1
     while True:
-      yield count ** 2
+      yield self[count]
       count += 1
 
   def __len__(self):
@@ -463,11 +500,9 @@ class Triangulars(object):
 
   def __iter__(self):
     count = 0
-    total = 0
     while True:
-      total += count
+      yield self[count]
       count += 1
-      yield total
 
   def __len__(self):
     raise NotImplementedError("This is an infinite sequence.")
@@ -491,11 +526,7 @@ def alphabet_score(word):
   ''' Sum the difference between
       each character + 1 and. '''
   word = word.lower()
-  total = 0
-  for char in word:
-    val = ord(char) - ord('a') + 1
-    assert val > -1
-    total += val
+  total = ascii_sum(word) - len(word) * (ord('a') - 1)
   return total
 
 def and_product(fst, secnd):
@@ -503,15 +534,14 @@ def and_product(fst, secnd):
         is the same as their shared binary prefix with 0's on the end.'''
     fst = list(bin(fst))[2:]
     secnd = list(bin(secnd))[2:]
-    if len(fst) != len(secnd):
-        return 0
     num = 0
-    same = True
-    for ind in range(len(fst)):
+    if len(fst) == len(secnd):
+      same = True
+      for ind in range(len(fst)):
         num *= 2
         same &= fst[ind] == secnd[ind]
         if same:
-            num += int(fst[ind])
+          num += int(fst[ind])
     return num
 
 def ascii_sum(strn):
@@ -519,36 +549,36 @@ def ascii_sum(strn):
   return sum([ord(x) for x in strn])
 
 def assign_candies(arr):
-    ''' Given a list of numbers. Assign a number to each
-        such that if a number is bigger than a neighbor
-        it has more candies than it. Return the minimal amount
-        of candy. From https://www.hackerrank.com/challenges/candies.'''
-    candies = 1
-    downtrend = 1
-    uptrend = 1
-    prev = arr[0]
-    prevCandies = [1]
-    for candy in arr[1:]:
-        if candy == prev:
-            downtrend = 1
-            uptrend = 1
-            candies += 1
-            prevCandies = [1]
-        elif candy < prev:
-            prevCandies.append(1)
-            candies += 1
-            for ind in reversed(range(1, len(prevCandies))):
-              if prevCandies[ind] == prevCandies[ind-1]:
-                prevCandies[ind-1]+= 1
-                candies += 1
-            uptrend = 1
-        elif candy > prev:
-            downtrend = 1
-            uptrend += 1
-            candies += uptrend
-            prevCandies = [uptrend]
-        prev = candy
-    return candies
+  ''' Given a list of numbers. Assign a number to each
+      such that if a number is bigger than a neighbor
+      it has more candies than it. Return the minimal amount
+      of candy. From https://www.hackerrank.com/challenges/candies.'''
+  candies = 1
+  downtrend = 1
+  uptrend = 1
+  prev = arr[0]
+  prevCandies = [1]
+  for candy in arr[1:]:
+    if candy == prev:
+      downtrend = 1
+      uptrend = 1
+      candies += 1
+      prevCandies = [1]
+    elif candy < prev:
+      prevCandies.append(1)
+      candies += 1
+      for ind in reversed(range(1, len(prevCandies))):
+        if prevCandies[ind] == prevCandies[ind-1]:
+          prevCandies[ind-1]+= 1
+          candies += 1
+      uptrend = 1
+    elif candy > prev:
+      downtrend = 1
+      uptrend += 1
+      candies += uptrend
+      prevCandies = [uptrend]
+    prev = candy
+  return candies
 
 def balanced_array(arr):
   ''' If there is an int n where sum(arr[:n]) = sum(arr[n+1:]),
@@ -570,21 +600,20 @@ def balanced_array(arr):
 def binary_search(arr, elm):
   ''' Search for elm in a sorted array,
       O(log(n)) time.'''
-  if not len(arr):
-    return None
-  low = 0
-  high = len(arr) - 1
-  mid = 0
-  while low <= high:
-    mid = (high + low) // 2
-    if low == high and arr[mid] != elm:
-      return None
-    if arr[mid] < elm:
-      low = mid + 1
-    elif arr[mid] > elm:
-      high = mid
-    else:
-      return mid
+  if len(arr):
+    low = 0
+    high = len(arr) - 1
+    mid = 0
+    while low <= high:
+      mid = (high + low) // 2
+      if low == high and arr[mid] != elm:
+        return None
+      elif arr[mid] < elm:
+        low = mid + 1
+      elif arr[mid] > elm:
+        high = mid
+      else:
+        return mid
 
 def bitstring_fillin(bitstring):
   ''' Given a bitstring where some characters are hidden
@@ -636,7 +665,7 @@ def closest_numbers(arr):
   diff = abs(arr[1] - arr[0])
   pairs = []
   for ind in range(0, len(arr) - 1):
-    pair = (min(arr[ind:ind+2]),max(arr[ind:ind+2]))
+    pair = (min(arr[ind:ind+2]) ,max(arr[ind:ind+2]))
     if abs(pair[1]-pair[0]) == diff:
       pairs.append(pair)
     elif abs(pair[1]-pair[0]) < diff:
@@ -647,13 +676,12 @@ def closest_numbers(arr):
 def common_elements(*arrs):
   ''' Given a list of arrays return their common elements.'''
   sets = [set(arr) for arr in arrs]
+  common = {}
   if len(sets):
     common = sets[0]
     for group in sets:
       common = common.intersection(group)
-    return common
-  else:
-    return []
+  return common
 
 def digits_exp(num, pwr):
   ''' wrapper for digits_foo '''
@@ -713,22 +741,22 @@ def fillings(heights):
 def find_pythag_triplet(total):
   ''' Find the pythagorean triplet
       that sums to total.'''
-  for tA in range(1, total):
-    for tB in range(tA + 1, total - tA + 1):
-      for tC in range(tB + 1, total - tA - tB + 1):
-        if tA ** 2 + tB ** 2 == tC ** 2:
-          if tA + tB + tC == total:
-            return [tA, tB, tC]
+  for adj in range(1, total):
+    for opp in range(adj + 1, total - adj + 1):
+      for hyp in range(opp + 1, total - adj - opp + 1):
+        if adj ** 2 + opp ** 2 == hyp ** 2:
+          if adj + opp + hyp == total:
+            return (adj, opp, hyp)
 
 def find_right_triangles(perim):
   '''Find all right triangles having given perimeter.'''
-  tTriangles = []
-  for tA in range(1, perim/3):
-    for tB in range(1, perim/2):
-      tC = math.sqrt(tA ** 2 + tB ** 2)
-      if tC.is_integer() and tA + tB + tC == perim:
-        tTriangles.append((tA, tB, tC))
-  return tTriangles
+  triangles = []
+  for opp in range(1, perim / 3):
+    for adj in range(1, perim / 2):
+      hyp = math.sqrt(opp ** 2 + adj ** 2)
+      if hyp.is_integer() and opp + adj + hyp == perim:
+        triangles.append((opp, adj, int(hyp)))
+  return triangles
 
 def first_incorrect_term(approx, func):
   '''Given an approximation of a function.
@@ -986,39 +1014,34 @@ def list_cover(loc_lists):
     # For each element of the first list create a range [val, val]
     for val in loc_lists[0]:
       cover = list_cover([[val]] + loc_lists[1:])
-      if not min_cover or cover[1] - cover[0] < min_cover[1] - min_cover[0]:
+      if not min_cover or len(cover) < len(min_cover):
         min_cover = cover
   else:
     # For every other list:
-    bottom = loc_lists[0][0]
-    top = loc_lists[0][0]
+    min_cover = Segment(loc_lists[0][0], loc_lists[0][0])
     for ind in range(1, len(loc_lists)):
-      if loc_lists[ind][0] >= top:
+      if loc_lists[ind][0] > min_cover:
         loc_lists[ind] = [loc_lists[ind][0]]
-        top = loc_lists[ind][0]
-      elif loc_lists[ind][-1] <= bottom:
+        min_cover += loc_lists[ind][0]
+      elif loc_lists[ind][-1] < min_cover:
         loc_lists[ind] = [loc_lists[ind][-1]]
-        bottom = loc_lists[ind][-1]
-      elif any(num >= bottom and num <= top for num in loc_lists[ind]):
-        for val in loc_lists[ind]:
-          if val >= bottom and val <= top:
-            loc_lists[ind] = [val]
+        min_cover += loc_lists[ind][-1]
+      elif any(num in min_cover for num in loc_lists[ind]):
+        for num in loc_lists[ind]:
+          if num in min_cover:
+            loc_lists[ind] = [num]
             break
       else:
         #   else select the closest one thats too low and the closest one
         #      thats too high and recurse on them.
         for subind in range(len(loc_lists[ind]) - 1):
-          if (loc_lists[ind][subind] < bottom and
-              loc_lists[ind][subind + 1] > top):
+          if (loc_lists[ind][subind] < min_cover and
+              loc_lists[ind][subind + 1] > min_cover):
             lo_cover = list_cover(loc_lists[:ind] + [[loc_lists[ind][subind]]]
                                                   + loc_lists[ind + 1:])
             hi_cover = list_cover(loc_lists[:ind] + [[loc_lists[ind][subind + 1]]]
                                                   + loc_lists[ind + 1:])
-            if hi_cover[1] - hi_cover[0] < lo_cover[1] - lo_cover[0]:
-              return hi_cover
-            else:
-              return lo_cover
-    min_cover = [bottom, top]
+            return min(lo_cover, hi_cover)
   return min_cover
 
 def lonely_member(b):
@@ -1378,6 +1401,13 @@ def sum_squares(num):
   for count in range(1, num + 1):
     total += (count ** 2)
   return total
+
+def take(source, num):
+  taken = []
+  source = iter(source)
+  for _ in range(num):
+    taken.append(next(source))
+  return taken
 
 def tile_four_by_n(width):
   ''' How many ways are there to tile a 4 X N floor

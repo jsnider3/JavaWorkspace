@@ -11,6 +11,14 @@ import unittest
 
 class Tests(unittest.TestCase):
 
+  def test_abundants(self):
+    abund = hacklib.Abundants()
+    test = hacklib.take(abund, 5)
+    assert test == [12, 18, 20, 24, 30]
+    assert 20 in abund
+    assert 102 in abund
+    assert 118 not in abund
+
   def test_accumulate(self):
     inp = [1, 12, 5, 111, 200, 1000, 10]
     orig = [1, 12, 5, 111, 200, 1000, 10]
@@ -36,6 +44,12 @@ class Tests(unittest.TestCase):
   def test_balanced_array(self):
     assert hacklib.balanced_array([1, 2, 3]) == None
     assert hacklib.balanced_array([1, 2, 3, 3]) == 2
+
+  def test_binary_search(self):
+    assert hacklib.binary_search([1], 1) == 0
+    assert hacklib.binary_search([1], 2) == None
+    assert hacklib.binary_search([1, 2, 3, 4], 4) == 3
+    assert hacklib.binary_search([0, 1, 2, 3, 4], 0) == 0
 
   def test_bitstring_fillin(self):
     assert hacklib.bitstring_fillin('?') == ['0', '1']
@@ -97,6 +111,15 @@ class Tests(unittest.TestCase):
   def test_caesar(self):
     assert strings.caesar('middle-Outz', 2) == 'okffng-Qwvb'
 
+  def test_champernowne(self):
+    for num in range(1, 10):
+      assert hacklib.champernowne(num) == num
+    assert hacklib.champernowne(100) == 5
+    assert hacklib.champernowne(1000) == 3
+    assert hacklib.champernowne(10000) == 7
+    assert hacklib.champernowne(100000) == 2
+    assert hacklib.champernowne(1000000) == 1
+
   def test_choices(self):
     count = 0
     for n in range(1, 101):
@@ -107,13 +130,12 @@ class Tests(unittest.TestCase):
 
   def test_closest_numbers(self):
     assert hacklib.closest_numbers([5, 4, 3, 2]) == [(2,3),(3,4),(4,5)]
+    assert hacklib.closest_numbers([8, 6, 4, 9, 2]) == [(8, 9)]
 
   def test_common_elements(self):
-    lns = []
-    lns.append(list('labcdde'))
-    lns.append(list('baccd'))
-    lns.append(list('eeabg'))
+    lns = [list('labcdde'), list('baccd'), list('eeabg')]
     assert len(hacklib.common_elements(*lns)) == 2
+    assert hacklib.common_elements(['a'], ['b'], ['c']) == set([])
 
   def test_common_substring(self):
     assert strings.common_substring('hello', 'world')
@@ -159,16 +181,26 @@ class Tests(unittest.TestCase):
 
   def test_fibonacci(self):
     fibs = [0, 1, 1, 2, 3, 5, 8, 13, 21]
-    for x in range(len(fibs)):
-      assert hacklib.fibonacci(x) == fibs[x]
     fibseq = hacklib.ArithSequence(0, 1)
+    taketen = hacklib.take(fibseq, len(fibs))
+    for x in range(len(fibs)):
+      assert taketen[x] == fibs[x]
     assert 5 in fibseq
     assert 7 not in fibseq
     assert 8 in fibseq
+    assert 144 in fibseq
 
   def test_fillings(self):
     assert hacklib.fillings([1, 4, 2, 5, 1, 2, 3]) == 5
     assert hacklib.fillings([1, 2, 3, 2, 1]) == 0
+
+  def test_find_pythag_triplet(self):
+    (first, secnd, third) = hacklib.find_pythag_triplet(176)
+    assert (first, secnd, third) == (48, 55, 73)
+
+  def test_find_right_triangles(self):
+    tries = hacklib.find_right_triangles(90)
+    assert tries == [(9, 40, 41), (15, 36, 39)]
 
   def test_freq_sort(self):
     assert hacklib.freq_sort('aabbbccde') == ['b', 'a', 'c', 'd', 'e']
@@ -178,6 +210,10 @@ class Tests(unittest.TestCase):
     assert not strings.is_funny('bcxz')
     assert not strings.is_funny('ivvkxq')
     assert not strings.is_funny('ivvkx')
+
+  def test_goldbach(self):
+    assert hacklib.goldbach(33)
+    assert not hacklib.goldbach(5777)
 
   def test_graph(self):
     graf = Graph()
@@ -191,12 +227,20 @@ class Tests(unittest.TestCase):
     assert graf.connected(0, 3)
     assert not graf.connected(0, 6)
 
+  def test_group_into_equivalency_classes(self):
+    modthree = lambda x, y: x % 3 == y % 3
+    groups = hacklib.group_into_equivalency_classes(list(range(1, 10)),
+                                                    modthree)
+    assert groups == [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+
   def test_hexagonals(self):
     hexes = hacklib.Hexagonals()
     taketen = itertools.islice(hexes, 0, 10, 1)
     correct = [1, 6, 15, 28, 45, 66, 91, 120, 153, 190]
     taketen = list(taketen)
     assert taketen == correct
+    assert 120 in hexes
+    assert 119 not in hexes
 
   def test_is_anagram(self):
     assert strings.is_anagram('abcedd', 'decbad')
@@ -214,6 +258,10 @@ class Tests(unittest.TestCase):
     assert not strings.is_pan('ABCD12345Y')
     assert not strings.is_pan('avBCDS1234Y')
 
+  def test_is_power_of(self):
+    assert hacklib.is_power_of(27, 3)
+    assert not hacklib.is_power_of(96, 10)
+
   def test_k_split(self):
     assert hacklib.k_split('ABCDEFGHI', 3) == ['ABC', 'DEF', 'GHI']
 
@@ -224,6 +272,10 @@ class Tests(unittest.TestCase):
   def test_kth(self):
     assert hacklib.kth_element([0, 1, 2, 4, 6, 5, 3], 3) == 3
 
+  def test_largest_palindrome_product(self):
+    pals = hacklib.Palindrome()
+    assert pals.find_largest_product(100, 999) == 906609
+
   def test_largest_permutation(self):
     assert hacklib.largest_permutation([4, 2, 3, 5, 1], 1) == [5, 2, 3, 4, 1]
     assert hacklib.largest_permutation([2, 1, 3], 1) == [3, 1, 2]
@@ -233,8 +285,8 @@ class Tests(unittest.TestCase):
     assert len(hacklib.line_cover([1, 2, 3, 17, 10], 4)) == 3
 
   def test_list_cover(self):
-    assert hacklib.list_cover([[0, 4], [2], [3]]) == [2, 4]
-    assert hacklib.list_cover([[0], [1], [2], [3], [4]]) == [0, 4]
+    assert hacklib.list_cover([[0], [1], [2], [3], [4]]) == hacklib.Segment(0, 4)
+    assert hacklib.list_cover([[0, 4], [2], [-4, 3]]) == hacklib.Segment(2, 4)
 
   def test_make_change(self):
     assert hacklib.make_change([1, 2, 3], 4) == 4
@@ -247,6 +299,7 @@ class Tests(unittest.TestCase):
             [8, 9, 0, 1],
             [2, 3, 4, 5]]
     mat = hacklib.Matrix(grid)
+    assert len(mat) == 16
     mat.zero()
     zeroed = [[0, 0, 0, 0],
               [0, 5, 0, 7],
@@ -264,10 +317,12 @@ class Tests(unittest.TestCase):
                [7, 14, 13, 2],
                [6, 5, 4, 3]]
     assert mat.mat == correct
+    assert not (mat.is_col_sorted() or mat.is_row_sorted())
     grid = [[1, 2, 3],
             [4, 5, 6],
             [7, 8, 9]]
     mat = hacklib.Matrix(grid)
+    assert mat.is_col_sorted() and mat.is_row_sorted()
     mat.rotate()
     correct = [[7, 4, 1],
                [8, 5, 2],
@@ -314,6 +369,14 @@ class Tests(unittest.TestCase):
     assert hacklib.nodes_with_branching(1, 7) == 8
     assert hacklib.nodes_with_branching(2, 7) == 57
     assert hacklib.nodes_with_branching(3, 7) == 7*7*7 + 7*7 + 7 + 1
+
+  def test_naturals(self):
+    nats = hacklib.Naturals()
+    takefive = hacklib.take(nats, 5)
+    assert takefive == [1, 2, 3, 4, 5]
+    assert 12 in nats
+    assert -5 not in nats
+    assert 12.3 not in nats
 
   def test_no_repeats(self):
     assert len(list(hacklib.no_repeats('AAAA'))) == 1
@@ -369,10 +432,17 @@ class Tests(unittest.TestCase):
 
   def test_pentagonals(self):
     pents = hacklib.Pentagonals()
-    taketen = itertools.islice(pents, 0, 10, 1)
     correct = [1, 5, 12, 22, 35, 51, 70, 92, 117, 145]
-    taketen = list(taketen)
+    for num in correct:
+      assert num in pents
+    taketen = hacklib.take(pents, 10)
     assert taketen == correct
+    assert 6 not in pents
+
+  def test_pentagonal_pairs(self):
+    pents = hacklib.Pentagonals()
+    assert not pents.pair(22, 70)
+    assert pents.pair(pents[1020], pents[2167])
 
   def test_permutation_set(self):
     lst = list(hacklib.permutation_set([1, 1, 2, 3]))
@@ -439,6 +509,15 @@ class Tests(unittest.TestCase):
     assert pals.split_index('baaa') == 0
     assert pals.split_index('aaa') == None
 
+  def test_squares(self):
+    squares = hacklib.Squares()
+    takefive = hacklib.take(squares, 5)
+    for num in takefive:
+      assert num in squares
+    assert takefive == [1, 4, 9, 16, 25]
+    assert 17 not in takefive
+    assert -1 not in takefive
+
   def test_stock_maximize(self):
     assert hacklib.stock_maximize([5, 3, 2]) == 0
     assert hacklib.stock_maximize([1, 2, 100]) == 197
@@ -472,10 +551,13 @@ class Tests(unittest.TestCase):
 
   def test_triangulars(self):
     tries = hacklib.Triangulars()
-    taketen = itertools.islice(tries, 0, 10, 1)
+    taketen = hacklib.take(tries, 10)
     correct = [0, 1, 3, 6, 10, 15, 21, 28, 36, 45]
-    taketen = list(taketen)
     assert taketen == correct
+    assert 28 in tries
+    assert 29 not in tries
+    assert 27 not in tries
+    assert -6 not in tries
 
   def test_two_power_rank(self):
     correct = [(1, 0), (2, 1), (3, 1), (4, 2), (5, 1),
