@@ -109,6 +109,12 @@ class Graph(object):
       count += columns
     return graph
 
+  def is_connected(self):
+    pass
+
+  def is_dag(self):
+    pass
+
   def longest_dag_path(self, source, dest):
     ''' Given that self is a dag, find the longest path
         between source and dest. '''
@@ -163,3 +169,16 @@ class Graph(object):
     path.append(prev)
     path.reverse()
     return path
+
+  def topo_sort(self):
+    #assert self.is_dag()
+    visited = set([])
+    queue = set(self.vertices)
+    order = []
+    while len(queue):
+      for vert in list(queue):
+        if all(dest in visited for dest in self.edge_map[vert].keys()):
+          order.append(vert)
+          visited.add(vert)
+          queue.remove(vert)
+    return list(reversed(order))

@@ -170,6 +170,13 @@ class Tests(unittest.TestCase):
     assert not pals.from_anagram('cdefghmnopqrstuvw')
     assert pals.from_anagram('cdcdcdcdeeeef')
 
+  def test_extract_order(self):
+    assert hacklib.extract_order(['y', 'z', 'xy']) == 'yzx'
+    assert hacklib.extract_order(['ba', 'ab', 'cb']) == 'bac'
+    assert hacklib.extract_order(['ba', 'ab', 'cb']) == 'bac'
+    assert hacklib.extract_order(['ba', 'cb', 'ca', 'cc']) == 'bac'
+    assert hacklib.extract_order(['ba', 'ca', 'cb']) == 'abc'
+
   def test_factors(self):
     primes = Primes()
     assert primes.factors(0) == []
@@ -364,11 +371,7 @@ class Tests(unittest.TestCase):
   def test_max_subarray(self):
     assert sum(hacklib.max_subarray([1, 2, 3, 4])) == 10
     assert sum(hacklib.max_subarray([2, -1, 2, 3, 4, -5])) == 10
-
-  def test_nodes_with_branching(self):
-    assert hacklib.nodes_with_branching(1, 7) == 8
-    assert hacklib.nodes_with_branching(2, 7) == 57
-    assert hacklib.nodes_with_branching(3, 7) == 7*7*7 + 7*7 + 7 + 1
+    assert sum(hacklib.max_subarray([-1, -2, -3, -4])) == -1
 
   def test_naturals(self):
     nats = hacklib.Naturals()
@@ -378,12 +381,22 @@ class Tests(unittest.TestCase):
     assert -5 not in nats
     assert 12.3 not in nats
 
+  def test_nodes_with_branching(self):
+    assert hacklib.nodes_with_branching(1, 7) == 8
+    assert hacklib.nodes_with_branching(2, 7) == 57
+    assert hacklib.nodes_with_branching(3, 7) == 7*7*7 + 7*7 + 7 + 1
+
   def test_no_repeats(self):
     assert len(list(hacklib.no_repeats('AAAA'))) == 1
     assert len(list(hacklib.no_repeats('BBBBB'))) == 1
     assert len(list(hacklib.no_repeats('ABABABAB'))) == 8
     assert len(list(hacklib.no_repeats('BABABA'))) == 6
     assert len(list(hacklib.no_repeats('AAABBB'))) == 2
+
+  def test_number_spiral_sum(self):
+    correct = [(0, 1), (1, 24), (2, 76)]
+    for (k, v) in correct:
+      assert hacklib.number_spiral_sum(k) == v
 
   def test_pair_diffs(self):
     pairs = hacklib.pair_diffs([1,5,3,4,2],2)
@@ -449,6 +462,9 @@ class Tests(unittest.TestCase):
     assert len(lst) == 12
     assert lst == hacklib.uniq(lst)
 
+  def test_points_on_slope(self):
+    pass
+
   def test_possible_ends(self):
     assert hacklib.possible_ends(3, 1, 2) == [2, 3, 4]
     assert hacklib.possible_ends(4, 10, 100) == [30, 120, 210, 300]
@@ -470,6 +486,12 @@ class Tests(unittest.TestCase):
     for _ in range(10100):
       next(itr)
     assert list(primes.countdown(29))[::-1] == correct
+
+  def test_product(self):
+    assert hacklib.product([1,2,3,4,5]) == 5*4*3*2
+
+  def test_quad_prime(self):
+    assert hacklib.quad_prime(1, 41) == 40
 
   def test_reorder_chars(self):
     cases = [('the theater', 'hte hteater'),
@@ -530,6 +552,11 @@ class Tests(unittest.TestCase):
     assert hacklib.successor(['d', 'h', 'c', 'k']) == ['d', 'h', 'k', 'c']
     assert hacklib.successor(['d', 'k', 'h', 'c']) == ['h', 'c', 'd', 'k']
 
+  def test_sum_squares(self):
+    assert hacklib.sum_squares(1) == 1
+    assert hacklib.sum_squares(2) == 5
+    assert hacklib.sum_squares(3) == 14
+
   def test_swap_case(self):
     assert (strings.swap_case("Please sWaP this pHRASE PLeas!")
                            == "pLEASE SwAp THIS Phrase plEAS!")
@@ -540,6 +567,16 @@ class Tests(unittest.TestCase):
                (7, 5), (8, 7), (9, 10)]
     for (k, v) in correct:
       assert hacklib.tile_four_by_n(k) == v
+
+  def test_topo_sort(self):
+    graf = Graph()
+    graf.set_edge(0, 1)
+    graf.set_edge(1, 2)
+    graf.set_edge(2, 3)
+    graf.set_edge(3, 4)
+    graf.set_edge(4, 5)
+    graf.set_edge(5, 6)
+    assert graf.topo_sort() == [0, 1, 2, 3, 4, 5, 6]
 
   def test_totient(self):
     correct = [(2, 1), (3, 2), (4, 2),
@@ -564,6 +601,9 @@ class Tests(unittest.TestCase):
                (6, 2), (7, 2), (8, 3), (9, 1), (10, 2)]
     for (k, v) in correct:
       assert hacklib.two_power_rank(k) == v
+
+  def test_tuple_to_num(self):
+    assert hacklib.tuple_to_num((1,2,3)) == 123
 
   def test_uniq(self):
     assert hacklib.uniq('ABCADEFGGB') == ['A', 'B', 'C', 'D', 'E', 'F', 'G']
