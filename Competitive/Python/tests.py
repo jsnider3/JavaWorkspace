@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from bst import BinarySearchTree
+import fractions
 from graph import Graph
 import hacklib
 import itertools
@@ -25,6 +26,11 @@ class Tests(unittest.TestCase):
     take = hacklib.accumulate(inp, 50)
     assert inp == orig
     assert take == [1, 5, 10, 12]
+
+  def test_amicables(self):
+    assert hacklib.get_amicable_pair(220) == (220, 284)
+    assert hacklib.get_amicable_pair(284) == (220, 284)
+    assert hacklib.get_amicable_pair(219) == None
 
   def test_and_product(self):
     assert hacklib.and_product(12, 15) == 12
@@ -132,6 +138,13 @@ class Tests(unittest.TestCase):
     assert hacklib.closest_numbers([5, 4, 3, 2]) == [(2,3),(3,4),(4,5)]
     assert hacklib.closest_numbers([8, 6, 4, 9, 2]) == [(8, 9)]
 
+  def test_collatz(self):
+    col = hacklib.Collatz()
+    assert col.depth(13) == 10
+    for num in range(1, 1000001):
+      col.depth(num)
+    assert col.max_depth() == 837799
+
   def test_common_elements(self):
     lns = [list('labcdde'), list('baccd'), list('eeabg')]
     assert len(hacklib.common_elements(*lns)) == 2
@@ -146,6 +159,18 @@ class Tests(unittest.TestCase):
     assert(2 == primes.consecutive_sum_max(5))
     assert(0 == primes.consecutive_sum_max(11))
     assert(6 == primes.consecutive_sum_max(41))
+
+  def test_consecutive_sum_max_length(self):
+    primes = Primes()
+    assert primes.consecutive_sum_max_length(50) == (41, 6)
+
+  def test_convergents(self):
+    euler = hacklib.Convergents.of_e()
+    test = hacklib.take(euler, 4)
+    assert test[0] == fractions.Fraction(2, 1)
+    assert test[1] == fractions.Fraction(3, 1)
+    assert test[2] == fractions.Fraction(8, 3)
+    assert test[3] == fractions.Fraction(11, 4)
 
   def test_decents(self):
     decs = hacklib.Decents()
@@ -208,6 +233,11 @@ class Tests(unittest.TestCase):
   def test_find_right_triangles(self):
     tries = hacklib.find_right_triangles(90)
     assert tries == [(9, 40, 41), (15, 36, 39)]
+
+  def test_flat_index(self):
+    arr = [[0, 1], [2, 3, 4], [5, 6, 7, 8], [], [9]]
+    for num in range(10):
+      assert hacklib.flat_index(arr, num) == num
 
   def test_freq_sort(self):
     assert hacklib.freq_sort('aabbbccde') == ['b', 'a', 'c', 'd', 'e']
@@ -288,6 +318,10 @@ class Tests(unittest.TestCase):
     assert hacklib.largest_permutation([4, 2, 3, 5, 1], 1) == [5, 2, 3, 4, 1]
     assert hacklib.largest_permutation([2, 1, 3], 1) == [3, 1, 2]
     assert hacklib.largest_permutation([2, 1], 1) == [2, 1]
+
+  def test_least_common_multiple(self):
+    assert hacklib.least_common_multiple([4, 6]) == 12
+    assert hacklib.least_common_multiple([3, 6, 7]) == 42
 
   def test_line_cover(self):
     assert len(hacklib.line_cover([1, 2, 3, 17, 10], 4)) == 3
@@ -541,6 +575,11 @@ class Tests(unittest.TestCase):
     assert pals.split_index('aaab') == 3
     assert pals.split_index('baaa') == 0
     assert pals.split_index('aaa') == None
+
+  def test_squarechains(self):
+    chain = hacklib.SquareChain()
+    chain.get_end(145) == 89
+    chain.get_end(44) == 1
 
   def test_squares(self):
     squares = hacklib.Squares()

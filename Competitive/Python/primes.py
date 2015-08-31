@@ -88,7 +88,6 @@ class Primes(object):
         if total < cutoff and length > maxlen and total in self:
           maxlen = length
           maxtot = total
-          print((total, maxlen))
       start += 1
     return (maxtot, maxlen)
 

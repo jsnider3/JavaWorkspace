@@ -79,14 +79,14 @@ class Collatz(object):
   def __init__(self):
     self.depths = {1 : 1}
 
-  @staticmethod
-  def next(num):
+  @classmethod
+  def next(cls, num):
     ''' Return what follows num in the Collatz sequence. '''
     assert num > 0
     if num % 2 == 0:
       return num / 2
     else:
-      return (3 * num + 1) / 2
+      return (3 * num + 1)
 
   def depth(self, num):
     ''' Return the distance of num from the root. '''
@@ -98,14 +98,7 @@ class Collatz(object):
 
   def max_depth(self):
     ''' Return the number farthest from the root. '''
-    tMax = 1
-    max_num = 1
-    for entry in self.depths.items():
-      (tKey, tValue) = entry
-      if tValue > tMax:
-        tMax = tValue
-        max_num = tKey
-    return max_num
+    return max(self.depths, key=lambda d: self.depths[d])
 
 #########################
 class Convergents(object):
@@ -125,8 +118,8 @@ class Convergents(object):
         convergent = 1 / (d + convergent)
       yield self.start + convergent
 
-  @staticmethod
-  def of_e():
+  @classmethod
+  def of_e(cls):
     def e_denoms():
       loops = 1
       lst = [1, 2, 1]
@@ -137,7 +130,7 @@ class Convergents(object):
           else:
             yield 2 * loops
         loops += 1
-    return Convergents(2, iter(e_denoms()))
+    return cls(2, iter(e_denoms()))
 
 #########################
 class Decents(object):
@@ -447,8 +440,8 @@ class SquareChain(object):
   def __init__(self):
     self.end = {1 : 1, 89 : 89}
 
-  @staticmethod
-  def next(num):
+  @classmethod
+  def next(cls, num):
     ''' Return what follows num in the sequence. '''
     return digits_exp(num, 2)
 
@@ -820,12 +813,12 @@ def freq_sort(lst):
   elms = sorted(list(elms))
   return sorted(elms, key= lambda x: lst.count(x), reverse=True)
 
-def get_amicable_pair(low):
+def get_amicable_pair(num):
   ''' If low is the smallest number of an amicable pair
       return the pair, else return None. '''
-  high = sum(proper_divisors(low))
-  if low < high and sum(proper_divisors(high)) == low:
-    return (low, high)
+  oth = sum(proper_divisors(num))
+  if sum(proper_divisors(oth)) == num:
+    return (min(oth, num), max(oth, num))
   return None
 
 def goldbach(num):
@@ -1008,6 +1001,16 @@ def largest_product_in_series(series, length):
       largest = prod
   return largest
 
+def least_common_multiple(numbers):
+  '''Find the lcm of a list of numbers.'''
+  common_factors = []
+  for number in set(numbers):
+    factors = Primes().factors(number)
+    for factor in factors:
+      while common_factors.count(factor) < factors.count(factor):
+        common_factors.append(factor)
+  return product(common_factors)
+
 def line_cover(locs, width):
   ''' Given a list of 1D coordinates,
       return a list of points such that each point
@@ -1105,16 +1108,6 @@ def longest_arithmetically_increasing_sequence(lst):
   for count in range(0, max_len + 1):
     sequence.append(max_start + max_diff * count)
   return sequence
-
-def lowest_common_multiple(numbers):
-  '''Find the lcm of a list of numbers.'''
-  common_factors = []
-  for number in set(numbers):
-    factors = Primes().factors(number)
-    for factor in factors:
-      while common_factors.count(factor) < factors.count(factor):
-        common_factors.append(factor)
-  return product(common_factors)
 
 def magnitude(vec):
   ''' Euclidean norm of a vector. '''
