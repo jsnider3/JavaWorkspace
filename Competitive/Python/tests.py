@@ -172,6 +172,9 @@ class Tests(unittest.TestCase):
     assert test[2] == fractions.Fraction(8, 3)
     assert test[3] == fractions.Fraction(11, 4)
 
+  def test_cross_product(self):
+    assert hacklib.cross_product((2, 1, -1), (-3, 4, 1)) == (5, 1, 11)
+
   def test_decents(self):
     decs = hacklib.Decents()
     assert not decs.largest_of_len(1)
@@ -501,10 +504,20 @@ class Tests(unittest.TestCase):
     assert lst == hacklib.uniq(lst)
 
   def test_points_in_triangle(self):
-    assert hacklib.points_in_triangle([2, 3], [6, 9], [10, 160]) == 289
+    assert hacklib.points_in_triangle((2, 3), (6, 9), (10, 160)) == 289
+    assert hacklib.points_in_triangle((91207, 89566), (-88690, -83026),
+                                      (67100, 47194)) == 1730960165
+    assert hacklib.points_in_triangle((-2, -1), (1, 0), (0, 1)) == 1
 
   def test_points_on_slope(self):
-    pass
+    assert hacklib.points_on_slope(0, -4) == 5
+    assert hacklib.points_on_slope(2, 2) == 3
+    assert hacklib.points_on_slope(2, 3) == 2
+    assert hacklib.points_on_slope(4, 6) == 3
+    assert hacklib.points_on_slope(1, 17) == 2
+    assert hacklib.points_on_slope(0, -9) == 10
+    assert hacklib.points_on_slope(9, -4) == 2
+    assert hacklib.points_on_slope(4, 0) == 5
 
   def test_possible_ends(self):
     assert hacklib.possible_ends(3, 1, 2) == [2, 3, 4]
@@ -634,6 +647,10 @@ class Tests(unittest.TestCase):
                (8, 4), (9, 6), (10, 4)]
     for (k, v) in correct:
       assert hacklib.totient(k) == v
+
+  def test_triangle_area(self):
+    assert hacklib.triangle_area((0, 0,), (0, 5), (5, 0)) == 12.5
+    assert hacklib.triangle_area((-2, -1,), (1, 0), (0, 1)) == 2
 
   def test_triangulars(self):
     tries = hacklib.Triangulars()

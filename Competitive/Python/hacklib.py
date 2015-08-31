@@ -677,7 +677,10 @@ def common_elements(*arrs):
   return common
 
 def cross_product(fst, secnd):
-  pass
+  ''' Cross-product of two 3D vectors.'''
+  (fi, fj, fk) = fst
+  (si, sj, sk) = secnd
+  return (fj * sk - fk * sj, fk * si - fi * sk, fi * sj - fj * si)
 
 def digits_exp(num, pwr):
   ''' wrapper for digits_foo '''
@@ -1255,14 +1258,20 @@ def permutation_set(arr):
 def points_in_triangle(top, left, right):
   ''' How many points in a triangle with the given
       vertices are completely enclosed and have integer
-      coordinates? '''
-  #Should be something like area - points_on_slope for all three slopes.
-  pass
+      coordinates? The solution is Pick's Theorem. '''
+  full_area = triangle_area(top, left, right)
+  slopes = []
+  slopes.append((top[0] - left[0], top[1] - left[1]))
+  slopes.append((right[0] - left[0], right[1] - left[1]))
+  slopes.append((right[0] - top[0], right[1] - top[1]))
+  boundary_points = sum(points_on_slope(*slope) for slope in slopes)
+  boundary_points -= 3
+  return int(full_area - boundary_points / 2.0 + 1)
 
 def points_on_slope(rise, run):
   '''Count the number of points on a slope that
     have integer x, y coordinates. '''
-  points = 1 + fractions.gcd(rise, run)
+  points = 1 + fractions.gcd(abs(rise), abs(run))
   return points
 
 def possible_ends(length, fst, secnd):
@@ -1467,6 +1476,14 @@ def towers_of_hanoi(arr):
       To move a tower of size n to another peg
       takes 2^n - 1 moves. '''
   pass
+
+def triangle_area(*verts):
+  ''' Area of a 2D triangle.'''
+  assert len(verts) == 3
+  left, top, right = sorted(verts)
+  vec_one = (top[0] - left[0], top[1] - left[1], 0)
+  vec_two = (top[0] - right[0], top[1] - right[1], 0)
+  return .5 * magnitude(cross_product(vec_one, vec_two))
 
 def triangle_max_path(aTriangle):
   triangle = list(reversed(aTriangle))
