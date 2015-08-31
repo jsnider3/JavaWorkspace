@@ -1,23 +1,25 @@
 ''' Wrapped module for Primes class'''
 
+import pdb
+
 class Primes(object):
   ''' Utility class for generating primes, checking
       the primality of numbers, and exploring other
       features of primes.'''
 
-  _List = set([2, 3])
+  cache = set([2, 3])
 
   def __contains__(self, num):
     if num < 2:
       return False
-    if num in self._List:
+    if num in self.cache:
       return True
     if num % 2 == 0:
       return False
-    for count in self._List:
+    for count in self.cache:
       if num % count == 0:
         return False
-    for count in range(max(self._List), int(num ** (.5) + 1), 2):
+    for count in range(max(self.cache), int(num ** (.5) + 1), 2):
       if num % count == 0:
         return False
     return True
@@ -35,14 +37,14 @@ class Primes(object):
       raise TypeError("Invalid index.")
 
   def __iter__(self):
-    for num in self._List:
-      assert num is not None
+    #pdb.set_trace()
+    for num in sorted(list(self.cache)):
       yield num
-    count = max(self._List) + 2
+    count = max(self.cache) + 2
     while True:
       if count in self:
-        if not count in self._List:
-          self._List.add(count)
+        if not count in self.cache:
+          self.cache.add(count)
         yield count
       count += 2
 
@@ -145,18 +147,18 @@ class Primes(object):
     #TODO Slow af.
     if key < 1:
       raise IndexError("There is no prime[{0}]".format(key))
-    primelist = list(self._List)
+    primelist = list(self.cache)
     primelist.sort()
-    if key < len(self._List):
+    if key < len(self.cache):
       return primelist[key - 1]
     prime = primelist[-1]
     count = primelist[-1]
-    found = len(self._List) - 1
+    found = len(self.cache) - 1
     while found < key:
       if count in self:
         prime = count
         found += 1
-        self._List.add(prime)
+        self.cache.add(prime)
       count += 2
     return prime
 

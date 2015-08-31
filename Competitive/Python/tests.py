@@ -230,6 +230,7 @@ class Tests(unittest.TestCase):
     graf.set_edge(2,3)
     graf.set_edge(3,4)
     graf.set_edge(5,6)
+    assert len(graf) == 7
     assert graf.connected(5, 6)
     assert graf.connected(0, 3)
     assert not graf.connected(0, 6)
@@ -294,6 +295,9 @@ class Tests(unittest.TestCase):
   def test_list_cover(self):
     assert hacklib.list_cover([[0], [1], [2], [3], [4]]) == hacklib.Segment(0, 4)
     assert hacklib.list_cover([[0, 4], [2], [-4, 3]]) == hacklib.Segment(2, 4)
+
+  def test_lonely_member(self):
+    assert hacklib.lonely_member([1, 2, 3, 1, 2, 0, 3]) == 0
 
   def test_make_change(self):
     assert hacklib.make_change([1, 2, 3], 4) == 4
@@ -462,6 +466,9 @@ class Tests(unittest.TestCase):
     assert len(lst) == 12
     assert lst == hacklib.uniq(lst)
 
+  def test_points_in_triangle(self):
+    assert hacklib.points_in_triangle([2, 3], [6, 9], [10, 160]) == 289
+
   def test_points_on_slope(self):
     pass
 
@@ -500,6 +507,10 @@ class Tests(unittest.TestCase):
              ('thththththththt', 'hhhhhhhtttttttt')]
     for (h, v) in cases:
       assert hacklib.reorder_chars(h, 'h', 't') == v
+
+  def test_resilience(self):
+    assert hacklib.resilience(12) == 4.0/11
+    assert hacklib.resilient_search(4.0/10) == 12
 
   def test_romans(self):
     roman = RomanNumeral("VI")
@@ -582,9 +593,8 @@ class Tests(unittest.TestCase):
     correct = [(2, 1), (3, 2), (4, 2),
                (5, 4), (6, 2), (7, 6),
                (8, 4), (9, 6), (10, 4)]
-    #for (k, v) in correct:
-    #  assert hacklib.totient(k) == v
-    #assert hacklib.resilience(12) == 4/11
+    for (k, v) in correct:
+      assert hacklib.totient(k) == v
 
   def test_triangulars(self):
     tries = hacklib.Triangulars()

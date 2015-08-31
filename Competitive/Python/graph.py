@@ -11,6 +11,9 @@ class Graph(object):
     self.vertices = set([])
     self.directed = directed
 
+  def __len__(self):
+    return len(self.vertices)
+
   def connected(self, source, dest):
     ''' True if there's a path between source and dest.'''
     if source not in self.edge_map or dest not in self.edge_map:

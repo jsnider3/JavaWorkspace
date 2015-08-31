@@ -118,7 +118,6 @@ class Convergents(object):
 
   def __iter__(self):
     yield fractions.Fraction(numerator=self.start, denominator=1)
-    pdb.set_trace()
     while True:
       self.stack.append(next(self.denoms))
       convergent = fractions.Fraction()
@@ -684,6 +683,9 @@ def common_elements(*arrs):
       common = common.intersection(group)
   return common
 
+def cross_product(fst, secnd):
+  pass
+
 def digits_exp(num, pwr):
   ''' wrapper for digits_foo '''
   return digits_foo(num, lambda x: x ** pwr)
@@ -767,7 +769,7 @@ def find_pythag_triplet(total):
   for adj in range(1, total):
     for opp in range(adj + 1, total - adj + 1):
       for hyp in range(opp + 1, total - adj - opp + 1):
-        if adj ** 2 + opp ** 2 == hyp ** 2:
+        if magnitude([adj, opp]) == hyp:
           if adj + opp + hyp == total:
             return (adj, opp, hyp)
 
@@ -776,7 +778,7 @@ def find_right_triangles(perim):
   triangles = []
   for opp in range(1, perim // 3):
     for adj in range(1, perim // 2):
-      hyp = math.sqrt(opp ** 2 + adj ** 2)
+      hyp = magnitude([opp, adj])
       if hyp.is_integer() and opp + adj + hyp == perim:
         triangles.append((opp, adj, int(hyp)))
   return triangles
@@ -1114,6 +1116,10 @@ def lowest_common_multiple(numbers):
         common_factors.append(factor)
   return product(common_factors)
 
+def magnitude(vec):
+  ''' Euclidean norm of a vector. '''
+  return math.sqrt(sum(num ** 2 for num in vec))
+
 def make_change(coins, total):
   ''' Dynamic programming solution to
       count the possible ways to make change. '''
@@ -1253,6 +1259,13 @@ def permutation_set(arr):
   for perm in helper([], list(sorted(arr))):
     yield perm
 
+def points_in_triangle(top, left, right):
+  ''' How many points in a triangle with the given
+      vertices are completely enclosed and have integer
+      coordinates? '''
+  #Should be something like area - points_on_slope for all three slopes.
+  pass
+
 def points_on_slope(rise, run):
   '''Count the number of points on a slope that
     have integer x, y coordinates. '''
@@ -1322,7 +1335,7 @@ def reorder_chars(strn, left, right):
 def resilience(denom):
   ''' As defined by Project Euler 243 '''
   assert denom > 1
-  resil = totient(denom) / (denom - 1)
+  resil = totient(denom) / (denom - 1.0)
   return resil
 
 def resilient_search(thresh):
@@ -1333,7 +1346,7 @@ def resilient_search(thresh):
   guess = next(piter)
   while resilience(guess) >= thresh:
     nxt = next(piter)
-    if resilience(guess*nxt) < thresh:
+    if resilience(guess * nxt) < thresh:
       break
     else:
       guess *= nxt
@@ -1447,7 +1460,7 @@ def totient(num):
   primes = Primes()
   factors = primes.factors(num)
   factors = set(factors)
-  prod = product([(1 - 1/x) for x in factors])
+  prod = product([(1 - 1.0/x) for x in factors])
   phi = num * prod
   return int(phi)
 
@@ -1468,7 +1481,6 @@ def triangle_max_path(aTriangle):
   for row in range(len(triangle)):
     if row > 0:
       cur_row = triangle[row]
-      print(row)
       for col in range(len(cur_row)):
         tMax[col] = cur_row[col] + max(tMax[col], tMax[col + 1])
   triangle.reverse()
