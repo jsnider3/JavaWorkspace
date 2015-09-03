@@ -1,6 +1,7 @@
 '''Solutions for Project Euler, HackerRank, and various
   coding challenges.
   @author: Josh Snider'''
+from decimal import *
 import fractions
 import functools
 import itertools
@@ -650,7 +651,7 @@ def choose(n, r):
   if n < r:
     return 0
   else:
-    return int(math.factorial(n)/(math.factorial(r) * math.factorial(n - r)))
+    return factorial(n)/(factorial(r) * factorial(n - r))
 
 def closest_numbers(arr):
   ''' Return a list of tuples with minimal difference. '''
@@ -736,6 +737,12 @@ def extract_order(words, graf=None):
       sub_order = extract_order(sub_words, graf)
   res = ''.join(str(elm) for elm in graf.topo_sort())
   return res
+
+def factorial(num):
+  prod = Decimal(1)
+  for val in range(2, int(num + 1)):
+    prod *= val
+  return prod
 
 def fibonacci(term):
   ''' Return the termth fibonacci number. O(n)'''
@@ -1512,24 +1519,23 @@ def tunnel_possibilities(nodes, edges, cache={}):
       number of distinct nodes and a given number of edges.'''
   #Maybe this is number of possible edges choose number of actual edges?
   # Then subtract out the non-connected things.
-  ways = 1
-  if (nodes, edges) in cache:
+  max_edges = nodes * (nodes - 1) / 2
+  ways = Decimal(0)
+  if edges < nodes - 1 or edges > max_edges:
+    pass
+  elif (nodes, edges) in cache:
     ways = cache[(nodes, edges)]
+  elif edges + 1 == nodes:
+    ways += Decimal(nodes ** (nodes - 2))
+  elif edges >= choose(nodes - 1, 2) + 1:
+    #print('OEIS A123527')
+    ways += Decimal(choose(choose(nodes, 2), edges))
   else:
-    max_edges = nodes * (nodes - 1) / 2
-    assert edges >= nodes - 1
-    assert edges <= max_edges
-    if edges + 1 == nodes:
-      ways = nodes ** (nodes - 2)
-    elif edges >= choose(nodes - 1, 2) + 1:
-      print('OEIS A123527')
-      ways = int(choose(choose(nodes, 2), edges))
-    else:
-      print('OEIS A062734')
-      possible_graphs = choose(max_edges, edges)
+    #print('OEIS A062734')
+    possible_graphs = choose(max_edges, edges)
 
-      ways = int(possible_graphs - unconnected_graphs(nodes, edges))
-      cache[(nodes, edges)] = ways
+    ways += (possible_graphs - unconnected_graphs(nodes, edges))
+    cache[(nodes, edges)] = ways
   return ways
 
 def tuple_to_num(tupe):
@@ -1543,15 +1549,15 @@ def tuple_to_num(tupe):
 def unconnected_graphs(nodes, edges, cache={}):
   ''' How many graphs with a given number of nodes and edges
       are not connected? '''
-  unconnected_graphs = 0
+  unconnected_graphs = Decimal(0)
   if (nodes, edges) in cache:
     unconnected_graphs = cache[(nodes, edges)]
   else:
     for num in range(nodes - 1):
-      accum = 0
-      start = max(0, edges - (num + 1) * num // 2)
-      for val in range(start, edges - num + 1):
-        accum += (choose((nodes - 1 - num) * (nodes - 2 - num) / 2, val) *
+      accum = Decimal(0)
+      top = (nodes - 1 - num) * (nodes - 2 - num) // 2
+      for val in range(0, min(edges + 2, top + 2)):# - num + 1):
+        accum += (Decimal(choose(top, val)) *
                   tunnel_possibilities(num + 1, edges - val))
       unconnected_graphs += choose(nodes - 1, num) * accum
     cache[(nodes, edges)] = unconnected_graphs
