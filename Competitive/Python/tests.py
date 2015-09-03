@@ -668,6 +668,30 @@ class Tests(unittest.TestCase):
     for (k, v) in correct:
       assert hacklib.two_power_rank(k) == v
 
+  def test_tunnel_possibilities(self):
+    assert hacklib.tunnel_possibilities(2, 1) == 1
+    assert hacklib.tunnel_possibilities(3, 2) == 3
+    assert hacklib.tunnel_possibilities(4, 6) == 1
+    assert hacklib.tunnel_possibilities(4, 3) == 16
+    assert hacklib.tunnel_possibilities(5, 7) == 120
+    nodes = 1
+    edges = 0
+    count = 0
+    with open('possible_tunnels_tests.txt') as tests:
+      for line in tests:
+        [_, corr] = [int(s) for s in line.split()]
+        test = hacklib.tunnel_possibilities(nodes, edges)
+        if test != corr:
+          print(nodes, edges, corr, test, count)
+        assert test == corr
+        edges += 1
+        count += 1
+        if count < 0:
+          break
+        elif edges > nodes * (nodes - 1) / 2:
+          nodes += 1
+          edges = nodes - 1
+
   def test_tuple_to_num(self):
     assert hacklib.tuple_to_num((1,2,3)) == 123
 
