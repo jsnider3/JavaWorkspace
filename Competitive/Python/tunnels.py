@@ -1,13 +1,27 @@
 import math
 import unittest
 
-def choose(n, r):
-    ''' return n choose r. '''
+def choose(n, k):
+    """
+    A fast way to calculate binomial coefficients by Andrew Dalke.
+    """
+    if 0 <= k <= n:
+        ntok = 1
+        ktok = 1
+        for t in xrange(1, min(k, n - k) + 1):
+            ntok *= n
+            ktok *= t
+            n -= 1
+        return ntok // ktok
+    else:
+        return 0
+'''def choose(n, r):
+    # return n choose r. 
     #Imprecise
     if n < r:
         return 0
     else:
-        return fact(n)/(fact(r) * fact(n - r))
+        return fact(n)/(fact(r) * fact(n - r))'''
 
 def fact(n):
     prod = 1
@@ -15,22 +29,22 @@ def fact(n):
         prod *= num
     return prod
 
-def unconnected_graphs(nodes, edges, unc_graph_cache={}):
+def unconnected_graphs(nodes, edges, cache={}):
     ''' How many graphs with a given number of nodes and edges
         are not connected? '''
-    unconnected_graphs = 0
+    unconnected_graphs = 0.0
     if (nodes, edges) in unc_graph_cache:
-        unconnected_graphs = unc_graph_cache[(nodes, edges)]
+        unconnected_graphs = cache[(nodes, edges)]
     else:
         for num in range(nodes - 1):
             accum = 0
-            top = (nodes - 1 - num) * (nodes - 2 - num) / 2
-            stop = min(edges + 1, top + 2)
-            for val in range(stop):
-                accum += (choose(top, val) *
+            top = (nodes - 1 - num) * (nodes - 2 - num) // 2
+            stop = edges + 1#min(edges + 1, top + 2)
+            for val in range(edges + 1):
+                accum += (choose((nodes - 1 - num) * (nodes - 2 - num) // 2, val) *
                           possible_tunnels(num + 1, edges - val))
             unconnected_graphs += choose(nodes - 1, num) * accum
-        unc_graph_cache[(nodes, edges)] = unconnected_graphs
+        cache[(nodes, edges)] = unconnected_graphs
     return unconnected_graphs
 
 def possible_tunnels(nodes, edges, cache={}):
@@ -41,13 +55,13 @@ def possible_tunnels(nodes, edges, cache={}):
     #Test cases are (2, 1), (4, 3), (20,125)
     #assert nodes < 20 or edges > 125
     ways = 1
-    max_edges = nodes * (nodes - 1) / 2
+    max_edges = nodes * (nodes - 1) // 2
     if edges < nodes - 1 or edges > max_edges:
         ways = 0
-    elif edges + 1 == nodes:
+    elif edges == nodes - 1:
         ways = nodes ** (nodes - 2)
-    elif edges >= choose(nodes - 1, 2) + 1:
-        ways = choose(choose(nodes, 2), edges)
+    #elif edges >= choose(nodes - 1, 2) + 1:
+    #    ways = choose(choose(nodes, 2), edges)
     elif (nodes, edges) in cache:
         ways = cache[(nodes, edges)]
     else:

@@ -646,12 +646,20 @@ def champernowne(digit):
     count = count + 1
   return int(strn[digit - 1])
 
-def choose(n, r):
-  ''' return n choose r. '''
-  if n < r:
-    return 0
+def choose(n, k):
+  """
+  A fast way to calculate binomial coefficients by Andrew Dalke.
+  """
+  if 0 <= k <= n:
+    ntok = 1
+    ktok = 1
+    for t in range(1, min(k, n - k) + 1):
+      ntok *= n
+      ktok *= t
+      n -= 1
+    return ntok // ktok
   else:
-    return factorial(n)/(factorial(r) * factorial(n - r))
+    return 0
 
 def closest_numbers(arr):
   ''' Return a list of tuples with minimal difference. '''
@@ -1516,27 +1524,29 @@ def two_power_rank(num):
 
 def tunnel_possibilities(nodes, edges, cache={}):
   ''' How many connected graphs are there with a given
-      number of distinct nodes and a given number of edges.'''
+        number of distinct nodes and a given number of edges.'''
   #Maybe this is number of possible edges choose number of actual edges?
   # Then subtract out the non-connected things.
-  max_edges = nodes * (nodes - 1) / 2
-  ways = Decimal(0)
+  ways = 1
+  max_edges = nodes * (nodes - 1) // 2
   if edges < nodes - 1 or edges > max_edges:
-    pass
+    ways = 0
+    print('branch 0', (nodes,edges), ways)
+  elif edges == nodes - 1:
+    ways = nodes ** (nodes - 2)
+    print('branch 1', (nodes,edges), ways)
+  elif edges >= choose(nodes - 1, 2) + 1:
+    ways = choose(choose(nodes, 2), edges)
+    print('branch 2', (nodes,edges), ways)
   elif (nodes, edges) in cache:
     ways = cache[(nodes, edges)]
-  elif edges + 1 == nodes:
-    ways += Decimal(nodes ** (nodes - 2))
-  elif edges >= choose(nodes - 1, 2) + 1:
-    #print('OEIS A123527')
-    ways += Decimal(choose(choose(nodes, 2), edges))
+    print('branch 3', (nodes,edges), ways)
   else:
-    #print('OEIS A062734')
     possible_graphs = choose(max_edges, edges)
-
-    ways += (possible_graphs - unconnected_graphs(nodes, edges))
+    ways = possible_graphs - unconnected_graphs(nodes, edges)
     cache[(nodes, edges)] = ways
-  return ways
+    print('branch 4', (nodes,edges), ways)
+  return (ways)
 
 def tuple_to_num(tupe):
   ''' Take a tuple of form (1, 2, 3, ... )
@@ -1546,21 +1556,22 @@ def tuple_to_num(tupe):
   tupe = "".join(tupe)
   return int(tupe)
 
-def unconnected_graphs(nodes, edges, cache={}):
+def unconnected_graphs(nodes, edges, unc_graph_cache={}):
   ''' How many graphs with a given number of nodes and edges
       are not connected? '''
-  unconnected_graphs = Decimal(0)
-  if (nodes, edges) in cache:
-    unconnected_graphs = cache[(nodes, edges)]
+  unconnected_graphs = 0
+  if (nodes, edges) in unc_graph_cache:
+    unconnected_graphs = unc_graph_cache[(nodes, edges)]
   else:
     for num in range(nodes - 1):
-      accum = Decimal(0)
-      top = (nodes - 1 - num) * (nodes - 2 - num) // 2
-      for val in range(0, min(edges + 2, top + 2)):# - num + 1):
-        accum += (Decimal(choose(top, val)) *
+      accum = 0
+      top = (nodes - 1 - num) * (nodes - 2 - num) / 2
+      stop = min(edges + 1, top + 2)
+      for val in range(stop):
+        accum += (choose(top, val) *
                   tunnel_possibilities(num + 1, edges - val))
-      unconnected_graphs += choose(nodes - 1, num) * accum
-    cache[(nodes, edges)] = unconnected_graphs
+        unconnected_graphs += choose(nodes - 1, num) * accum
+      unc_graph_cache[(nodes, edges)] = unconnected_graphs
   return unconnected_graphs
 
 def uniq(seq):

@@ -136,7 +136,6 @@ class Tests(unittest.TestCase):
     assert count == 4075
     test = hacklib.choose(250, 120)
     corr = 74730758814246596503641926418494752020065690964320078826077612428377458175
-    print(test - corr)
     assert test == corr
 
   def test_closest_numbers(self):
@@ -683,9 +682,10 @@ class Tests(unittest.TestCase):
         [_, corr] = [int(s) for s in line.split()]
         test = hacklib.tunnel_possibilities(nodes, edges)
         if test != corr:
-          #print(nodes, edges, corr, test, count)
+          print(nodes, edges, corr, test, count)
           wrong += 1
-        #assert test == corr
+        print('DONE')
+        assert test == corr
         edges += 1
         count += 1
         if nodes == 20 and edges == 125:
