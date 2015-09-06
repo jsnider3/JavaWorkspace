@@ -116,7 +116,9 @@ class Graph(object):
     pass
 
   def is_dag(self):
-    pass
+    ''' Return whether this graph is a
+        directed acyclic graph.'''
+    return self.directed and self.topo_sort() == []
 
   def longest_dag_path(self, source, dest):
     ''' Given that self is a dag, find the longest path
@@ -174,14 +176,18 @@ class Graph(object):
     return path
 
   def topo_sort(self):
-    #assert self.is_dag()
+    ''' Returns the vertices in a topologically sorted order
+        or an empty list if that's impossible. '''
     visited = set([])
     queue = set(self.vertices)
     order = []
     while len(queue):
+      start_len = len(queue)
       for vert in list(queue):
         if all(dest in visited for dest in self.edge_map[vert].keys()):
           order.append(vert)
           visited.add(vert)
           queue.remove(vert)
+      if len(queue) == start_len:
+        queue = order = []
     return list(reversed(order))

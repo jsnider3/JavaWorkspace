@@ -268,6 +268,7 @@ class Tests(unittest.TestCase):
     graf.set_edge(3,4)
     graf.set_edge(5,6)
     assert len(graf) == 7
+    assert graf.is_dag()
     assert graf.connected(5, 6)
     assert graf.connected(0, 3)
     assert not graf.connected(0, 6)
@@ -673,7 +674,7 @@ class Tests(unittest.TestCase):
       assert hacklib.two_power_rank(k) == v
 
   def test_tunnel_possibilities(self):
-    nodes = 1
+    '''nodes = 1
     edges = 0
     count = 0
     wrong = 0
@@ -695,7 +696,7 @@ class Tests(unittest.TestCase):
         if edges > nodes * (nodes - 1) / 2:
           nodes += 1
           edges = nodes - 1
-    print('wrong', wrong)
+    print('wrong', wrong)'''
 
   def test_tuple_to_num(self):
     assert hacklib.tuple_to_num((1,2,3)) == 123
