@@ -49,26 +49,12 @@ func (gm *GoFishGame) drawCard() {
 	if !gm.isDeckEmpty() {
 		card := gm.deck[0]
 		gm.deck = gm.deck[1:]
-		if gm.turn == 0 {
+		if gm.isPlayerTurn() {
 			fmt.Printf("You drew a %s.\n", card)
 		}
 		gm.hands[gm.turn] = append(gm.hands[gm.turn], card)
 		//Check for books
 		gm.checkForBooks()
-	}
-}
-
-// endPly ends the current person's turn.
-// It then either calls the next person's
-// turn or prints a game over message.
-func (gm *GoFishGame) endPly() {
-	gameOver := gm.isGameOver()
-	if gameOver {
-		gm.printGameOverMessage()
-	} else if gm.turn == 1 {
-		gm.playerTurn(getPickComputer)
-	} else {
-		gm.playerTurn(getPickUser)
 	}
 }
 
@@ -109,6 +95,11 @@ func (gm *GoFishGame) isHandEmpty() bool {
 // This happens when all 13 pips have been made into sets.
 func (gm *GoFishGame) isGameOver() bool {
 	return gm.scores[0]+gm.scores[1] == 13
+}
+
+// isPlayerTurn returns if its the player's turn to move.
+func (gm *GoFishGame) isPlayerTurn() bool {
+	return gm.turn == 0
 }
 
 // makeDeck makes a deck.
@@ -162,7 +153,6 @@ func (gm *GoFishGame) playerTurn(getPick func(*GoFishGame) string) {
 			gm.turn = opponent
 		}
 	}
-	gm.endPly()
 }
 
 // printGameOverMessage prints the appropriate end message.
@@ -213,5 +203,16 @@ func main() {
 	scores[0] = 0
 	scores[1] = 0
 	game := GoFishGame{hands, deck, 0, scores}
-	game.playerTurn(getPickUser)
+	for {
+		if game.isPlayerTurn() {
+			game.playerTurn(getPickUser)
+		} else {
+			game.playerTurn(getPickComputer)
+		}
+		if game.isGameOver() {
+			break
+		}
+	}
+	game.printGameOverMessage()
+
 }
