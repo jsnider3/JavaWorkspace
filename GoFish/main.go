@@ -177,9 +177,8 @@ func (gm *GoFishGame) printHand() {
 // stealCards removes all instances of a card from side's hand.
 func (gm *GoFishGame) stealCards(purge string, side int) int {
 	count := 0
-	tList := gm.hands[side]
 	var filtered []string
-	for _, card := range tList {
+	for _, card := range gm.hands[side] {
 		if purge == card {
 			count++
 		} else {
