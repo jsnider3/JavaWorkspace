@@ -126,6 +126,18 @@ class Tests(unittest.TestCase):
     assert hacklib.champernowne(100000) == 2
     assert hacklib.champernowne(1000000) == 1
 
+  def test_child_ages(self):
+    count = 0
+    for num in range(72, 290):
+      groups = hacklib.child_ages(num)
+      if len(groups):
+        group = max(groups, key=len)
+        if len(group) > 1 and any(trip[1] == trip[2] for trip in group):
+          assert num == 72 or num == 288
+          count += 1
+      num += 1
+    assert count == 2
+
   def test_choices(self):
     assert hacklib.choose(18, 4) == 3060
     count = 0

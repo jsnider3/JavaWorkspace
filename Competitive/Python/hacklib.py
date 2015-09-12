@@ -646,6 +646,19 @@ def champernowne(digit):
     count = count + 1
   return int(strn[digit - 1])
 
+def child_ages(total):
+  ''' The name is from a logic puzzle.
+      Find possible ages for three children, age <= 18,
+      whose product is total.'''
+  ages = set([])
+  for young in range(1, 19):
+    for mid in range(young, 19):
+      for old in range(mid, 19):
+        if young * mid * old == total:
+          ages.add((young, mid, old))
+  groups = group_into_equivalency_classes(ages, lambda x, y: sum(x) == sum(y))
+  return groups
+
 def choose(n, k):
   """
   A fast way to calculate binomial coefficients by Andrew Dalke.
@@ -1671,6 +1684,7 @@ def zip_array_sum(first, second, tot):
 def main():
   ''' main '''
   print("REDACTED")
+
 
 if __name__ == "__main__":
   main()
