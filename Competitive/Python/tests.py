@@ -690,6 +690,18 @@ class Tests(unittest.TestCase):
     for (k, v) in correct:
       assert hacklib.two_power_rank(k) == v
 
+  def test_trunc_primes(self):
+    primes = Primes()
+    assert primes.truncatable(3797)
+    primes = Primes()
+    trunc = []
+    for prime in primes:
+      if primes.truncatable(prime):
+        trunc.append(prime)
+      if len(trunc) == 10:
+        assert sum(trunc) == 8920
+        break
+
   def test_tunnel_possibilities(self):
     '''nodes = 1
     edges = 0

@@ -1724,7 +1724,6 @@ def zip_array_sum(first, second, tot):
 
 def main():
   ''' main '''
-
   print("REDACTED")
 
 

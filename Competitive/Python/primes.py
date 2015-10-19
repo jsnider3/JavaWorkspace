@@ -173,10 +173,11 @@ class Primes(object):
 
   def truncatable(self, num):
     '''As defined by Project Euler 37.'''
-    if not num in self:
-      return False
     strn = str(num)
-    if "2" in strn or "4" in strn or "6" in strn or "8" in strn:
+    if not num in self or len(strn) == 1:
+      return False
+    mid = strn[1:-1]
+    if '0' in mid or '2' in mid or '4' in mid or '6' in mid or '8' in mid:
       return False
     while strn:
       if not int(strn) in self:
