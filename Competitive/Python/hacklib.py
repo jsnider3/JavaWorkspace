@@ -1,6 +1,7 @@
 '''Solutions for Project Euler, HackerRank, and various
   coding challenges.
   @author: Josh Snider'''
+import bisect
 from decimal import *
 import fractions
 import functools
@@ -379,10 +380,12 @@ class Pentagonals(object):
       the pentagonal numbers. '''
 
   def __contains__(self, num):
-    return math.sqrt(24 * num + 1).is_integer()
+    test = 24 * num + 1
+    return test in Squares() and int(math.sqrt(test)) % 6 == 5
 
   def __getitem__(self, n):
-    return int(n * (3*n - 1)/2)
+    assert n > 0
+    return (3*(n**2) - n) // 2
 
   def __iter__(self):
     count = 1
@@ -393,9 +396,47 @@ class Pentagonals(object):
   def __len__(self):
     raise NotImplementedError("This is an infinite sequence.")
 
+  def index(self, num):
+    ''' Given a pentagonal number find its index in the sequence.'''
+    assert num in self
+    ind = 1
+    while self[ind] < num:
+      ind *= 2
+    return bisect.bisect_left(self, num, ind // 2, ind)
+
+  def min_difference(self):
+    ''' Find the minimal difference between two pentagonal
+        numbers, whose difference and sum is also pentagonal.'''
+    smallp = None
+    bigp = None
+    diff = None
+    ind = 1
+    while True:
+      bottom = 1
+      if diff:
+        bottom = self.index(self.round(self[ind] - diff))
+      for sm in range(bottom, ind):
+        if (self.pair(self[ind], self[sm])
+            and (not diff or self[ind] - self[sm] < diff)):
+          bigp = self[ind]
+          smallp = self[sm]
+          assert bigp > smallp
+          diff = self[ind] - self[sm]
+      ind += 1
+      if ind > 10000:
+        return diff
+
   def pair(self, m, n):
     ''' See Euler 44 '''
     return max(m, n) - min(m, n) in self and m + n in self
+
+  def round(self, guess):
+    ''' Get the biggest pentagonal number p, where p <= guess.'''
+    top = 2
+    while self[top] < guess:
+      top *= 2
+    bottom = top // 2
+    return self[bisect.bisect_left(self, guess, bottom, top)]
 
 #########################
 class Segment(object):
@@ -1683,6 +1724,7 @@ def zip_array_sum(first, second, tot):
 
 def main():
   ''' main '''
+
   print("REDACTED")
 
 

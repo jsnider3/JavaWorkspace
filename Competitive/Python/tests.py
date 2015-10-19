@@ -508,7 +508,12 @@ class Tests(unittest.TestCase):
       assert num in pents
     taketen = hacklib.take(pents, 10)
     assert taketen == correct
+    assert 442 not in pents
     assert 6 not in pents
+
+  def test_pentagonal_min_difference(self):
+    pents = hacklib.Pentagonals()
+    assert pents.min_difference() == 5482660
 
   def test_pentagonal_pairs(self):
     pents = hacklib.Pentagonals()
