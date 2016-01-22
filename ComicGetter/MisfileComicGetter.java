@@ -9,13 +9,9 @@ public class MisfileComicGetter extends ComicGetter{
   public static final String dir = "Comics/Misfile/";
 
   public static void main(String[] args){
-    try {
-      int max = getMax();
-      for (int count = getMin() + 1; count <= max; count++) {
-        saveImage("http://www.misfile.com/overlay.php?pageCalled="+count,dir+Integer.toString(count)+".jpeg");
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+    int max = getMax();
+    for (int count = getMin() + 1; count <= max; count++) {
+      saveImage("http://www.misfile.com/overlay.php?pageCalled="+count,dir+Integer.toString(count)+".jpeg");
     }
   }
 
@@ -38,11 +34,12 @@ public class MisfileComicGetter extends ComicGetter{
   /**
    * Get the number of the most recent comic.
    */
-  public static int getMax() throws Exception {
+  public static int getMax() {
     URL url = new URL("http://www.misfile.com");
     URLConnection webpage = url.openConnection();
-    BufferedReader in = new BufferedReader(new InputStreamReader(webpage.getInputStream()));
     String input;
+    BufferedReader in = new BufferedReader(
+      new InputStreamReader(webpage.getInputStream()));
     while ((input = in.readLine()) != null) {
       if (input.contains("<img src=\"overlay.php?pageCalled=2034\">")) {
         String str = input.substring(input.indexOf("pageCalled=") +

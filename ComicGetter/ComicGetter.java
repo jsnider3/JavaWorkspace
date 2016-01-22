@@ -33,6 +33,14 @@ public class ComicGetter {
   }
 
   /**
+   * Get today as a formatted string.
+   */
+  public static final String getToday() {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+    Calendar cal = Calendar.getInstance();
+    return dateFormat.format(cal.getTime());
+  }
+  /**
    * Get an image from the URL at fileLoc and save it as title.
    */
   public static void saveImage(String fileLoc, String title){

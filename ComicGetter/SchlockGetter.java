@@ -21,7 +21,7 @@ public class SchlockGetter extends ComicGetter {
     String max = getNewestSchlockComic();
     String currentComic = "20000612";
     while ((max.compareTo(currentComic)) != -1) {
-      String src = "http://static.schlockmercenary.com/comics/schlock"+currentComic+".png";
+      String src = "http://static.schlockmercenary.com/comics/schlock" + currentComic + ".png";
       saveImage(src, currentComic + ".png");
       System.out.println(currentComic);
       currentComic = getNextDay(currentComic);
