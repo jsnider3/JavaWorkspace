@@ -15,15 +15,45 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ComicGetter {
+public abstract class ComicGetter {
+
+  /**
+   * Download every comic.
+   */
+  public void getAll() {
+    String index = getFirst();
+    while (index != null) {
+      System.out.println(index);
+      String[] tofrom = getToFrom(index);
+      if (tofrom != null) {
+        saveImage(tofrom[0], tofrom[1]);
+      }
+      index = getNext(index);
+    }
+  }
+
+  /**
+   * Get the index of the comic's first page.
+   */
+  abstract String getFirst();
+
+  /**
+   * Given the index of a comic, get the next. null is the end.
+   */
+  abstract String getNext(String index);
+
+  /**
+   * Get the place to download the image and the place to save it.
+   */
+  abstract String[] getToFrom(String index);
 
   /**
    * Get the day immediately after the given day.
    */
-  public static final String getNextDay(String input) {
+  public static final String getNextDay(String input, String fmt) {
     String result = input;
     try {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+      SimpleDateFormat dateFormat = new SimpleDateFormat(fmt);
       Calendar cal = Calendar.getInstance();
       cal.setTime(dateFormat.parse(input));
       cal.add(Calendar.DATE, 1);
@@ -35,8 +65,8 @@ public class ComicGetter {
   /**
    * Get today as a formatted string.
    */
-  public static final String getToday() {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+  public static final String getToday(String fmt) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat(fmt);
     Calendar cal = Calendar.getInstance();
     return dateFormat.format(cal.getTime());
   }

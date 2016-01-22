@@ -5,32 +5,37 @@
  * @author: Josh Snider
  */
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class SchlockGetter extends ComicGetter {
 
   public static void main(String[] args) {
-    /*
-     * This code generates FileNotFoundExceptions when currentComic equals 20000618,
-     * 20000625, 20000702, 20000709, 20000716, 20000723, 20000730, 20000806, 20000813
-     * 20000820, 20000827, 20000903. It probably continues but I stopped it at 20000907.
-     * All of those days are Sundays and in all cases the comic can be reached by adding
-     * an a after the number in the hyperlink.
-     */
-    String max = getNewestSchlockComic();
-    String currentComic = "20000612";
-    while ((max.compareTo(currentComic)) != -1) {
-      String src = "http://static.schlockmercenary.com/comics/schlock" + currentComic + ".png";
-      saveImage(src, currentComic + ".png");
-      System.out.println(currentComic);
-      currentComic = getNextDay(currentComic);
-    }
+    new File("Webcomics/Schlock").mkdirs();
+    new SchlockGetter().getAll();
   }
 
-  private static String getNewestSchlockComic() {
-    //TODO return today
-    return "20111230";
+  public String getFirst() {
+    return "20000612";
+  }
+
+  /**
+   * This code generates FileNotFoundExceptions  on Sundays with multiple images.
+   */
+  public String getNext(String index) {
+    String next = getNextDay(index, "yyyyMMdd");
+    if (next.compareTo(getToday("yyyyMMdd")) > 0) {
+      next = null;
+    }
+    return next;
+  }
+
+  public String[] getToFrom(String index) {
+    String[] tofrom = new String[2];
+    tofrom[0] = "http://static.schlockmercenary.com/comics/schlock" + index + ".png";
+    tofrom[1] = "Webcomics/Schlock/" + index + ".png";
+    return tofrom;
   }
 
 }

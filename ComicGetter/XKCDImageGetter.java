@@ -5,37 +5,56 @@
  */
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
 public class XKCDImageGetter extends ComicGetter {
 
-  public static void main(String[] args) throws Exception {
-    int NewestComic = getNewestComic();
-    System.out.println(NewestComic);
-    for (int x = 1; x < NewestComic; x++) {
-      if (x == 404) {
-        x++;
-      }
-      String fileLoc = getHTML(x);
-      System.out.println(x);
-      saveImage(fileLoc, x);
-      System.out.println(fileLoc);
+  public static void main(String[] args) {
+    new File("Webcomics/XKCD").mkdirs();
+    new XKCDImageGetter().getAll();
+  }
+
+  private final int newest;
+
+  public XKCDImageGetter() {
+    int recent = -1;
+    try {
+      recent = getNewestComic();
+    } catch (Exception e) { }
+    newest = recent;
+  }
+
+  public String getFirst() {
+    return "1";
+  }
+
+  public String getNext(String index) {
+    String next = null;
+    int num = Integer.parseInt(index);
+    num += 1;
+    if (num == 404) {
+      num += 1;
     }
+    if (num <= newest) {
+      next = Integer.toString(num);
+    }
+    return next;
   }
 
   /**
    * Get the index of the newest xkcd comic.
    */
-  public static int getNewestComic() throws Exception {
+  public int getNewestComic() throws Exception {
     URL xkcd = new URL("http://www.xkcd.com/");
     URLConnection webpage = xkcd.openConnection();
     BufferedReader in = new BufferedReader(
       new InputStreamReader(webpage.getInputStream()));
     String input;
     StringBuffer html = new StringBuffer();
-    while ((input =in.readLine()) != null) {
+    while ((input = in.readLine()) != null) {
       html.append(input);
     }
     input = html.toString();
@@ -49,29 +68,35 @@ public class XKCDImageGetter extends ComicGetter {
   /**
    * Get the image URL for the given comic number.
    */
-  public static String getHTML(int num) throws Exception {
-    URL url = new URL("http://www.xkcd.com/" + num);
-    URLConnection webpage = url.openConnection();
-    BufferedReader in = new BufferedReader(
-      new InputStreamReader(webpage.getInputStream()));
-    String input;
-    StringBuffer html = new StringBuffer();
-    while ((input = in.readLine()) != null) {
-      html.append(input);
-    }
-    input = html.toString();
-    int start = input.indexOf("http://imgs.xkcd.com/comics");
-    int end = input.indexOf('<', start);
-    String fileLoc = input.substring(start, end);
+  public static String getHTML(String index) {
+    String fileLoc = null;
+    try {
+      URL url = new URL("http://www.xkcd.com/" + index);
+      URLConnection webpage = url.openConnection();
+      BufferedReader in = new BufferedReader(
+        new InputStreamReader(webpage.getInputStream()));
+      String input;
+      StringBuffer html = new StringBuffer();
+      while ((input = in.readLine()) != null) {
+        html.append(input);
+      }
+      input = html.toString();
+      int start = input.indexOf("http://imgs.xkcd.com/comics");
+      int end = input.indexOf('<', start);
+      fileLoc = input.substring(start, end);
+    } catch (Exception e) {}
     return fileLoc;
   }
 
-  /**
-   * Get the given xkcd comic and save it as the given file.
-   */
-  public static void saveImage(String fileLoc, int comicnumber) {
-    String comicname = fileLoc.substring(28);
-    ComicGetter.saveImage(fileLoc, comicnumber + comicname);
+  public String[] getToFrom(String index) {
+    String[] tofrom = null;
+    String html = getHTML(index);
+    if (html != null) {
+      tofrom = new String[2];
+      tofrom[0] = getHTML(index);
+      tofrom[1] = "Webcomics/XKCD/" + index + tofrom[0].substring(28);
+    }
+    return tofrom;
   }
 }
 
