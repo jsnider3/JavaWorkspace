@@ -11,18 +11,6 @@ import java.io.IOException;
 public class SchlockGetter extends ComicGetter {
 
   public static void main(String[] args) {
-    /* The first schlock mercenary comic was released on
-     * 2006/06/12. Since then comics have been released daily.
-     * There are no days without a posted comic.
-     * The format for the url for each comic is
-     * http://static.schlockmercenary.com/comics/schlock
-     * followed by a number which corresponds to the date in
-     * year month day form terminated with the format.
-     * Thus the comic for June 12th, 2000 is found at
-     * http://static.schlockmercenary.com/comics/schlock20000612.png
-     * Don't forget leap years.
-     */
-
     /*
      * This code generates FileNotFoundExceptions when currentComic equals 20000618,
      * 20000625, 20000702, 20000709, 20000716, 20000723, 20000730, 20000806, 20000813

@@ -11,45 +11,24 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class ComicGetter {
 
   /**
    * Get the day immediately after the given day.
-   * @TODO: This is horrible, use a library.
    */
-  public static final String getNextDay(String input){
-    int[] array = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    int year = Integer.parseInt(input.substring(0, 4));
-    int month = Integer.parseInt(input.substring(4, 6));
-    int day = Integer.parseInt(input.substring(6));
-    day++;
-    if (month == 2 && year % 4 == 0) {
-      if (day > 29) {
-        month++;
-        day = 1;
-      }
-    }
-    else if (day > array[month - 1]) {
-      month++;
-      day = 1;
-    }
-
-    if (month == 13) {
-      month = 1;
-      year++;
-    }
-    String result;
-    if (month < 10) {
-      result = Integer.toString(year) + "0" + Integer.toString(month);
-    } else {
-      result = Integer.toString(year) + Integer.toString(month);
-    }
-    if (day < 10) {
-      result = result + "0" + Integer.toString(day);
-    } else{
-      result = result + Integer.toString(day);
-    }
+  public static final String getNextDay(String input) {
+    String result = input;
+    try {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(dateFormat.parse(input));
+      cal.add(Calendar.DATE, 1);
+      result = dateFormat.format(cal.getTime());
+    } catch (ParseException e) { }
     return result;
   }
 
