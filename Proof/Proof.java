@@ -1,5 +1,12 @@
-//(C) 2011 Josh Snider
+/**
+ * A joke proof.
+ *
+ * @Author Joshua Snider
+ * Copyright 2011
+ */
+
 public class Proof {
+
 	public static void main(String[] args) throws InterruptedException {
 		System.out.println("This program is intended to prove that Integer.MIN_VALUE is actually higher than Integer.MAX_VALUE.");
 		System.out.println("Integer.MIN_VALUE is equal to " + Integer.MIN_VALUE);
@@ -12,4 +19,5 @@ public class Proof {
 		System.out.println("Because MIN_VALUE - 1 is not less than then MAX_VALUE we can conclude that MAX_VALUE is less than MIN_VALUE.");
 		System.out.println("QED");
 	}
+
 }
