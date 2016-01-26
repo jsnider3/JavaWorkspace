@@ -1,13 +1,19 @@
+/**
+ * One of the first programs I ever wrote,
+ *  counts from x to y.
+ *
+ * @author Josh Snider
+ */
 import java.util.Scanner;
+
 public class CountfromXtoY {
+
   public static void main(String[] args) {
     Scanner input = new Scanner(System.in);
-    int x, y;
-    String name = "";
     System.out.println("Enter the first number: ");
-    x = input.nextInt();
+    int x = input.nextInt();
     System.out.println("Enter the second number: ");
-    y = input.nextInt();
+    int y = input.nextInt();
     while (x != y) {
       System.out.println(x);
       if (x < y) {

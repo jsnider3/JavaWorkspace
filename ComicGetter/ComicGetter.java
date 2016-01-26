@@ -35,17 +35,17 @@ public abstract class ComicGetter {
   /**
    * Get the index of the comic's first page.
    */
-  abstract String getFirst();
+  public abstract String getFirst();
 
   /**
    * Given the index of a comic, get the next. null is the end.
    */
-  abstract String getNext(String index);
+  public abstract String getNext(String index);
 
   /**
    * Get the place to download the image and the place to save it.
    */
-  abstract String[] getToFrom(String index);
+  public abstract String[] getToFrom(String index);
 
   /**
    * Get the day immediately after the given day.

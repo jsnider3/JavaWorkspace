@@ -1,14 +1,14 @@
 public class ViolationNode{
     //DEFINITIONS:
     //A node is active if it's the first or second child of its parent.
-    ViolationNode child;//Points to the rightmost child
-    ViolationNode left;//This is null for everyone in the root list.
-    ViolationNode right;
-    int rank;
+    public ViolationNode child;//Points to the rightmost child
+    public ViolationNode left;//This is null for everyone in the root list.
+    public ViolationNode right;
+    public int rank;
     //An integer for each node representing its rank.
-    int key;
+    public int key;
 
-    public ViolationNode(int k){
+    public ViolationNode(int k) {
       ViolationHeap.totalCount++;
       key=k;
       rank=0;
@@ -16,24 +16,24 @@ public class ViolationNode{
 
     public boolean onRootList(){//This is terrible code.
       ViolationHeap.totalCount++;
-      return left==null&&right.left==null&&right.child!=this;
+      return left == null && right.left == null && right.child != this;
     }
 
     public boolean isActive(){
       ViolationHeap.totalCount++;
-      return this.right.child==this||this.right.right.child==this.right;
+      return this.right.child == this || this.right.right.child == this.right;
     }
 
     public ViolationNode getParent(){
       ViolationHeap.totalCount++;
-      if(onRootList()){
+      if (onRootList()) {
         ViolationHeap.totalCount++;
         return null;
       }
       ViolationNode walk=this;
-      while(walk.right.child!=walk){
+      while (walk.right.child!=walk) {
         ViolationHeap.totalCount++;
-        walk=walk.right;
+        walk = walk.right;
       }
       return walk.right;
     }
@@ -42,8 +42,8 @@ public class ViolationNode{
       //WTF are the pre and post conditions for this?
       //Past self, you really let me down.
       ViolationHeap.totalCount++;
-      ViolationNode parent=x.getParent();
-      ViolationNode temp=this;
+      ViolationNode parent = x.getParent();
+      ViolationNode temp = this;
       temp.left=x.left;
       temp.right=x.right;
       if(x.left!=null){

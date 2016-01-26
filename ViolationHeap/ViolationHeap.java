@@ -1,5 +1,16 @@
+/**
+ * My implementation of a violation heap,
+ *  which is a data structure similar to
+ *  a Fibonacci heap.
+ *
+ * @author Josh Snider
+ */
+
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class ViolationHeap {
@@ -7,7 +18,7 @@ public class ViolationHeap {
   public ViolationNode root;
 
   public ViolationNode findMin(){
-    //– find-min(h): Return the first root of h.
+    // find-min(h): Return the first root of h.
     totalCount++;
     return root;
   }
@@ -97,10 +108,10 @@ public class ViolationHeap {
         temp.spliceIntoPosition(x);
       }
       x.updateRank(true);//Recalculate the rank of x using (1).
-      //Promote x’s subtree as a tree in h, and make x the first root if its new
+      //Promote x's subtree as a tree in h, and make x the first root if its new
       //value is smaller than the minimum.
       this.insert(x);
-      /* Propagate rank updates by traversing the path of ancestors of x’s old position,
+      /* Propagate rank updates by traversing the path of ancestors of x's old position,
        * as long as the visited node is active and as long as its recalculated rank using
        * (1) is smaller than its old rank.*/
       while(parent!=null&&parent.isActive())
@@ -127,15 +138,16 @@ public class ViolationHeap {
       //DESTRUCTIVELY, Create an array containing all nodes of the root list.
       ArrayList<ViolationNode> allNodes = new ArrayList<ViolationNode>();
       ViolationNode temp;
-      for(ViolationNode walk=root;walk!=root||allNodes.isEmpty();walk=temp){
+      for (ViolationNode walk = root; walk != root || allNodes.isEmpty();
+          walk = temp) {
         totalCount++;
         allNodes.add(walk);
         temp=walk.right;//This is the most likely node to have a nullPointerException.
-        walk.right=null;
+        walk.right = null;
       }
       //Repeatedly 3-way-join trees of equal rank until no three trees of
       //the same rank remain.
-      ArrayList<ArrayList<ViolationNode>> list = new ArrayList<ArrayList<ViolationNode>>();
+      List<List<ViolationNode>> list = new ArrayList<List<ViolationNode>>();
       for(ViolationNode node:allNodes){
         totalCount++;
         insertIntoJoinList(list,node);
@@ -148,12 +160,12 @@ public class ViolationHeap {
     return oldRoot;
   }
 
-  private ViolationNode extractNodes(ArrayList<ArrayList<ViolationNode>> list){
+  private ViolationNode extractNodes(List<List<ViolationNode>> list){
     totalCount++;
     ViolationNode head=null;
     ViolationNode tail=null;
     ArrayList<ViolationNode> all=new ArrayList<ViolationNode>();
-    for(ArrayList<ViolationNode> sublist:list){
+    for (List<ViolationNode> sublist:list){
       totalCount++;
       all.addAll(sublist);
     }
@@ -174,7 +186,8 @@ public class ViolationHeap {
     return head;
   }
 
-  private void insertIntoJoinList(ArrayList<ArrayList<ViolationNode>> list,ViolationNode node){
+  private void insertIntoJoinList(List<List<ViolationNode>> list,
+      ViolationNode node) {
     //Pre-condition: list.size()>node.rank and each element is either empty or contains nodes.
     totalCount++;
     int rank=node.rank;
@@ -182,7 +195,7 @@ public class ViolationHeap {
       totalCount++;
       list.add(new ArrayList<ViolationNode>());
     }
-    ArrayList<ViolationNode> sublist=list.get(rank);
+    List<ViolationNode> sublist=list.get(rank);
     switch(sublist.size()){
       case 0:
       case 1:
@@ -202,7 +215,7 @@ public class ViolationHeap {
     //Post-condition: The node with the lowest key gains the others as its last two children.
     //The one with the larger rank is the last child.
     /*3-way-join(z, z1, z2)
-      Assume w.l.o.g. that z’s value is not larger than that of z1 and z2.
+      Assume w.l.o.g. that z's value is not larger than that of z1 and z2.
     */
     //Make sure that z is the smallest and that z1.rank>z2.rank.
     totalCount++;
@@ -308,7 +321,8 @@ public class ViolationHeap {
     return walk;
   }
 
-  public static void main(String[] args) throws Exception{
+  public static void main(String[] args) throws FileNotFoundException,
+      UnsupportedEncodingException {
     int numkeys=100000;
     ArrayList<Integer> keys=new ArrayList<Integer>(numkeys);
     ViolationHeap heap=new ViolationHeap();
