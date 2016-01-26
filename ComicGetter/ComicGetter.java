@@ -70,6 +70,7 @@ public abstract class ComicGetter {
     Calendar cal = Calendar.getInstance();
     return dateFormat.format(cal.getTime());
   }
+
   /**
    * Get an image from the URL at fileLoc and save it as title.
    */
