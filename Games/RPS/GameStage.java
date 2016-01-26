@@ -1,3 +1,9 @@
+/**
+ * Represents the stages that our rock paper scissors game
+ *  can be in.
+ *
+ * @author Josh Snider
+ */
 public enum GameStage {
   MODE_SELECT,
   MISSION_OFFER,
