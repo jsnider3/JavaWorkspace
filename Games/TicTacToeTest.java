@@ -38,7 +38,7 @@ public class TicTacToeTest {
 		TicTacToeBoard test = new TicTacToeBoard(test_array,true);
 		for(TicTacToeBoard t : test.children()){
 			System.out.println(t);
-			System.out.println(t.score);
+			System.out.println(t.score());
 		}
 	}
 

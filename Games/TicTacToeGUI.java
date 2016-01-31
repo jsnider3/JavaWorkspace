@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 //Optimal play for Tic Tac Toe can be found in the 832nd XKCD strip.
 
-public class TicTacToeGUI{
+public class TicTacToeGUI {
 
   private JFrame frame;
   private JPanel panel;
@@ -71,14 +71,14 @@ public class TicTacToeGUI{
           start();
         }*/
       }
-      else if(board.isDraw()){
-        JOptionPane.showMessageDialog(null,"It's a draw as expected.");
+      else if (board.isDraw()) {
+        JOptionPane.showMessageDialog(null, "It's a draw as expected.");
         /*if(t==JOptionPane.YES_OPTION){
           start();
         }*/
       }
-      else if(board.hasWon(COMP_CHAR)){
-        JOptionPane.showMessageDialog(null,"The computer won. You must have made a bad move.");
+      else if (board.hasWon(COMP_CHAR)) {
+        JOptionPane.showMessageDialog(null, "The computer won. You must have made a bad move.");
         /*if(t==JOptionPane.YES_OPTION){
           start();
         }*/
@@ -88,14 +88,19 @@ public class TicTacToeGUI{
 
   }
 
-  public void compMove(){
-    short optimalMove = PLAYER_X?TicTacToeBoard.min(board.children()).recentMove:TicTacToeBoard.max(board.children()).recentMove;
+  public void compMove() {
+    short optimalMove;
+    if (PLAYER_X) {
+      optimalMove = TicTacToeBoard.min(board.children()).getRecentMove();
+    } else {
+      optimalMove = TicTacToeBoard.max(board.children()).getRecentMove();
+    }
     buttonList[optimalMove].setText(COMP_CHAR);
     board.Move(optimalMove);
   }
 
   public static void start(){
-    int t = JOptionPane.showConfirmDialog(null,"Do you want to go first?");
+    int t = JOptionPane.showConfirmDialog(null, "Do you want to go first?");
     if (t == JOptionPane.YES_OPTION) {
       new TicTacToeGUI(TicTacToeGame.DEFAULT_BOARD, true);
     }
