@@ -5,13 +5,8 @@ import org.junit.Test;
 
 public class TicTacToeTest {
 
-	@Test
-	public void test() {
-		//checkScoring();
-		checkChildren();
-	}
-
-	public static void checkScoring(){
+  @Test
+	public void test_scoring(){
 		String[][][] array={{{"X","X","X"},{" ","O","O"},{"O"," "," "}},
 							{{"X","X"," "},{" ","O","O"},{"O"," "," "}},
 							{{"O","O"," "},{" ","X","X"},{"O"," "," "}},
@@ -36,9 +31,9 @@ public class TicTacToeTest {
 	public static void checkChildren(){
 		String[][] test_array ={{"X","X"," "},{" ","O","O"},{"O"," "," "}};
 		TicTacToeBoard test = new TicTacToeBoard(test_array,true);
-		for(TicTacToeBoard t : test.children()){
-			System.out.println(t);
-			System.out.println(t.score());
+		for (TicTacToeBoard t : test.children()) {
+			//System.out.println(t);
+			//System.out.println(t.score());
 		}
 	}
 
