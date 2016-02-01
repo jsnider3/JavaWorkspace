@@ -15,7 +15,7 @@ public class TicTacToeBoard {
   //X is max. O is min.
   //If it's Xs Turn then the next piece put on the board will be an O and all children will have XsTurn=false.
 
-  public TicTacToeBoard(String[][] array, boolean b){
+  public TicTacToeBoard(String[][] array, boolean b) {
     state[0] = array[0].clone();
     state[1] = array[1].clone();
     state[2] = array[2].clone();
@@ -24,7 +24,7 @@ public class TicTacToeBoard {
     score = score();
   }
 
-  public TicTacToeBoard(TicTacToeBoard t, short s){
+  public TicTacToeBoard(TicTacToeBoard t, short s) {
     state[0] = t.state[0].clone();
     state[1] = t.state[1].clone();
     state[2] = t.state[2].clone();
@@ -40,7 +40,7 @@ public class TicTacToeBoard {
     score = score();
   }
 
-  private final void tidyUpState(){
+  private final void tidyUpState() {
     for (String[] ar : state) {
       for (String str : ar) {
         if (str == null) {
@@ -89,8 +89,8 @@ public class TicTacToeBoard {
     return input.get(minIndex);
   }
 
-  public final ArrayList<TicTacToeBoard> children(){
-    ArrayList<TicTacToeBoard> children = new ArrayList<TicTacToeBoard>();
+  public final List<TicTacToeBoard> children(){
+    List<TicTacToeBoard> children = new ArrayList<TicTacToeBoard>();
     if (hasWon("X") || hasWon("O") || isDraw()) {
       children.add(this);
     }
@@ -168,6 +168,9 @@ public class TicTacToeBoard {
     return isDraw() || hasWon("X") || hasWon("O");
   }
 
+  /**
+   * List the empty spots on the map.
+   */
   public final List<Short> getEmptySpots() {
     List<Short> empties = new ArrayList<Short>();
     for (short x = 0; x < 9; x++) {
@@ -178,7 +181,7 @@ public class TicTacToeBoard {
     return empties;
   }
 
-  public final short score(){
+  public final short score() {
     if (hasWon("X")) {
       return 2;
     }
@@ -188,7 +191,7 @@ public class TicTacToeBoard {
     else if (isDraw()) {
       return 0;
     }
-    if(!XJustMoved){//X's turn
+    else if (!XJustMoved) {//X's turn
       short highest = -1;
       for (TicTacToeBoard child : children()) {
         if (child.score > highest) {
@@ -208,7 +211,7 @@ public class TicTacToeBoard {
     }
   }
 
-  public final String toString(){
+  public final String toString() {
     String str = "";
     str += state[0][0] + "|" + state[0][1] + "|" + state[0][2] + "\n";
     str += "-----" + "\n";
@@ -220,8 +223,8 @@ public class TicTacToeBoard {
 
   public final void printVerbose(){
     System.out.println(this);
-    System.out.println(XJustMoved? "X just went":"O just went");
-    score=score();
+    System.out.println(XJustMoved? "X just went" : "O just went");
+    score = score();
     if (score == -2) {
       System.out.println("O has won.");
     }
