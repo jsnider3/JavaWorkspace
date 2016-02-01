@@ -1,11 +1,14 @@
-/*
-* @author: Josh Snider.
+package com.joshuasnider.workspace.internetio;
+
+/**
 * The purpose of this program is to download some old Joseph McCabe books from
 *   http://www.infidels.org/library/historical/joseph_mccabe/big_blue_books/, so
 *   that I could read them offline.
 * TODO: As a whole this is terrible. No surprise given its age.
 *   One thing that stands out is that this uses regexes to parse HTML.
 *   This is forbidden and should be done with jsoup instead.
+
+* @author Josh Snider.
 */
 
 import java.io.BufferedWriter;

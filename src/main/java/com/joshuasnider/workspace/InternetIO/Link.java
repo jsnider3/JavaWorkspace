@@ -1,3 +1,4 @@
+package com.joshuasnider.workspace.internetio;
 
 public class Link {
 	String title;

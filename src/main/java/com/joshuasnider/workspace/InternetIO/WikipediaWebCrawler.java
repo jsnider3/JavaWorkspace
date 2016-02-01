@@ -1,3 +1,5 @@
+package com.joshuasnider.workspace.internetio;
+
 //FIXME What the fuck I don't even.
 import java.io.BufferedReader;
 import java.io.File;

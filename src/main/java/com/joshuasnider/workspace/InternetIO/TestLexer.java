@@ -1,3 +1,5 @@
+package com.joshuasnider.workspace.internetio;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;

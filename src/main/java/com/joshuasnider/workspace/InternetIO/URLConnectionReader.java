@@ -1,3 +1,5 @@
+package com.joshuasnider.workspace.internetio;
+
 import java.net.*;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;

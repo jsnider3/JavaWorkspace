@@ -1,5 +1,6 @@
-import java.io.File;
+package com.joshuasnider.workspace.internetio;
 
+import java.io.File;
 
 public class XKCDDebugger {
 	static boolean[] test;

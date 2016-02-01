@@ -9,6 +9,7 @@
 *.cmi
 *.cmx
 a.out
+target
 #Ignore test coverage files.
 *.coverage
 htmlcov/

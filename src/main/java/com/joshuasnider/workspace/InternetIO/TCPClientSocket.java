@@ -1,3 +1,5 @@
+package com.joshuasnider.workspace.internetio;
+
 import java.net.*;
 import java.io.*;
 public class TCPClientSocket {

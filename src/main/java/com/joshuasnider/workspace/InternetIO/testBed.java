@@ -1,3 +1,5 @@
+package com.joshuasnider.workspace.internetio;
+
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;

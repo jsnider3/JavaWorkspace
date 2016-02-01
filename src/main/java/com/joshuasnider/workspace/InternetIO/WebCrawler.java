@@ -1,7 +1,8 @@
+package com.joshuasnider.workspace.internetio;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-
 
 public class WebCrawler {
 	public static ArrayList<String> prevVisited = new ArrayList<String>();
