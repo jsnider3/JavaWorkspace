@@ -174,6 +174,7 @@ public class VHTest {
     }
     assertTrue(result&&(cnt==9));
   }
+
   @Test
   public void delMinWithNine() throws Exception {
     ViolationHeap big = new ViolationHeap();
@@ -194,6 +195,7 @@ public class VHTest {
     result&=(cnt==4);
     assertTrue(result);
   }
+
   @Test
   public void delMinWithThirty() throws Exception {
     ViolationHeap big = new ViolationHeap();
