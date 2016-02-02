@@ -4,6 +4,8 @@
  * @author: Josh Snider
  */
 
+package com.joshuasnider.workspace.comicgetter;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;

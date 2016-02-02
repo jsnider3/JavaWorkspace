@@ -5,6 +5,8 @@
  * @author: Josh Snider
  */
 
+package com.joshuasnider.workspace.comicgetter;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;

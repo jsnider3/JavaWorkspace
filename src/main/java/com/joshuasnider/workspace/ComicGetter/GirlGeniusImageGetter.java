@@ -4,6 +4,8 @@
  * @author: Josh Snider
  */
 
+package com.joshuasnider.workspace.comicgetter;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

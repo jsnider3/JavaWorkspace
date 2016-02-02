@@ -6,6 +6,9 @@
  *
  * @Author: Josh Snider
  */
+
+package com.joshuasnider.workspace.comicgetter;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;

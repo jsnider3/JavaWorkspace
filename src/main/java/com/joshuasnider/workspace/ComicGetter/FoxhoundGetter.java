@@ -6,6 +6,8 @@
  * @author: Josh Snider
  */
 
+package com.joshuasnider.workspace.comicgetter;
+
 import java.io.File;
 
 public class FoxhoundGetter extends ComicGetter {
