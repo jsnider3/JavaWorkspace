@@ -49,7 +49,7 @@ public class RankList {
    * Take a list of ranks of nodes and add one more node to it.
    */
   private void insert(ViolationNode node) {
-    //Pre-condition: list.size()>node.rank and each element is either empty or contains nodes.
+    //Pre-condition: list.size() > node.rank and each element is either empty or contains nodes.
     int rank = node.rank;
     while (set.size() <= rank) {
       set.add(new ArrayList<ViolationNode>());
@@ -68,7 +68,7 @@ public class RankList {
       default:
         String err =
           "Something mysterious went wrong with insertIntoJoinList";
-        throw new RuntimeException(err);
+        throw new UnsupportedOperationException(err);
     }
   }
 }

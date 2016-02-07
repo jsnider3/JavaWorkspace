@@ -12,11 +12,13 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class ViolationHeap {
-  static int totalCount = 0;
+
+  private static int totalCount = 0;
   public ViolationNode root;
 
   /**
@@ -71,60 +73,36 @@ public class ViolationHeap {
     totalCount++;
     if (n < 0) {
       totalCount++;
-      throw new RuntimeException("This is decreaseKey, not increaseKey.");
+      throw new IllegalArgumentException("This is decreaseKey, not increaseKey.");
     }
-    x.key -= n;//Subtract n from the key of x.
-    if(x.onRootList()){//If x is a root
+    x.key -= n;
+    if (x.onRootList()) {
       totalCount++;
-      if(x.key<root.key){//and its new value is smaller than the minimum, make it the root and stop.
+      if (x.key < root.key) {
+        //and its new value is smaller than the minimum, make it the root and stop.
         totalCount++;
-        root=x;
+        root = x;
       }
-    }
-    //If x is an active node whose new value is not smaller than its parent, stop.
-    else if(!x.isActive()||x.key<x.getParent().key)
-    {
+    } else if (!x.isActive() || x.key < x.getParent().key) {
+      //If x is an active node whose new value is not smaller than its parent, stop.
       totalCount++;
       //Otherwise, cut the subtree of x and glue in its position the subtree with
       //the larger rank between its active children.
-      ViolationNode parent=x.getParent();
-      if(x.child==null){
+      ViolationNode parent = x.getParent();
+      x.sortActiveChildren();
+      if (!x.hasChild()) {
+        remove(x);
+      } else {
         totalCount++;
-        if(x.left!=null){
+        ViolationNode temp = x.child;
+        if (x.child.left != null) {
           totalCount++;
-          x.left.right=x.right;
+          x.child.left.right = x;
         }
-        if(x.right==parent){
-          totalCount++;
-          x.right.child=x.left;
-        }
-        else{
-          totalCount++;
-          x.right.left=x.left;
-        }
-      }
-      else if(x.child.left==null||x.child.rank>=x.child.left.rank){
-        totalCount++;
-        ViolationNode temp=x.child;
-        if(x.child.left!=null){
-          totalCount++;
-          x.child.left.right=x;
-        }
-        x.child=temp.left;
-        temp.spliceIntoPosition(x);
-      }
-      else{
-        totalCount++;
-        ViolationNode temp=x.child.left;
-        x.child.left=temp.left;
-        if(temp.left!=null){
-          totalCount++;
-          temp.left.right=x.child;
-        }
+        x.child = temp.left;
         temp.spliceIntoPosition(x);
       }
       x.updateRank(true);
-      //Recalculate the rank of x using (1).
       //Promote x's subtree as a tree in h, and make x the first root if its new
       //value is smaller than the minimum.
       this.insert(x);
@@ -172,59 +150,25 @@ public class ViolationHeap {
     return allNodes;
   }
 
-
-
+  /**
+   * Take three nodes and merge them into one subtree.
+   * The node with the lowest key gains the others as its last two children.
+   * The one with the larger rank is the last child.
+   */
   public static ViolationNode threeWayJoin(ViolationNode z,
       ViolationNode z1, ViolationNode z2) {
-    //Pre-condition: z.rank=z1.rank=z2.rank
-    //Post-condition: The node with the lowest key gains the others as its last two children.
-    //The one with the larger rank is the last child.
-    /*3-way-join(z, z1, z2)
-      Assume w.l.o.g. that z's value is not larger than that of z1 and z2.
-    */
-    //Make sure that z is the smallest and that z1.rank>z2.rank.
     totalCount++;
-    if (z.key > z1.key) {
-      totalCount++;
-      ViolationNode temp = z;
-      z = z1;
-      z1 = temp;
-    }
-    if (z.key > z2.key) {
-      totalCount++;
-      ViolationNode temp = z;
-      z = z2;
-      z2 = temp;
-    }
-    //Ensure that the active child of z with the larger rank is the last child.
-    if (z.child != null && z.child.left != null) {
-      totalCount++;
-      ViolationNode firstchild = z.child;
-      ViolationNode secndchild = z.child.left;
-      if (firstchild.rank < secndchild.rank) {
-        totalCount++;
-        firstchild.right = secndchild;
-        secndchild.right = z;
-        z.child = secndchild;
-        firstchild.left = secndchild.left;
-        if (firstchild.left != null) {
-          totalCount++;
-          firstchild.left.right = firstchild;
-        }
-        secndchild.left = firstchild;
-      }
-    }
-    //Make z1 and z2 the last two children of z by linking both subtrees to z.
-    if (z.child != null) {
-      totalCount++;
-      z.child.right = z2;
-    }
-    z2.right = z1;
-    z1.right = z;
-    z2.left = z.child;
-    z1.left = z2;
-    z.child = z1;
-    z.left = null;
+    List<ViolationNode> nodes = new ArrayList<ViolationNode>();
+    nodes.add(z);
+    nodes.add(z1);
+    nodes.add(z2);
+    Collections.sort(nodes);
+    z = nodes.get(0);
+    z1 = nodes.get(1);
+    z2 = nodes.get(2);
+    z.addChild(z2);
+    z.addChild(z1);
+    z.sortActiveChildren();
     //increment rz
     z.updateRank(true);
     return z;
@@ -244,13 +188,11 @@ public class ViolationHeap {
     if (rightchild == null && nextroot == root) {
       totalCount++;
       return null;
-    }
-    else if (nextroot == root) {
+    } else if (nextroot == root) {
       totalCount++;
       nextroot = leftchild;
       last = rightchild;
-    }
-    else if (rightchild == null) {
+    } else if (rightchild == null) {
       totalCount++;
       rightchild = last;
       leftchild = nextroot;
@@ -258,6 +200,24 @@ public class ViolationHeap {
     rightchild.right = nextroot;
     last.right = leftchild;
     return last;
+  }
+
+  /**
+   * Remove a node from the heap.
+   */
+  private void remove(ViolationNode x) {
+    totalCount++;
+    if (x.left != null) {
+      totalCount++;
+      x.left.right = x.right;
+    }
+    if (x.right == x.getParent()) {
+      totalCount++;
+      x.right.child = x.left;
+    } else {
+      totalCount++;
+      x.right.left = x.left;
+    }
   }
 
   private ViolationNode findNewMin() {
@@ -319,7 +279,7 @@ public class ViolationHeap {
         deckeys[numkeys - i - 1] += (ViolationHeap.totalCount - temp);
         temp = ViolationHeap.totalCount;
         ViolationNode rem = heap.deleteMin();
-        delMins[numkeys-i-1]+=(ViolationHeap.totalCount-temp);
+        delMins[numkeys-i-1] += (ViolationHeap.totalCount-temp);
         int index = nodes.indexOf(rem);
         nodes.remove(rem);
         keys.remove(index);
