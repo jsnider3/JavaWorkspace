@@ -16,6 +16,13 @@ public class BoardTest {
 
   @Test
   public void testConstructor() {
+    List<List<Integer>> source = makeThreeByThree();
+    Board board = new Board(source);
+    assertEquals(board.getColumns(), 3);
+    assertEquals(board.getRows(), 3);
+  }
+
+  public static List<List<Integer>> makeThreeByThree() {
     List<List<Integer>> source = new ArrayList<List<Integer>>();
     source.add(new ArrayList<Integer>());
     source.get(0).add(0);
@@ -29,9 +36,7 @@ public class BoardTest {
     source.get(2).add(6);
     source.get(2).add(7);
     source.get(2).add(8);
-    Board board = new Board(source);
-    assertEquals(board.getColumns(), 3);
-    assertEquals(board.getRows(), 3);
+    return source;
   }
 }
 

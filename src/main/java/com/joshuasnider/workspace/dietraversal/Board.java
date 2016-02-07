@@ -7,6 +7,7 @@
 
 package com.joshuasnider.workspace.dietraversal;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,10 @@ public class Board {
         this.board.get(this.board.size() - 1).add(value);
       }
     }
+  }
+
+  public Point getBottomRight() {
+    return new Point(getColumns() - 1, getRows() - 1);
   }
 
   public int getColumns() {
