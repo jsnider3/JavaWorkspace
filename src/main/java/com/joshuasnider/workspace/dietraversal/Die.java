@@ -22,7 +22,6 @@ public class Die {
   }
 
   private Map<Side, Integer> faces;
-  private Side currentTop;
 
   public Die(int top, int north, int east, int south,
       int west, int bottom) {
@@ -33,11 +32,42 @@ public class Die {
     faces.put(Side.SOUTH, south);
     faces.put(Side.WEST, west);
     faces.put(Side.BOTTOM, bottom);
-    currentTop = Side.TOP;
   }
 
   public int getFace(Side side) {
     return faces.get(side);
+  }
+
+  /**
+   * Tip this die in the given direction.
+   */
+  public Die rotated(Side direction) {
+    Die rotated = null;
+    switch (direction) {
+      case NORTH:
+        rotated = new Die(getFace(Side.SOUTH), getFace(Side.TOP),
+                    getFace(Side.EAST), getFace(Side.BOTTOM),
+                    getFace(Side.WEST), getFace(Side.NORTH));
+        break;
+      case EAST:
+        rotated = new Die(getFace(Side.WEST), getFace(Side.NORTH),
+                    getFace(Side.TOP), getFace(Side.SOUTH),
+                    getFace(Side.BOTTOM), getFace(Side.EAST));
+        break;
+      case SOUTH:
+        rotated = new Die(getFace(Side.NORTH), getFace(Side.BOTTOM),
+                    getFace(Side.EAST), getFace(Side.TOP),
+                    getFace(Side.WEST), getFace(Side.SOUTH));
+        break;
+      case WEST:
+        rotated = new Die(getFace(Side.EAST), getFace(Side.NORTH),
+                    getFace(Side.BOTTOM), getFace(Side.SOUTH),
+                    getFace(Side.TOP), getFace(Side.WEST));
+        break;
+      default:
+        throw new IllegalArgumentException("Can't move in " + direction);
+    }
+    return rotated;
   }
 
 }
