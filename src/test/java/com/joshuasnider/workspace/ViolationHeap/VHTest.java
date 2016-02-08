@@ -2,11 +2,8 @@ package com.joshuasnider.workspace.violationheap;
 
 import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -54,7 +51,7 @@ public class VHTest {
   }
 
   @Test
-  public void decKeyWithFour() throws Exception {
+  public void decKeyWithFour() {
     ViolationHeap dos = new ViolationHeap();
     int numNodes=4;
     ViolationNode[] nodes = new ViolationNode[numNodes];
@@ -73,7 +70,7 @@ public class VHTest {
   }
 
   @Test
-  public void decKeyWithTwentySeven() throws Exception {
+  public void decKeyWithTwentySeven() {
     ViolationHeap dos = new ViolationHeap();
     int numNodes = 27;
     ViolationNode[] nodes = new ViolationNode[numNodes];
@@ -82,17 +79,17 @@ public class VHTest {
       dos.insert(nodes[i]);
     }
     dos.deleteMin();
-    checkHeap(dos);
+    assertTrue(checkHeap(dos) == 26);
     dos.decreaseKey(19, dos.root.child);
-    checkHeap(dos);
+    assertTrue(checkHeap(dos) == 26);
     dos.decreaseKey(3, dos.root.right.child);
-    checkHeap(dos);
+    assertTrue(checkHeap(dos) == 26);
     dos.decreaseKey(1, dos.root.right.child.left.left);
-    checkHeap(dos);
+    assertTrue(checkHeap(dos) == 26);
   }
 
   @Test
-  public void decKeyWithMany() throws Exception {
+  public void decKeyWithMany() {
     ViolationHeap dos = new ViolationHeap();
     int numNodes = 999;
     ViolationNode[] nodes = new ViolationNode[numNodes];
@@ -102,11 +99,11 @@ public class VHTest {
     }
     dos.deleteMin();
     dos.decreaseKey(999, dos.root.child.child.child.child.child.child);
-    checkHeap(dos);
+    assertTrue(checkHeap(dos) == 998);
   }
 
   @Test
-  public void delMin() throws Exception  {
+  public void delMin() {
     ViolationHeap dos = new ViolationHeap();
     ViolationNode first = new ViolationNode(5);
     dos.insert(first);
@@ -118,7 +115,7 @@ public class VHTest {
   }
 
   @Test
-  public void testGetParent() throws Exception  {
+  public void testGetParent() {
     ViolationHeap big = new ViolationHeap();
     int numNodes=9;
     ViolationNode[] array = new ViolationNode[numNodes];
@@ -134,7 +131,7 @@ public class VHTest {
   }
 
   @Test
-  public void delMinEmpty() throws Exception {
+  public void delMinEmpty() {
     ViolationHeap dos = new ViolationHeap();
     ViolationNode first = new ViolationNode(5);
     dos.insert(first);
@@ -169,25 +166,24 @@ public class VHTest {
   }
 
   @Test
-  public void insertNine() throws Exception {
+  public void insertNine() {
     ViolationHeap big = new ViolationHeap();
     ViolationNode[] array = new ViolationNode[9];
     for (int i = 9; i > 0; i--) {
       array[i - 1] = new ViolationNode(i);
       big.insert(array[i - 1]);
     }
-    boolean result = true;
     int cnt = 1;
     for (ViolationNode temp = big.findMin(); temp.right != big.root;
          temp = temp.right) {
-      result&=(temp.left==null);
+      assertTrue(temp.left == null);
       cnt++;
     }
-    assertTrue(result&&(cnt==9));
+    assertTrue(cnt == 9);
   }
 
   @Test
-  public void delMinWithNine() throws Exception {
+  public void delMinWithNine() {
     ViolationHeap big = new ViolationHeap();
     ViolationNode[] array = new ViolationNode[9];
     for (int i = 9; i > 0; i--) {
@@ -195,83 +191,81 @@ public class VHTest {
       big.insert(array[i - 1]);
     }
     big.deleteMin();
-    boolean result = true;
     int cnt = 1;
     for (ViolationNode temp = big.findMin(); temp.right != big.root;
          temp = temp.right) {
-      result&=(temp.left==null);
-      result&=(temp.child==null||(temp.key<=temp.child.key));
-      result&=((temp.rank==1&&temp.child!=null)||(temp.rank==0&&temp.child==null));
+      assertTrue(temp.left == null);
+      assertTrue(temp.child == null || (temp.key <= temp.child.key));
+      assertTrue((temp.rank == 1 && temp.child != null) ||
+                 (temp.rank == 0 && temp.child == null));
       cnt++;
     }
     assertTrue(cnt == 4);
-    assertTrue(result);
   }
 
   @Test
-  public void delMinWithThirty() throws Exception {
+  public void delMinWithThirty() {
     ViolationHeap big = new ViolationHeap();
     ViolationNode[] array = new ViolationNode[30];
     for (int i = 30; i > 0; i--) {
       array[i - 1] = new ViolationNode(i);
       big.insert(array[i - 1]);
     }
-    boolean result = true;
     big.deleteMin();
     assertTrue(checkHeap(big) == 29);
     for (ViolationNode temp = big.findMin(); temp.right != big.root;
          temp = temp.right) {
       assertTrue(temp.left == null);
       assertTrue(temp.child == null || (temp.key <= temp.child.key));
-      result &= ((temp.rank==1 && temp.child != null) ||
+      assertTrue((temp.rank > 0 && temp.child != null) ||
                 (temp.rank == 0 && temp.child == null));
     }
     big.deleteMin();
     for (ViolationNode temp = big.findMin(); temp.right != big.root;
          temp=temp.right) {
-      result &= (temp == big.findMin() || temp.key >= big.findMin().key);
+      assertTrue(temp == big.findMin() || temp.key >= big.findMin().key);
       assertTrue(temp.left == null);
       assertTrue(temp.child == null || (temp.key <= temp.child.key));
-      result &= ((temp.rank == 1 && temp.child != null) ||
+      assertTrue((temp.rank > 0 && temp.child != null) ||
                 (temp.rank == 0 && temp.child == null));
     }
-    //FIXME assert(result&&checkHeap(big)==28);
+    assertTrue(checkHeap(big) == 28);
   }
 
-  public static void replicateResult(String filename) throws Exception{
-    Scanner br = new Scanner(new File(filename));
-    String line;
-    ArrayList<ViolationNode> nodes = new ArrayList<ViolationNode>();
-    ViolationHeap heap = new ViolationHeap();
-    int cnt = 0;
-    boolean wait = false;
-    while (br.hasNextLine()) {
-      line = br.nextLine();
-      Scanner sc = new Scanner(line);
-      int command = sc.nextInt();
-      System.out.println(line);
-      if (line.equals("2 4 51"))
-        System.out.println("Prepare to crash.");
-      switch (command) {
-        case 1:
-          ViolationNode node = new ViolationNode(sc.nextInt());
-          nodes.add(node);
-          heap.insert(node);
-          break;
-        case 2:
-          int dec = sc.nextInt();
-          ViolationNode target = nodes.get(sc.nextInt());
-          heap.decreaseKey(dec, target);
-          break;
-        case 3:
-          ViolationNode rem = heap.deleteMin();
-          nodes.remove(rem);
-        default:
+  public static void replicateResult(String filename) {
+    try {
+      Scanner br = new Scanner(new File(filename));
+      String line;
+      ArrayList<ViolationNode> nodes = new ArrayList<ViolationNode>();
+      ViolationHeap heap = new ViolationHeap();
+      while (br.hasNextLine()) {
+        line = br.nextLine();
+        Scanner sc = new Scanner(line);
+        int command = sc.nextInt();
+        System.out.println(line);
+        switch (command) {
+          case 1:
+            ViolationNode node = new ViolationNode(sc.nextInt());
+            nodes.add(node);
+            heap.insert(node);
+            break;
+          case 2:
+            int dec = sc.nextInt();
+            ViolationNode target = nodes.get(sc.nextInt());
+            heap.decreaseKey(dec, target);
+            break;
+          case 3:
+            ViolationNode rem = heap.deleteMin();
+            nodes.remove(rem);
+            break;
+        }
+        sc.close();
+        checkHeap(heap);
       }
-      sc.close();
-      checkHeap(heap);
+      br.close();
+    } catch (FileNotFoundException ex) {
+      fail(ex.toString());
     }
-    br.close();
   }
 
   /**
