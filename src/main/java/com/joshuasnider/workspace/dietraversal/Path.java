@@ -60,6 +60,16 @@ public class Path {
     return points;
   }
 
+  public int getProduct() {
+    int prod = reachesEnd() ? 1: 0;
+    if (reachesEnd()) {
+      for (Point p : getPoints()) {
+        prod *= board.getValue(p);
+      }
+    }
+    return prod;
+  }
+
   /**
    * Does this path reach from the top-left to bottom-right?
    */

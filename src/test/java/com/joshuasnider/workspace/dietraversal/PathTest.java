@@ -45,8 +45,34 @@ public class PathTest {
     path.addPoint(new Point(2, 0));
     path.addPoint(new Point(2, 1));
     path.addPoint(new Point(2, 2));
-    System.out.println(path);
     assertTrue(path.reachesEnd());
   }
+
+  @Test
+  public void testGetProduct() {
+    List<List<Integer>> source = new ArrayList<List<Integer>>();
+    source.add(new ArrayList<Integer>());
+    source.get(0).add(8);
+    source.get(0).add(1);
+    source.get(0).add(2);
+    source.add(new ArrayList<Integer>());
+    source.get(1).add(3);
+    source.get(1).add(4);
+    source.get(1).add(5);
+    source.add(new ArrayList<Integer>());
+    source.get(2).add(6);
+    source.get(2).add(7);
+    source.get(2).add(8);
+    Board board = new Board(source);
+    Die die = new Die(8, 5, 4, 3, 1, 2);
+    Path path = new Path(board, die);
+    assertEquals(path.getProduct(), 0);
+    path.addPoint(new Point(1, 0));
+    path.addPoint(new Point(2, 0));
+    path.addPoint(new Point(2, 1));
+    path.addPoint(new Point(2, 2));
+    assertEquals(path.getProduct(), 8 * 1 * 2 * 5 * 8);
+  }
+
 
 }
