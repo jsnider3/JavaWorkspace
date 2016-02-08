@@ -39,9 +39,20 @@ public class Path {
   public void addPoint(Point point) {
     if (point.distance(points.get(points.size() - 1)) == 1 &&
         !points.contains(point)) {
-      points.add(point);
+      Die rotated = die.rotated(
+        Board.getDirection(points.get(points.size() - 1), point));
+      if (rotated.getFace(Die.Side.TOP) == board.getValue(point)) {
+        points.add(point);
+        die = rotated;
+      } else {
+        System.out.println(point);
+        System.out.println(board.getValue(point));
+        throw new IllegalArgumentException("Die with top " +
+          rotated.getFace(Die.Side.TOP) + " can't move onto a " +
+          board.getValue(point) + ".");
+      }
     } else {
-      throw new IllegalArgumentException("Can't move there.");
+      throw new IllegalArgumentException("Not a valid position.");
     }
   }
 

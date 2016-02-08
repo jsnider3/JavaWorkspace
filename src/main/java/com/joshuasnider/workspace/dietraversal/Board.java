@@ -40,7 +40,29 @@ public class Board {
     return numcolumns;
   }
 
+  /**
+   * Get the direction one point is from its neighbor.
+   */
+  public static Die.Side getDirection(Point from, Point to) {
+    if (from.getX() - to.getX() == 1) {
+      return Die.Side.WEST;
+    } else if (from.getX() - to.getX() == -1) {
+      return Die.Side.EAST;
+    } else if (from.getY() - to.getY() == 1) {
+      return Die.Side.NORTH;
+    } else if (from.getY() - to.getY() == -1) {
+      return Die.Side.SOUTH;
+    } else {
+      throw new IllegalArgumentException("Not neigbhors");
+    }
+  }
+
+
   public int getRows() {
     return numrows;
+  }
+
+  public int getValue(Point point) {
+    return board.get((int)point.getY()).get((int)point.getX());
   }
 }
