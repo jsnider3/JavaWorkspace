@@ -1227,17 +1227,21 @@ def moore_voting(arr):
       return it in a list.
       Returns None on failure.
       O(n) time and constant space. '''
-  max_elm = arr[0]
-  count = 1
-  for elm in arr[1:]:
-    if elm == max_elm:
-      count += 1
-    else:
-      count -= 1
-    if count == 0:
-      max_elm = elm
-      count = 1
-  return [max_elm] if arr.count(max_elm) > len(arr) / 2 else None
+  maj = None
+  if arr:
+    max_elm = arr[0]
+    count = 0
+    for elm in arr:
+      if elm == max_elm:
+        count += 1
+      else:
+        count -= 1
+      if count == 0:
+        max_elm = elm
+        count = 1
+    if arr.count(max_elm) > len(arr) / 2:
+      maj = [max_elm]
+  return maj
 
 def multiplicative_order(num):
   ''' Return the multiplicative order of a number.'''

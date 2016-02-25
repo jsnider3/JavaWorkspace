@@ -432,6 +432,7 @@ class Tests(unittest.TestCase):
     assert sum(hacklib.max_subarray([-1, -2, -3, -4])) == -1
 
   def test_moore_voting(self):
+    assert hacklib.moore_voting([]) == None
     assert hacklib.moore_voting([1]) == [1]
     assert hacklib.moore_voting([1, 2, 1]) == [1]
     assert hacklib.moore_voting([1, 2]) == None
