@@ -17,6 +17,13 @@ choose :: Int -> Int -> Int
 choose n k = factorial n `quot` ((factorial k) * (factorial (n - k)))
 
 {-
+  count - Count the number of times an element appears
+          in a list.
+-}
+count :: Eq a => a -> [a] -> Int
+count elm = length . filter (elm==)
+
+{-
   count_down - Create a list counting down from n.
 -}
 count_down :: Int -> [Int]
@@ -53,6 +60,20 @@ filter_less_than n [] = []
 filter_less_than n arr 
                    | arr !! 0 < n = [arr !! 0] ++ filter_less_than n ( tail arr)
                    | otherwise = filter_less_than n ( tail arr)
+
+{-
+  lcm_factors - Return the prime factors of the lcm of two
+                numbers expressed as prime factors.
+-}
+lcm_factors :: [Int] -> [Int] -> [Int]
+lcm_factors a b = concat (map (\elm -> take_more_common elm a b)(nub (union a b)))
+
+{-
+  lcm - Get the least common multiple of a set of integers.
+-}
+lcm :: [Int] -> Int
+lcm nums = let facs = map factors nums in
+    product (foldl lcm_factors [] facs)
 
 {-
   list_len - Manually find the length of lst.
@@ -152,6 +173,12 @@ shared_prefix a b = if a == "" || b == "" || head a /= head b
 -}
 sum_odds :: [Int] -> Int
 sum_odds arr = foldl (+) 0 $ filter odd arr
+
+{-
+  take_more_common - Used for my least common multiple code.
+-}
+take_more_common :: (Eq a) => a -> [a] -> [a] -> [a]
+take_more_common elm a b = replicate (max (count elm a)(count elm b)) elm
 
 {-
   uniq - Return the list with only uniq elems.
