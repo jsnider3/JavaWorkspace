@@ -1,3 +1,4 @@
+import Data.Ix
 import Data.List
 import Data.Numbers.Primes
 
@@ -8,6 +9,12 @@ import Data.Numbers.Primes
 
 arr_repl :: Int -> [Int] -> [Int]
 arr_repl n arr = concat(map (replicate n) arr)
+
+{-
+  choose - Naive binomial choice function.
+-}
+choose :: Int -> Int -> Int
+choose n k = factorial n `quot` ((factorial k) * (factorial (n - k)))
 
 {-
   count_down - Create a list counting down from n.
@@ -21,6 +28,13 @@ count_down n = n : (count_down (n-1))
 -}
 euler_exp :: Double -> Double
 euler_exp x = foldl (+) 0 (map (\y -> (x ** y)/ (foldl (*) 1 [1..y])) [0..9])
+
+{-
+  factorial - nth factorial
+-}
+factorial :: Int -> Int
+factorial 0 = 1
+factorial n = n * factorial (n-1)
 
 {-
   factors - prime factors of n
@@ -68,6 +82,28 @@ odd_indices [a] = []
 odd_indices lst = [lst !! 1] ++ odd_indices (tail (tail lst))
 
 {-
+  pascal_row - Get the nth row of Pascal's triangle.
+               Counting starts at 0.
+-}
+pascal_row :: Int -> [Int]
+pascal_row row = map (choose row) (range(0, row))
+
+{-
+  pascal_triangle - Get the first n rows of Pascal's triangle.
+-}
+pascal_triangle :: Int -> [[Int]]
+pascal_triangle rows = map pascal_row (range(0, rows - 1))
+
+{-
+  purge_prefix - Remove the given prefix from a string that starts
+                with it.
+-}
+purge_prefix :: String -> String -> String
+purge_prefix a b = if a /= "" && head a == head b
+    then purge_prefix (tail a) (tail b)
+    else b
+
+{-
   rev - Reverse a list manually.
 -}
 rev :: [a] -> [a]
@@ -102,6 +138,14 @@ rot_lst start stop = case (start == stop) of
 rot_n :: (Eq a, Eq b, Num b) => [a] -> b -> [[a]]
 rot_n start 0 = []
 rot_n start n = start:(rot_n (tail start++[head start]) (n-1))
+
+{-
+  shared_prefix - Get the longest prefix that two strings share.
+-}
+shared_prefix :: String -> String -> String
+shared_prefix a b = if a == "" || b == "" || head a /= head b
+    then ""
+    else [head a] ++ (shared_prefix (tail a) (tail b))
 
 {-
   sum_odds - Sum the odd elements of a list
