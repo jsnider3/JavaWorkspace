@@ -3,10 +3,17 @@ import Data.List
 import Data.Numbers.Primes
 
 {-
+  area_under_curve - Get the area of a curve, using an
+    integral and the left and right bound.
+-}
+area_under_curve :: [(Double, Double)] -> Int -> Int -> Double
+area_under_curve integral left right =
+    sum (map (\x -> eval_power x right - eval_power x left) integral)
+
+{-
   arr_repl - Repeat the elements of arr n times
              and preserve order.
 -}
-
 arr_repl :: Int -> [Int] -> [Int]
 arr_repl n arr = concat(map (replicate n) arr)
 
@@ -29,6 +36,12 @@ count elm = length . filter (elm==)
 count_down :: Int -> [Int]
 count_down 0 = [0]
 count_down n = n : (count_down (n-1))
+
+{-
+  eval_power - Evaluate coef*x^pow with x = at.
+-}
+eval_power :: (Double, Double) -> Int -> Double
+eval_power (coef, pow) at = coef * ((fromIntegral at) ** pow)
 
 {-
   euler_exp - Estimate e^x
@@ -116,6 +129,25 @@ pascal_triangle :: Int -> [[Int]]
 pascal_triangle rows = map pascal_row (range(0, rows - 1))
 
 {-
+  poly_coef_times - Multiply c0*x^p0 with c1*x^p1.
+-}
+poly_coef_times :: (Int, Int) -> (Int, Int) -> (Int, Int)
+poly_coef_times (c0, p0) (c1, p1) = (c0 * c1, p0 + p1)
+
+{-
+  poly_square - Square a polynomial.
+-}
+poly_square :: [(Int, Int)] -> [(Int, Int)]
+poly_square poly = [ poly_coef_times x y  | x<-poly, y<-poly ]
+
+{-
+  power_rule - Integrate of coef*x^pow.
+-}
+power_rule :: (Int, Int) -> (Double, Double)
+power_rule (coef, pow) = let next_pow = (fromIntegral pow) + 1.0 in
+                      ((fromIntegral coef) / (next_pow), next_pow)
+
+{-
   purge_prefix - Remove the given prefix from a string that starts
                 with it.
 -}
@@ -186,6 +218,14 @@ take_more_common elm a b = replicate (max (count elm a)(count elm b)) elm
 -}
 uniq :: (Eq a) => [a] -> [a]
 uniq = foldl (\a b -> if elem b a then a else a ++ [b]) []
+
+{-
+  volume_under_curve - Get the volume of a solid of revolution,
+    using an integral and the left and right bound.
+-}
+volume_under_curve :: [(Double, Double)] -> Int -> Int -> Double
+volume_under_curve integral left right =
+    pi * sum (map (\x -> eval_power x right - eval_power x left) integral)
 
 main = do
   str <- getLine
