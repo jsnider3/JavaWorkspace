@@ -188,6 +188,11 @@ class Tests(unittest.TestCase):
     assert test[2] == fractions.Fraction(8, 3)
     assert test[3] == fractions.Fraction(11, 4)
 
+  def test_convert_time_to_24(self):
+    assert hacklib.convert_time_to_24("07:05:12PM") == "19:05:12"
+    assert hacklib.convert_time_to_24("12:40:22AM") == "00:40:22"
+    assert hacklib.convert_time_to_24("12:40:22PM") == "12:40:22"
+
   def test_cross_product(self):
     assert hacklib.cross_product((2, 1, -1), (-3, 4, 1)) == (5, 1, 11)
 

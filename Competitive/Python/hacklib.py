@@ -739,6 +739,19 @@ def common_elements(*arrs):
       common = common.intersection(group)
   return common
 
+def convert_time_to_24(time):
+  ''' Take time in form HH:MM:SS(AM|PM) and
+      convert it to 24 hour time. '''
+  mil = time[:-2]
+  if time.endswith('AM') and time.startswith('12'):
+    mil = '00' + mil[2:]
+  elif time.endswith('PM') and time.startswith('12'):
+    mil = '12' + mil[2:]
+  elif time.endswith('PM'):
+    hours = int(time[:2]) + 12
+    mil = str(hours) + mil[2:]
+  return mil
+
 def cross_product(fst, secnd):
   ''' Cross-product of two 3D vectors.'''
   (fi, fj, fk) = fst
