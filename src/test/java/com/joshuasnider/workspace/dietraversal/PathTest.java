@@ -75,4 +75,18 @@ public class PathTest {
   }
 
 
+  @Test
+  public void testUnsolvable() {
+    List<List<Integer>> source = new ArrayList<List<Integer>>();
+    source.add(new ArrayList<Integer>());
+    source.get(0).add(1);
+    source.get(0).add(9);
+    source.add(new ArrayList<Integer>());
+    source.get(1).add(9);
+    source.get(1).add(1);
+    Board board = new Board(source);
+    Die die = new Die(1, 2, 3, 4, 5, 6);
+    Path path = new Path(board, die);
+    assertEquals(path.solve(), null);
+  }
 }

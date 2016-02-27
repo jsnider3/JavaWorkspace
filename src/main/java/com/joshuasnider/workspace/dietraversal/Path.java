@@ -37,8 +37,7 @@ public class Path {
    * Add a point to the end of our points list.
    */
   public void addPoint(Point point) {
-    if (point.distance(points.get(points.size() - 1)) == 1 &&
-        !points.contains(point)) {
+    if (isValidMove(point)) {
       Die rotated = die.rotated(
         Board.getDirection(points.get(points.size() - 1), point));
       if (rotated.getFace(Die.Side.TOP) == board.getValue(point)) {
@@ -60,6 +59,10 @@ public class Path {
     return points;
   }
 
+  /**
+   * Get the score of this path, which is the product of the numbers
+   *  along the path. Paths that don't reach the end are worthless.
+   */
   public int getProduct() {
     int prod = reachesEnd() ? 1: 0;
     if (reachesEnd()) {
@@ -68,6 +71,18 @@ public class Path {
       }
     }
     return prod;
+  }
+
+  public boolean isValidMove(Point p) {
+    return p.distance(points.get(points.size() - 1)) == 1 &&
+          !points.contains(p);
+  }
+
+  /**
+   * Return the continuation of this path that has the highest score.
+   */
+  public Path solve() {
+    return null;
   }
 
   /**
