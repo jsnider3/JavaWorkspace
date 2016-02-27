@@ -206,6 +206,26 @@ class Tests(unittest.TestCase):
   def test_dels_for_anagram(self):
     assert strings.dels_for_anagram('cde', 'abc') == 4
 
+  def test_disjoint_set(self):
+    disjoints = hacklib.DisjointSet(range(20))
+    assert len(list(disjoints)) == 20
+    assert len((disjoints)) == 20
+    disjoints.union(0, 1)
+    assert len(list(disjoints)) == 19
+    disjoints.union(0, 1)
+    assert len(list(disjoints)) == 19
+    assert disjoints.find(0) in [0, 1]
+    disjoints.union(2, 3)
+    assert len(list(disjoints)) == 18
+    assert disjoints.find(2) in [2, 3]
+    disjoints.union(0, 3)
+    assert len(list(disjoints)) == 17
+    for num in range(4):
+      assert disjoints.find(num) in range(4)
+    assert disjoints == disjoints
+    assert disjoints != hacklib.DisjointSet(range(20))
+    assert hacklib.DisjointSet(range(20)) == hacklib.DisjointSet(range(20))
+
   def test_Palindrome_by_reduction(self):
     pals = hacklib.Palindrome()
     assert pals.by_reduction('abc') == 2

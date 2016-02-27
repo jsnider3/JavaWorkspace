@@ -154,6 +154,62 @@ class Decents(object):
     return None
 
 #########################
+class DisjointSet(object):
+  ''' My implementation of
+      https://en.wikipedia.org/wiki/Disjoint-set_data_structure. '''
+
+  def __eq__(self, other):
+    return set(self) == set(other)
+
+  def __init__(self, members):
+    ''' Make each element its own disjoint set. '''
+    self.members = set(members)
+    self.parents = {}
+    for member in self.members:
+      self.parents[member] = None
+
+  def __iter__(self):
+    ''' Return the disjoint sets this contains. '''
+    groups = {}
+    for member in self.members:
+      parent = self.find(member)
+      if parent not in groups:
+        groups[parent] = set([])
+      groups[parent].add(member)
+    for group in groups:
+      yield frozenset(groups[group])
+
+  def __len__(self):
+    ''' How many distinct sets do we have? '''
+    return len(list(iter(self)))
+
+  def __ne__(self, other):
+    return not self.__eq__(other)
+
+  def is_chief(self, x):
+    ''' Is x the parent of a set? '''
+    return self.parents[x] == None
+
+  def find(self, x):
+    ''' Find the chief representative of our set.'''
+    if not self.is_chief(x):
+      ourparent = self.parents[x]
+      temp = self.find(ourparent)
+      if temp != ourparent:
+        self.parents[x] = temp
+      return temp
+    else:
+      return x
+
+  def union(self, x, y):
+    ''' Place x and y in the same set by making one's head
+        a child of the other. '''
+    xparent = self.find(x)
+    yparent = self.find(y)
+    if xparent != yparent:
+      self.parents[yparent] = xparent
+
+#########################
 class Hexagonals(object):
   ''' Provides iterators and accessors for
       the hexagonal numbers. '''
