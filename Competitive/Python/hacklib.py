@@ -1222,6 +1222,20 @@ def max_subarray(arr):
     if tot == max_tot:
       return arr[ind : max_ind + 1]
 
+def min_rotated_array(arr):
+  ''' Find the minimum of a sorted (and rotated) array in
+      O(ln(n)) time. '''
+  lowest = None
+  if len(arr) == 1 or arr[0] < arr[-1]:
+    lowest = arr[0]
+  else:
+    midpoint = len(arr) // 2
+    if arr[midpoint] < arr[0]:
+      lowest = min_rotated_array(arr[1:midpoint + 1])
+    else:
+      lowest = min_rotated_array(arr[midpoint:])
+  return lowest
+
 def moore_voting(arr):
   ''' If the majority of arr is a single element,
       return it in a list.
