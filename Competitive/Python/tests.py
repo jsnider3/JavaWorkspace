@@ -5,6 +5,7 @@ from graph import Graph
 import hacklib
 import itertools
 from pandigitals import Pandigitals
+import pdb
 from primes import Primes
 from romannumeral import RomanNumeral
 import strings
@@ -450,6 +451,53 @@ class Tests(unittest.TestCase):
             ['1','9','1'],
             ['1','8','9']]
     assert not hacklib.Matrix(big).find(hacklib.Matrix(smal))
+    grid = [[1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]]
+    mat = hacklib.Matrix(grid)
+    mat.slide(0)
+    assert mat.mat == grid
+    mat.slide(1)
+    correct = [[4, 1, 2],
+               [7, 5, 3],
+               [8, 9, 6]]
+    assert mat.mat == correct
+    grid = [[1, 2, 3, 10, 13],
+            [4, 5, 6, 11, 14],
+            [7, 8, 9, 12, 15],
+            [16, 17, 18, 19, 20]]
+    mat = hacklib.Matrix(grid)
+    mat.slide(1)
+    correct = [[4, 1, 2, 3, 10],
+               [7, 8, 5, 6, 13],
+               [16, 9, 12, 11, 14],
+               [17, 18, 19, 20, 15]]
+    assert mat.mat == correct
+    mat.slide(-1)
+    assert mat.mat == grid
+    grid = [[1, 2, 3, 4],
+            [7, 8, 9, 10],
+            [13, 14, 15, 16],
+            [19, 20, 21, 22],
+            [25, 26, 27, 28]]
+    mat = hacklib.Matrix(grid)
+    mat.slide(-7)
+    correct = [[28, 27, 26, 25],
+               [22, 9, 15, 19],
+               [16, 8, 21, 13],
+               [10, 14, 20, 7],
+               [4, 3, 2, 1]]
+    assert mat.mat == correct
+
+  def test_matrix_rings(self):
+    grid = [[1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]]
+    mat = hacklib.Matrix(grid)
+    assert mat.ring((0, 0), (2, 2)) == [1, 2, 3, 6, 9, 8, 7, 4]
+    assert mat.ring((1, 1), (1, 1)) == [5]
+    mat.ring_set((0, 0), (2, 2), [0] * 8)
+    assert mat.ring((0, 0), (2, 2)) == [0] * 8
 
   def test_max_subarray(self):
     assert sum(hacklib.max_subarray([1, 2, 3, 4])) == 10

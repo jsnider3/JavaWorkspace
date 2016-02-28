@@ -311,6 +311,54 @@ class Matrix(object):
     ''' Check if each row is in sorted order.'''
     return all(is_sorted(row) for row in self.mat)
 
+  def ring(self, tl, br):
+    ''' Get the perimeter of a square with the given
+        top-left and bottom-right. '''
+    ring = []
+    (x1, y1) = tl
+    (x2, y2) = br
+    (indx, indy) = (x1, y1)
+    while indx < x2:
+      ring.append(self.mat[indy][indx])
+      indx += 1
+    while indy < y2:
+      ring.append(self.mat[indy][indx])
+      indy += 1
+    while indx > x1:
+      ring.append(self.mat[indy][indx])
+      indx -= 1
+    while indy > y1:
+      ring.append(self.mat[indy][indx])
+      indy -= 1
+    if not ring:
+      ring.append(self.mat[y1][x1])
+    return ring
+
+  def ring_set(self, tl, br, source):
+    ''' Write to the specified ring. '''
+    (x1, y1) = tl
+    (x2, y2) = br
+    (indx, indy) = (x1, y1)
+    sind = 0
+    while indx < x2:
+      self.mat[indy][indx] = source[sind]
+      indx += 1
+      sind += 1
+    while indy < y2:
+      self.mat[indy][indx] = source[sind]
+      indy += 1
+      sind += 1
+    while indx > x1:
+      self.mat[indy][indx] = source[sind]
+      indx -= 1
+      sind += 1
+    while indy > y1:
+      self.mat[indy][indx] = source[sind]
+      indy -= 1
+      sind += 1
+    if tl == br:
+      self.mat[indy][indx] = source[sind]
+
   def rotate(self):
     ''' Rotate an array by 90 degrees clockwise in place. '''
     if self.rows != self.cols:
@@ -329,6 +377,21 @@ class Matrix(object):
         self.mat[x][xmax - y] = swap[0]
         self.mat[ymax - y][xmax - x] = swap[1]
         self.mat[ymax - x][y] = swap[2]
+
+  def slide(self, dist):
+    ''' Slide the values in a matrix clockwise in place. '''
+    if dist:
+      ind = 0
+      tl = (ind, ind)
+      br = (self.cols - ind - 1, self.rows - ind - 1)
+      while tl[0] < br[0] and tl[1] < br[1]:
+        ring = self.ring(tl, br)
+        shift = dist % len(ring)
+        ring = ring[-shift:] + ring[:-shift]
+        self.ring_set(tl, br, ring)
+        ind += 1
+        tl = (ind, ind)
+        br = (self.cols - ind - 1, self.rows - ind - 1)
 
   def sort_by_rows(self):
     ''' Sort each row in the matrix. '''
