@@ -1096,6 +1096,9 @@ def is_primitive_root(num, base):
   return (fractions.gcd(num, base) == 1 and
           multiplicative_order(num) == totient(base) % base)
 
+def is_relatively_prime(fst, snd):
+  return fractions.gcd(fst, snd) == 1
+
 def is_rotation(first, second):
   ''' return if first and second are
       rotations of each other. '''
@@ -1546,6 +1549,14 @@ def quad_prime(a, b):
     count += 1
   return count
 
+def reciprocal_length(denom):
+  ''' Multiplicative order of 10 (mod n). '''
+  order = 1
+  if is_relatively_prime(denom, 10):
+    while (10 ** order) % denom != 1:
+      order += 1
+  return order
+
 def reorder_chars(strn, left, right):
   '''Change strn so that right is never
     followed and touching a left. '''
@@ -1892,7 +1903,6 @@ def zip_array_sum(first, second, tot):
 def main():
   ''' main '''
   print("REDACTED")
-
 
 if __name__ == "__main__":
   main()

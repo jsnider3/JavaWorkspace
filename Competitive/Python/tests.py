@@ -666,6 +666,13 @@ class Tests(unittest.TestCase):
   def test_quad_prime(self):
     assert hacklib.quad_prime(1, 41) == 40
 
+  def test_reciprocal_length(self):
+    assert hacklib.reciprocal_length(3) == 1
+    assert hacklib.reciprocal_length(6) == 1
+    assert hacklib.reciprocal_length(7) == 6
+    assert hacklib.reciprocal_length(9) == 1
+    assert hacklib.reciprocal_length(983) == 982
+
   def test_reorder_chars(self):
     cases = [('the theater', 'hte hteater'),
              ('interesting stories', 'interesting stories'),
