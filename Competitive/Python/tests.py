@@ -52,6 +52,14 @@ class Tests(unittest.TestCase):
     assert hacklib.balanced_array([1, 2, 3]) == None
     assert hacklib.balanced_array([1, 2, 3, 3]) == 2
 
+  def test_balanced_parentheses(self):
+    assert hacklib.balanced_parentheses('{}')
+    assert hacklib.balanced_parentheses('sdfds{asdas}asda')
+    assert not hacklib.balanced_parentheses('{')
+    assert not hacklib.balanced_parentheses('}')
+    assert hacklib.balanced_parentheses('{{}{}}')
+    assert not hacklib.balanced_parentheses('{{}}{}}')
+
   def test_binary_search(self):
     assert hacklib.binary_search([1], 1) == 0
     assert hacklib.binary_search([1], 2) == None

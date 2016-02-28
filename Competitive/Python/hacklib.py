@@ -751,6 +751,20 @@ def balanced_array(arr):
       return num
   return None
 
+def balanced_parentheses(line):
+  ''' Check that line contains balanced parentheses. '''
+  count = 0
+  balanced = True
+  for elm in line:
+    if elm == '{':
+      count += 1
+    elif elm == '}':
+      count -= 1
+      if count < 0:
+        balanced = False
+        break
+  return balanced and count == 0
+
 def binary_search(arr, elm):
   ''' Search for elm in a sorted array,
       O(log(n)) time.'''
