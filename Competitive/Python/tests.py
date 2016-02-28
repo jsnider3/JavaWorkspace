@@ -337,6 +337,15 @@ class Tests(unittest.TestCase):
     assert primes.is_circular(971)
     assert not primes.is_circular(999953)
 
+  def test_is_digit_cancelling_fraction(self):
+    assert hacklib.is_digit_cancelling_fraction(49, 98)
+    assert hacklib.is_digit_cancelling_fraction(26, 65)
+    assert not hacklib.is_digit_cancelling_fraction(12, 13)
+
+  def test_is_trivial_digit_cancelling_fraction(self):
+    assert hacklib.is_trivial_digit_cancelling_fraction(10, 20)
+    assert not hacklib.is_trivial_digit_cancelling_fraction(26, 65)
+
   def test_is_pan(self):
     assert strings.is_pan('ABCDS1234Y')
     assert not strings.is_pan('ABCD12345Y')

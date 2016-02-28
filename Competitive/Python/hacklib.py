@@ -1083,6 +1083,31 @@ def is_arithmetically_increasing(lst):
       return False
   return True
 
+def is_digit_cancelling_fraction(numer, denom):
+  ''' Is numer/denom, like 49/98 in that cancelling
+      shared digits among the numerator and denominator
+      accidentally correct? '''
+  numdigits = set(str(numer))
+  dendigits = set(str(denom))
+  numlist = list(str(numer))
+  denlist = list(str(denom))
+  if not numdigits.intersection(dendigits):
+    return False
+  else:
+    numlist = [num for num in numlist if num not in dendigits]
+    denlist = [num for num in denlist if num not in numdigits]
+    if numlist and denlist:
+      rednum = int(''.join(numlist))
+      reddenom = int(''.join(denlist))
+      return (reddenom != 0 and fractions.Fraction(numer, denom) ==
+              fractions.Fraction(rednum, reddenom))
+    else:
+      return False
+
+def is_trivial_digit_cancelling_fraction(numer, denom):
+  return (is_digit_cancelling_fraction(numer, denom) and
+          (numer % 10 == 0 or denom % 10 == 0))
+
 def is_power_of(num, base):
   ''' check if num == base ** a
       for some a. '''
