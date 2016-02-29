@@ -251,7 +251,7 @@ class Matrix(object):
   def column(self, ind):
     ''' Return a column of the matrix as a list.'''
     if 0 > ind or ind >= self.cols:
-      raise ValueError('Colun index out of range.')
+      raise ValueError('Column index out of range.')
     col = []
     for row in range(self.rows):
       col.append(self.mat[row][ind])
@@ -1131,7 +1131,7 @@ def is_power_of(num, base):
   return base ** count == num
 
 def is_primitive_root(num, base):
-  ''' Check if a number if a primative root of a given base. '''
+  ''' Check if a number if a primitive root of a given base. '''
   return (fractions.gcd(num, base) == 1 and
           multiplicative_order(num) == totient(base) % base)
 
