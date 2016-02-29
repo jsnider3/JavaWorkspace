@@ -1,5 +1,6 @@
 ''' Wrapped module for Primes class'''
 
+import hacklib
 import pdb
 
 class Primes(object):
@@ -170,6 +171,18 @@ class Primes(object):
     for factor in uniq_factors:
       factors *= all_factors.count(factor) + 1
     return factors
+
+  def totient(self, num):
+    ''' Euler's totient function: The number of numbers less
+        than num that are relatively prime with num. '''
+    factors = self.factors(num)
+    factors = set(factors)
+    prod = hacklib.product([(1 - 1.0/x) for x in factors])
+    phi = num * prod
+    return int(phi)
+
+  def totient_permutation(self, num):
+    return hacklib.is_permutation(str(self.totient(num)), str(num))
 
   def truncatable(self, num):
     '''As defined by Project Euler 37.'''

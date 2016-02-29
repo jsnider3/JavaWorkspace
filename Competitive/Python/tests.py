@@ -787,9 +787,11 @@ class Tests(unittest.TestCase):
   def test_totient(self):
     correct = [(2, 1), (3, 2), (4, 2),
                (5, 4), (6, 2), (7, 6),
-               (8, 4), (9, 6), (10, 4)]
+               (8, 4), (9, 6), (10, 4),
+               (4079147, 4074720)]
+    primes = Primes()
     for (k, v) in correct:
-      assert hacklib.totient(k) == v
+      assert primes.totient(k) == v
 
   def test_triangle_area(self):
     assert hacklib.triangle_area((0, 0,), (0, 5), (5, 0)) == 12.5
