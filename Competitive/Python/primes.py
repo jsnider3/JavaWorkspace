@@ -107,7 +107,7 @@ class Primes(object):
     '''Factorize num and return them in sorted order.'''
     if num == 0 or num == 1:
       return []
-    for count in self.less_than(num // 2 + 1):
+    for count in self.less_than(int(num ** .5) + 2):
       if (num % count) == 0:
         factors = self.factors(num // count)
         factors.append(count)

@@ -1744,7 +1744,8 @@ def tile_four_by_n(width):
   return ways
 
 def totient(num):
-  ''' Requires python 3 to be correct. '''
+  ''' Euler's totient function: The number of numbers less
+      than num that are relatively prime with num. '''
   primes = Primes()
   factors = primes.factors(num)
   factors = set(factors)
