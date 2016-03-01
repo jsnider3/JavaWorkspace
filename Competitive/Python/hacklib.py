@@ -1864,6 +1864,20 @@ def uniq(seq):
             copy.append(elm)
     return copy
 
+def uniq_in_range(seq, k):
+  ''' Return a sequence with elements removed so that
+      no duplicates are within k of each other in the
+      output. '''
+  res = []
+  ind = 0
+  spots = {}
+  for elm in seq:
+    if elm not in spots or spots[elm] + k < ind:
+      spots[elm] = ind
+      res.append(elm)
+      ind += 1
+  return res
+
 def visual_insert(arr, num):
   ''' Insert num into a sorted list arr
       and print out the array every time

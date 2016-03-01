@@ -858,6 +858,13 @@ class Tests(unittest.TestCase):
   def test_uniq(self):
     assert hacklib.uniq('ABCADEFGGB') == ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
+  def test_uniq_in_range(self):
+    assert hacklib.uniq_in_range([], 2) == []
+    assert hacklib.uniq_in_range('abc', 2) == ['a', 'b', 'c']
+    assert hacklib.uniq_in_range('aba', 2) == ['a', 'b']
+    assert hacklib.uniq_in_range('abaa', 2) == ['a', 'b']
+    assert hacklib.uniq_in_range('aba', 1) == ['a', 'b', 'a']
+
   def test_various(self):
     assert hacklib.substring_div43(1406357289)
     assert strings.unique_str('abcdefghijklmnopqrstuvwxyz')
