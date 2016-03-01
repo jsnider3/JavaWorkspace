@@ -485,13 +485,22 @@ class Palindrome(object):
   def split_index(self, word):
     ''' Given a string find the lowest index that we can split
         it at to make a palindrome. Return None on failure.'''
+    lind = 0
+    eind = len(word) - 1
     if word in self:
       return None
-    for shift in range(len(word)):
-      back = len(word) - shift - 1
-      if word[shift] != word[back]:
-        if word[:shift] + word[shift+1:] in self:
-          return shift
+    while lind <= eind:
+      if word[lind] != word[eind]:
+        if word[:lind] + word[lind+1:] in self:
+          return lind
+        elif word[:eind] + word[eind+1:] in self:
+          return eind
+        else:
+          return None
+      lind += 1
+      eind -= 1
+    return None
+
 
 #########################
 class Pentagonals(object):

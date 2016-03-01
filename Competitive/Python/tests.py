@@ -731,6 +731,8 @@ class Tests(unittest.TestCase):
     assert pals.split_index('aaab') == 3
     assert pals.split_index('baaa') == 0
     assert pals.split_index('aaa') == None
+    assert pals.split_index(
+        'hgygsvlfcwnswtuhmyaljkqlqjjqlqkjlaymhutwsnwcwflvsgygh') == 44
 
   def test_squarechains(self):
     chain = hacklib.SquareChain()
