@@ -521,7 +521,7 @@ class Tests(unittest.TestCase):
     assert sum(hacklib.max_subarray([2, -1, 2, 3, 4, -5])) == 10
     assert sum(hacklib.max_subarray([-1, -2, -3, -4])) == -1
 
-  def test_max_subarray(self):
+  def test_min_rot_subarray(self):
     arr = [1]
     assert hacklib.min_rotated_array(arr) == 1
     arr = [1, 2]
@@ -536,6 +536,16 @@ class Tests(unittest.TestCase):
     arr = list(range(1000))
     arr = arr[200:] + arr[:200]
     assert hacklib.min_rotated_array(arr) == 0
+
+  def test_max_sum_increasing_subsequence(self):
+    arr = [5]
+    assert hacklib.max_sum_increasing_subsequence(arr) == 5
+    arr = [5, 3, 4]
+    assert hacklib.max_sum_increasing_subsequence(arr) == 7
+    arr = [5, 3, 6]
+    assert hacklib.max_sum_increasing_subsequence(arr) == 11
+    arr = [1, 101, 2, 3, 100, 4, 5]
+    assert hacklib.max_sum_increasing_subsequence(arr) == 106
 
   def test_moore_voting(self):
     assert hacklib.moore_voting([]) == None

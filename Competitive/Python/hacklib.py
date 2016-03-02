@@ -1411,6 +1411,17 @@ def max_subarray(arr):
     if tot == max_tot:
       return arr[ind : max_ind + 1]
 
+def max_sum_increasing_subsequence(arr):
+  ''' Find the (possibly non-contiguous) subsequence
+      in arr which has the highest values. '''
+  max_ends = list(arr)
+  for end in range(1, len(arr)):
+    for cand in range(end):
+      if (arr[cand] < arr[end] and
+          max_ends[end] < max_ends[cand] + arr[end]):
+        max_ends[end] = max_ends[cand] + arr[end]
+  return max(max_ends)
+
 def min_rotated_array(arr):
   ''' Find the minimum of a sorted (and rotated) array in
       O(ln(n)) time. '''
