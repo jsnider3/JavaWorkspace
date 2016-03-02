@@ -1370,6 +1370,18 @@ def longest_arithmetically_increasing_sequence(lst):
     sequence.append(max_start + max_diff * count)
   return sequence
 
+def longest_increasing_subsequence(arr):
+  ''' Return the longest subsequence that is in
+      increasing order. '''
+  subseqs = [[arr[0]]]
+  maxes = [arr[0]]
+  for elm in arr[1:]:
+    ind = bisect.bisect_left(maxes, elm)
+    if (ind == len(subseqs) or elm < subseqs[ind][-1]):
+      subseqs.insert(ind, subseqs[ind-1] + [elm])
+      maxes.insert(ind, elm)
+  return subseqs[-1]
+
 def magnitude(vec):
   ''' Euclidean norm of a vector. '''
   return math.sqrt(sum(num ** 2 for num in vec))

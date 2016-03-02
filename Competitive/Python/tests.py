@@ -396,6 +396,13 @@ class Tests(unittest.TestCase):
   def test_lonely_member(self):
     assert hacklib.lonely_member([1, 2, 3, 1, 2, 0, 3]) == 0
 
+  def test_longest_increasing_subsequence(self):
+    arr = [1]
+    assert hacklib.longest_increasing_subsequence(arr) == [1]
+    arr = [10, 22, 9, 33, 21, 50, 41, 60, 80]
+    assert (hacklib.longest_increasing_subsequence(arr) ==
+        [10, 22, 33, 50, 60, 80])
+
   def test_make_change(self):
     assert hacklib.make_change([1, 2, 3], 4) == 4
     assert hacklib.make_change([2, 5, 3, 6], 10) == 5
