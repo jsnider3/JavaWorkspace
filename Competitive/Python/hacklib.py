@@ -961,6 +961,26 @@ def factorial(num):
     prod *= val
   return prod
 
+def fencing(pieces, cutoff):
+  ''' Given an array of fence piece lengths, return the number
+      of unique ways we can make a rectangular fence whose area
+      is greater than or equal to the cutoff. '''
+  lengths = {elm:pieces.count(elm) for elm in pieces if pieces.count(elm) > 1}
+  lenset = sorted(set(lengths))
+  ways = 0
+  for lo_ind in range(len(lenset)):
+    lo = lenset[lo_ind]
+    if lengths[lo] > 3 and lo * lo >= cutoff:
+      ways += 1
+    start = bisect.bisect_left(lenset, cutoff / lo, lo=lo_ind+1)
+    if start < len(lenset):
+      for hi_ind in range(start, len(lenset)):
+        hi = lenset[hi_ind]
+        if lo * hi >= cutoff:
+          ways += len(lenset) - hi_ind
+          break
+  return ways
+
 def fibonacci(term):
   ''' Return the termth fibonacci number. O(n)'''
   Fibs = ArithSequence(0, 1)

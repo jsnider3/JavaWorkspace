@@ -264,6 +264,12 @@ class Tests(unittest.TestCase):
     assert primes.factors(8) == [2, 2, 2]
     assert primes.factors(29) == [29]
 
+  def test_fencing(self):
+    assert hacklib.fencing([1, 5, 1, 1, 2, 3, 5, 1], 1) == 2
+    assert hacklib.fencing([1, 5, 1, 1, 2, 3, 5, 1], 5) == 1
+    assert hacklib.fencing([1, 5, 1, 2, 1, 2, 3, 5, 1], 5) == 2
+    assert hacklib.fencing([1, 2, 5, 1, 1, 2, 3, 3, 5, 1], 5) == 4
+
   def test_fibonacci(self):
     fibs = [0, 1, 1, 2, 3, 5, 8, 13, 21]
     fibseq = hacklib.ArithSequence(0, 1)
