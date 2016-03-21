@@ -5,6 +5,7 @@ import bisect
 from decimal import *
 import fractions
 import functools
+import heapq
 import itertools
 import math
 import numpy
@@ -430,6 +431,50 @@ class Naturals(object):
 
   def __len__(self):
     raise NotImplementedError("This is an infinite sequence.")
+
+#########################
+class OnlineMedian(object):
+  ''' Get the median of a list while adding to it. '''
+
+  def __init__(self):
+    ''' Make two heaps, for elements less than and greater
+        than the median. '''
+    self.small = []
+    self.large = []
+
+  def add(self, elm):
+    ''' Add an element in O(ln(n)) time. '''
+    if len(self.small) + len(self.large) == 0:
+      self.small.append(-elm)
+    elif elm > self.median():
+      heapq.heappush(self.large, elm)
+    else:
+      heapq.heappush(self.small, -elm)
+    self.balance()
+
+  def balance(self):
+    ''' Make sure our sides are similarly sized.'''
+    if len(self.small) > len(self.large) + 1:
+      move = heapq.heappop(self.small)
+      heapq.heappush(self.large, -move)
+    elif len(self.large) > len(self.small) + 1:
+      move = heapq.heappop(self.large)
+      heapq.heappush(self.small, -move)
+
+  def median(self):
+    ''' Get the median. '''
+    med = None
+    if not len(self.small):
+      med = self.large[0]
+    elif not len(self.large):
+      med = -self.small[0]
+    elif len(self.small) > len(self.large):
+      med = -self.small[0]
+    elif len(self.large) > len(self.small):
+      med = self.large[0]
+    else:
+      med = (self.large[0] - self.small[0]) / 2
+    return float(med)
 
 #########################
 class Palindrome(object):

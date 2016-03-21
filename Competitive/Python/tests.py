@@ -593,6 +593,36 @@ class Tests(unittest.TestCase):
     for (k, v) in correct:
       assert hacklib.number_spiral_sum(k) == v
 
+  def test_online_median(self):
+    med = hacklib.OnlineMedian()
+    med.add(1)
+    assert med.median() == 1.0
+    med.add(2)
+    assert med.median() == 1.5
+    med.add(3)
+    assert med.median() == 2.0
+    med.add(4)
+    assert med.median() == 2.5
+    med.add(5)
+    assert med.median() == 3.0
+    med.add(6)
+    assert med.median() == 3.5
+    med.add(7)
+    assert med.median() == 4.0
+    med.add(8)
+    assert med.median() == 4.5
+    med.add(9)
+    assert med.median() == 5.0
+    med.add(10)
+    assert med.median() == 5.5
+    med = hacklib.OnlineMedian()
+    med.add(94455)
+    assert med.median() == 94455.0
+    med.add(20555)
+    assert med.median() == 57505.0
+    med.add(20535)
+    assert med.median() == 20555.0
+
   def test_pair_diffs(self):
     pairs = hacklib.pair_diffs([1,5,3,4,2],2)
     assert len(pairs) == 3
