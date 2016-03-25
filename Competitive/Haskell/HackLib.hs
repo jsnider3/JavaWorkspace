@@ -74,6 +74,15 @@ filter_less_than n arr
                    | arr !! 0 < n = [arr !! 0] ++ filter_less_than n ( tail arr)
                    | otherwise = filter_less_than n ( tail arr)
 
+
+{-
+  is_valid_function - Take a list of (x, f(x)) pairs and determine
+                if f is a valid function.
+-}
+is_valid_function :: (Eq a) => [(a, a)] -> Bool
+is_valid_function pairs = let uniqs = nub pairs in
+    length uniqs == length (nub (map fst uniqs));
+
 {-
   lcm_factors - Return the prime factors of the lcm of two
                 numbers expressed as prime factors.
@@ -139,6 +148,20 @@ poly_coef_times (c0, p0) (c1, p1) = (c0 * c1, p0 + p1)
 -}
 poly_square :: [(Int, Int)] -> [(Int, Int)]
 poly_square poly = [ poly_coef_times x y  | x<-poly, y<-poly ]
+
+{-
+  polygon_area - Compute the area of a polygon given points.
+-}
+polygon_area :: [(Int, Int)] -> Float
+polygon_area points = abs (sectionArea (last points) (head points) +
+    sum (sectionAreas points)) / 2
+
+sectionAreas :: [(Int, Int)] -> [Float]
+sectionAreas [a, b] = [sectionArea a b]
+sectionAreas ls = (sectionArea (head ls) (head $ tail ls)) : sectionAreas (tail ls)
+
+sectionArea :: (Int, Int) -> (Int, Int) -> Float
+sectionArea from to = fromIntegral((fst from) * (snd to) - (snd from) * (fst to))
 
 {-
   power_rule - Integrate of coef*x^pow.
