@@ -1,0 +1,27 @@
+26
+debug
+print
+insert child 8
+insert child 7
+insert child 6
+insert child 5
+insert child 4
+insert child 3
+insert child 2
+insert child 1
+debug
+visit child 4
+visit right
+visit right
+visit right
+visit right
+visit parent
+visit child 4
+visit left
+visit left
+visit left
+print
+insert child 10
+visit child 1
+print
+debug
