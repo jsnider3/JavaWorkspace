@@ -13,13 +13,13 @@ getVal (Node _ kids) (x:xs) = getVal (kids !! x) xs
 
 
 insertChild (Node num kids) [] v = Node num (Node v [] : kids)
-insertChild (Node num kids) (p:ps) v = Node num ((take (p - 1) kids) ++ [insertChild (kids !! p) ps v] ++ (drop (p - 1) kids))
+insertChild (Node num kids) (p:ps) v = Node num ((take p kids) ++ [insertChild (kids !! p) ps v] ++ (drop (p + 1) kids))
 
-insertLeft (Node num kids) [p] v = Node num ((take (p ) kids) ++ [Node v []] ++ (drop (p ) kids))
-insertLeft (Node num kids) (p:ps) v = Node num ((take (p ) kids) ++ [insertLeft (kids !! p) ps v] ++ (drop (p ) kids))
+insertLeft (Node num kids) [p] v = Node num ((take p kids) ++ [Node v []] ++ (drop p kids))
+insertLeft (Node num kids) (p:ps) v = Node num ((take p kids) ++ [insertLeft (kids !! p) ps v] ++ (drop (p + 1) kids))
 
-insertRight (Node num kids) [p] v = Node num ((take (p + 1) kids) ++ [Node v []] ++ (drop (p + 1) kids))
-insertRight (Node num kids) (p:ps) v = Node num ((take (p + 1) kids) ++ [insertRight (kids !! p) ps v] ++ (drop (p + 1) kids))
+insertRight (Node num kids) [p] v = Node num ((take (p + 1) kids) ++ [Node v []] ++ (drop (p + 2) kids))
+insertRight (Node num kids) (p:ps) v = Node num ((take p kids) ++ [insertRight (kids !! p) ps v] ++ (drop (p + 1) kids))
 
 moveLeft [p] = [p+1]
 moveLeft (p:ps) = p:(moveLeft ps)
