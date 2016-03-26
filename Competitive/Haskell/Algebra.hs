@@ -23,7 +23,7 @@ data Expr = N Integer
     | Div Expr Expr
     | Exp Expr Expr
     | Pow Expr
-    deriving Show
+    deriving (Eq, Show)
     
 data Poly = Pol Integer Integer
 
@@ -65,45 +65,61 @@ parseString str =
         Left e  -> error $ show e
         Right r -> r
         
-poly_div ex d = case ex of
+exp_div ex d = case ex of
     N n -> N (quot n d)
     Var v -> Var v
-    Neg x -> Neg (poly_div x d)
-    Add a b -> Add (poly_div a d) (poly_div b d)
-    Sub a b -> Sub (poly_div a d) (poly_div b d)
-    Mul a b -> Mul (poly_div a d) b
-    Div a (N n) -> poly_div (simplify a) (n * d)
+    Neg x -> Neg (exp_div x d)
+    Add a b -> Add (exp_div a d) (exp_div b d)
+    Sub a b -> Sub (exp_div a d) (exp_div b d)
+    Mul a b -> Mul (exp_div a d) b
+    Div a (N n) -> exp_div (simplify a) (n * d)
     _ -> ex
     
-poly_mul ex d = case ex of
+exp_mul ex d = case ex of
     N n -> N (n * d)
     Var v -> Mul (N d) (Var v)
-    Neg x -> Neg (poly_mul x d)
-    Add a b -> Add (poly_mul a d) (poly_mul b d)
-    Sub a b -> Sub (poly_mul a d) (poly_mul b d)
-    Mul a b -> Mul (poly_mul a d) b
-    Div a (N n) -> poly_mul (simplify a) (n * d)
+    Neg x -> Neg (exp_mul x d)
+    Add a b -> Add (exp_mul a d) (exp_mul b d)
+    Sub a b -> Sub (exp_mul a d) (exp_mul b d)
+    Mul a b -> Mul (exp_mul a d) b
+    Div a (N n) -> exp_mul (simplify a) (n * d)
     _ -> ex
     
-simplify :: Expr -> Expr
-simplify ex = case ex of
+simplify_once :: Expr -> Expr
+simplify_once ex = case ex of
     N n -> N n
     Var v -> Var v
     Neg x -> Neg (simplify x)
+    Add (N a) (N b) -> N (a + b)
     Add a b -> Add (simplify a) (simplify b)
+    Sub (N a) (N b) -> N (a - b)
     Sub a b -> Sub (simplify a) (simplify b)
     Mul (N 1) b -> b
-    Mul (N n) b -> poly_mul b n
-    Mul a b -> Mul (simplify a) (simplify b)
-    Div a (N n) -> simplify $ poly_div (simplify a) n
+    Mul (N n) b -> exp_mul b n
+    Mul a b -> simplify_mul (simplify a) (simplify b)
+    Div a (N 1) -> simplify a
+    Div a (N n) -> simplify $ exp_div (simplify a) n
+    Div a b -> simplify $ Div (simplify a) (simplify b)
     Exp (Var v) (N n) -> ex
     Exp a (N 0) -> N 1
     Exp a (N 1) -> a
     Exp a (N n) -> simplify (Mul a (Exp a (N (n-1))))
     _ -> ex
 
+simplify :: Expr -> Expr
+simplify ex = let nex = simplify_once ex in case nex == ex of
+    True -> nex
+    False -> simplify nex
+
+simplify_mul :: Expr -> Expr -> Expr
+simplify_mul a b = poly_to_expr [poly_mul x y | x <- (summation_simplified a), y <- (summation_simplified b)]
+    -- simplify a b, convert them to [Poly], multiply every pair, and convert back.
+
 poly_add :: Poly -> Poly -> Poly
 poly_add (Pol c1 n1) (Pol c2 n2) = Pol (c1 + c2) n1
+
+poly_mul :: Poly -> Poly -> Poly
+poly_mul (Pol c1 n1) (Pol c2 n2) = Pol (c1 * c2) (n1 + n2)
 
 poly_pow :: Poly -> Integer
 poly_pow pol = case pol of
@@ -114,9 +130,12 @@ poly_neg [] = []
 poly_neg [Pol c p] = [Pol (-c) p]
 poly_neg (x:xs) = poly_neg [x] ++ poly_neg xs
 
+poly_to_expr :: [Poly] -> Expr
+poly_to_expr [Pol c n] = N 0 
+poly_to_expr ((Pol c n):pols) = Add (N 0) (poly_to_expr pols) 
+
 summation :: Expr -> [Poly]
 summation ex = case ex of
-    Neg x -> poly_neg $ summation x
     N n -> [Pol n 0]
     Var v -> [Pol 1 1]
     Neg x -> poly_neg $ summation x
@@ -124,7 +143,7 @@ summation ex = case ex of
     Sub a b -> summation a ++ poly_neg (summation b)
     Mul (N n) (Var v) -> [Pol n 1]
     Exp (Var v) (N n) -> [Pol 1 n]
-    _ -> error $ show ex
+    _ -> error $ "Could not summarize: " ++ show ex
 
 summation_add [] = []
 summation_add [p] = case p of
@@ -154,22 +173,19 @@ prettyParse str = parseString (pretty str)
 main = do
     ln <- getLine
     exprs <- replicateM (read ln) (getLine)
-    --mapM print (map pretty exprs)
-    --mapM print (map (\x -> parseString $ pretty x) exprs)
-    --mapM print (map (\x -> simplify $ parseString $ pretty x) exprs)
-    --print (simplify (Var "x"))
-    --print (simplify (N 10))
-    --print (simplify $ (Mul (N 10) (Var "x")))
-    --print (simplify $ Add (Mul (N 10) (Var "x"))(Mul (N 2) (Var "x")))
-    --print $ summation_simplified $ simplify $ prettyParse "10x + 2x - (3x + 6)/3"
     print ([Pol 11 1, Pol (-2) 0] == summation_simplified (simplify (prettyParse "10x + 2x - (3x + 6)/3")))
-    --print (simplify $ (Div (Add (Mul (N 3) (Var "x")) (N 6)) (N 3)))
-    print (pretty (exprs !! 1))
-    print (simplify $ (Add (Mul (N 2) (Var "x")) (N 2)))
-    print (poly_mul (Mul (N 2) (Var "x")) 18)
-    print (poly_mul (N 2) 18)
-    print (poly_mul (Add (Mul (N 2) (Var "x")) (N 2)) 18)
-    print (simplify $ Mul (N 18) (Add (Mul (N 2) (Var "x")) (N 2)))
-    print (parseString $ pretty $ exprs !! 1)
-    print (simplify $ parseString $ pretty $ exprs !! 1)
+    print (exp_mul (N 2) 18 == N 36)
+    print (simplify (Div (Add (Mul (N 9) (Var "x")) (N 81)) (N 3)) == Add (Mul (N 3) (Var "x")) (N 27))
+    print ([Pol 1 1, Pol 18 0] == summation_simplified (simplify ((Div (Add (Div (Add (Mul (N 9) (Var "x")) (N 81)) (N 3)) (N 27)) (N 3)))))
+    print (N 3 == simplify (Add (Add (N 1) (N 1)) (N 1)))
+    print (simplify $Sub (Div (Mul (Add (Mul (N 2) (Var "x")) (N 5)) (Add (Div (Mul (Var "x") (Add (Mul (N 9) (Var "x")) (N 81))) (N 3)) (N 27))) (Add (Add (N 1) (N 1)) (N 1))) (Mul (N 2) (Var "x")))
+    --Div (Mul (Add (Mul (N 2) (Var "x")) (N 5)) (Add (Div (Mul (Var "x") (Add (Mul (N 9) (Var "x")) (N 81))) (N 3)) (N 27))) (Add (Add (N 1) (N 1)) (N 1))
+    print "input"
+    print (pretty (exprs !! 4))
+    print "parsed"
+    print (parseString $ pretty $ exprs !! 4)
+    print "simplified"
+    print (simplify $ parseString $ pretty $ exprs !! 4)
+    print "polynomial"
+    print (summation_simplified $ simplify $ parseString $ pretty $ exprs !! 4)
     mapM print (map (\x -> summation_simplified $ simplify $ prettyParse x) exprs)
