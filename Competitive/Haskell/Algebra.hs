@@ -84,8 +84,8 @@ simplify_once :: Expr -> Expr
 simplify_once ex = case ex of
     N n -> N n
     Var v -> Var v
-    Neg x -> Neg (simplify x)
     Neg (N n) -> N (-n)
+    Neg x -> Neg (simplify x)
     Add (N 0) b -> simplify b
     Add a (N 0) -> simplify a
     Add (N a) (N b) -> N (a + b)
@@ -169,6 +169,23 @@ pretty str = subRegex (mkRegex "\\)\\(") (spaceVar str) ")*("
 prettyParse :: String -> Expr
 prettyParse str = parseString (pretty str)
 
+{-
+  poly_str :: [Poly] -> String
+    Convert a polynomial to pretty text.
+-}
+poly_str :: [Poly] -> String
+poly_str polys = intercalate " " ((poly_str_hd (head polys)) : map poly_str_tl (tail polys))
+
+poly_str_hd (Pol c p) = tern (signum c == 1) "" "-" ++
+                        tern (abs c /= 1) (show (abs c)) "" ++
+                        tern (p /= 0) "x" "" ++
+                        tern (p /= 0 && abs p /= 1) ("^" ++ show p) ""
+
+poly_str_tl (Pol c p) = tern (signum c == 1) "+ " "- " ++
+                        tern (abs c /= 1) (show (abs c)) "" ++
+                        tern (p /= 0) "x" "" ++
+                        tern (p /= 0 && abs p /= 1) ("^" ++ show p) ""
+
 test = do
     ln <- getLine
     exprs <- replicateM (read ln) (getLine)
@@ -182,4 +199,4 @@ test = do
 main = do
     ln <- getLine
     exprs <- replicateM (read ln) (getLine)
-    mapM print (map (\x -> summation_simplified $ simplify $ prettyParse x) exprs)
+    mapM putStrLn (map (\x -> poly_str (summation_simplified (simplify (prettyParse x)))) exprs)
