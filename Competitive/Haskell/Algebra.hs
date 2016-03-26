@@ -105,6 +105,8 @@ simplify_once ex = case ex of
     Exp a (N 0) -> N 1
     Exp a (N 1) -> a
     Exp a (N n) -> simplify (Mul a (Exp a (N (n-1))))
+    Exp a b -> Exp (simplify a) (simplify b)
+    _ -> error $ "no pattern for " ++ show ex
 
 simplify :: Expr -> Expr
 simplify ex = let nex = simplify_once ex in case nex == ex of
