@@ -9,7 +9,7 @@ import Text.ParserCombinators.Parsec.Language
 import Text.Regex
 import qualified Text.ParserCombinators.Parsec.Token as Token
 
-
+tern :: Bool -> a -> a -> a
 tern b a x = case b of
   True -> a
   False -> x
@@ -101,6 +101,7 @@ simplify_once ex = case ex of
     Div a (N n) -> simplify $ exp_div (simplify a) n
     Div a b -> simplify $ Div (simplify a) (simplify b)
     Exp (Var v) (N n) -> ex
+    Exp (N a) (N b) -> N (a ^ b)
     Exp a (N 0) -> N 1
     Exp a (N 1) -> a
     Exp a (N n) -> simplify (Mul a (Exp a (N (n-1))))
