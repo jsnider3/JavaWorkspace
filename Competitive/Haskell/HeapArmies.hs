@@ -2,8 +2,6 @@ import Control.Monad
 import Data.List
 import qualified Data.Map as Map
 
-data Heap = Thing [Int] deriving Show
-
 lookupEx k mp = fromJust (Map.lookup k mp)
 
 merge m n = m ++ n
