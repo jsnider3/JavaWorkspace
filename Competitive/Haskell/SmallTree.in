@@ -1,6 +1,5 @@
-14
+17
 debug
-print
 insert child 2
 visit child 1
 insert child 3
@@ -8,8 +7,12 @@ visit child 1
 insert left 4
 insert right 5
 debug
-visit parent
+insert child 6
+visit child 1
 debug
-change 123
+print
+delete
+debug
+delete
 debug
 print

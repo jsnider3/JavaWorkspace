@@ -6,7 +6,7 @@ change (Node val kids) [] num = Node num kids
 change (Node val kids) (p:ps) num = Node val (take p kids ++ [change (kids !! p) ps num] ++ drop (p + 1) kids)
 
 delete (Node val kids) [p] = Node val (take p kids ++ drop (p + 1) kids)
-delete (Node val kids) (p:ps) = Node val (take p kids ++ [delete (kids !! p) ps] ++ drop p kids)
+delete (Node val kids) (p:ps) = Node val (take p kids ++ [delete (kids !! p) ps] ++ drop (p + 1) kids)
 
 getVal (Node v _) [] = show v
 getVal (Node _ kids) (x:xs) = getVal (kids !! x) xs
@@ -36,7 +36,7 @@ visitParent path = (reverse (tail (reverse path)))
 processQueries :: [String] -> Tree -> [Int] -> [String]
 processQueries [] _ _ = []
 processQueries (quer:quers) root path = case words quer of
-    ["change", val] -> processQueries quers (change root path (read val)) path -- Update the parents.
+    ["change", val] -> processQueries quers (change root path (read val)) path
     ["insert", "child", val] -> processQueries quers (insertChild root path (read val)) path
     ["visit", "child", val] ->  processQueries quers root (visitChild path (read val - 1))
     ["insert", "left", val] -> processQueries quers (insertLeft root path (read val)) (moveLeft path)
@@ -44,7 +44,7 @@ processQueries (quer:quers) root path = case words quer of
     ["insert", "right", val] -> processQueries quers (insertRight root path (read val)) path
     ["visit", "right"] -> processQueries quers root (visitRight path)
     ["visit", "parent"] -> processQueries quers root (visitParent path)
-    ["delete"] -> processQueries quers (delete root path) (reverse (tail (reverse path)))
+    ["delete"] -> processQueries quers (delete root path) (visitParent path)
     ["print"] -> (getVal root path) : processQueries quers root path
     _ -> show root : processQueries quers root path
 
