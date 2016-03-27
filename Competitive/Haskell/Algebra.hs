@@ -1,4 +1,3 @@
--- Enter your code here. Read input from STDIN. Print output to STDOUT
 import Control.Exception
 import Control.Monad
 import Data.Char
@@ -163,11 +162,11 @@ summation_simplified ex = reverse $ summation_add $ sort $ summation ex
 
 spaceVar [] = []
 spaceVar [x] = [x]
-spaceVar str = case isNumber (head str) && head (tail str) == 'x' of
+spaceVar str = case isNumber (head str) && head (tail str) `elem` ['x', '('] of
     True -> head str : ('*' : spaceVar (tail str))
     False -> head str : spaceVar (tail str)
 
-pretty str = subRegex (mkRegex "\\)\\(") (spaceVar str) ")*("
+pretty str = spaceVar (subRegex (mkRegex " ") (subRegex (mkRegex "\\)\\(") (spaceVar str) ")*(") "")
 
 prettyParse :: String -> Expr
 prettyParse str = parseString (pretty str)
@@ -198,8 +197,14 @@ test = do
     print ([Pol 12 2, Pol 47 1, Pol 20 0] == summation_simplified (simplify (prettyParse (exprs !! 3))))
     print ([Pol 2 3, Pol 23 2, Pol 61 1, Pol 45 0] == summation_simplified (simplify (prettyParse (exprs !! 4))))
     print ([Pol 2 5, Pol 5 4, Pol 18 2, Pol 61 1, Pol 45 0] == summation_simplified (simplify (prettyParse (exprs !! 5))))
+    print ([Pol 7 1, Pol (-1) 0] == summation_simplified (simplify (prettyParse "5x + 2(x-4)")))
 
 main = do
+    --print (pretty "5/(2)")
+    --print (prettyParse "5/(2)")
+    print (summation_simplified (simplify (prettyParse "5x + 2 (x-4)")))
+    print (poly_str(summation_simplified(simplify (prettyParse "(5x+2)(x-2)"))))
+    print (poly_str(summation_simplified(simplify (prettyParse "(2x^3 + 23x^2 + 61x + 45)(2x^5 + 5x^4 + 18x^2 + 61x + 45)"))))
     ln <- getLine
     exprs <- replicateM (read ln) (getLine)
     mapM putStrLn (map (\x -> poly_str (summation_simplified (simplify (prettyParse x)))) exprs)
