@@ -31,7 +31,7 @@ visitLeft (p:ps) = p:(visitLeft ps)
 visitRight [p] = [p+1]
 visitRight (p:ps) = p:(visitRight ps)
 
-visitParent path = (reverse (tail (reverse path)))
+visitParent = init
 
 processQueries :: [String] -> Tree -> [Int] -> [String]
 processQueries [] _ _ = []
