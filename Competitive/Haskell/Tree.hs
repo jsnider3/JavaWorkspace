@@ -3,7 +3,7 @@ import Control.Monad
 data Tree = Node Int [Tree] deriving Show
 
 change (Node val kids) [] num = Node num kids
-change (Node val kids) (p:ps) num = Node val (take p kids ++ [change (kids !! p) ps num] ++ drop p kids)
+change (Node val kids) (p:ps) num = Node val (take p kids ++ [change (kids !! p) ps num] ++ drop (p + 1) kids)
 
 delete (Node val kids) [p] = Node val (take p kids ++ drop (p + 1) kids)
 delete (Node val kids) (p:ps) = Node val (take p kids ++ [delete (kids !! p) ps] ++ drop p kids)
@@ -11,14 +11,13 @@ delete (Node val kids) (p:ps) = Node val (take p kids ++ [delete (kids !! p) ps]
 getVal (Node v _) [] = show v
 getVal (Node _ kids) (x:xs) = getVal (kids !! x) xs
 
-
 insertChild (Node num kids) [] v = Node num (Node v [] : kids)
 insertChild (Node num kids) (p:ps) v = Node num ((take p kids) ++ [insertChild (kids !! p) ps v] ++ (drop (p + 1) kids))
 
 insertLeft (Node num kids) [p] v = Node num ((take p kids) ++ [Node v []] ++ (drop p kids))
 insertLeft (Node num kids) (p:ps) v = Node num ((take p kids) ++ [insertLeft (kids !! p) ps v] ++ (drop (p + 1) kids))
 
-insertRight (Node num kids) [p] v = Node num ((take (p + 1) kids) ++ [Node v []] ++ (drop (p + 2) kids))
+insertRight (Node num kids) [p] v = Node num ((take (p + 1) kids) ++ [Node v []] ++ (drop (p + 1) kids))
 insertRight (Node num kids) (p:ps) v = Node num ((take p kids) ++ [insertRight (kids !! p) ps v] ++ (drop (p + 1) kids))
 
 moveLeft [p] = [p+1]

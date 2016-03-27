@@ -1,4 +1,4 @@
-10
+14
 debug
 print
 insert child 2
@@ -7,5 +7,9 @@ insert child 3
 visit child 1
 insert left 4
 insert right 5
+debug
+visit parent
+debug
+change 123
 debug
 print
