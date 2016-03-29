@@ -8,6 +8,7 @@
 *.hi
 *.cmi
 *.cmx
+dist/
 a.out
 target
 #Ignore test coverage files.
