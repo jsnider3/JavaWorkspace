@@ -1,3 +1,4 @@
+import Control.Monad
 import Data.Array.IArray
 import Data.List
 import qualified Data.Map as Map
@@ -11,16 +12,23 @@ import Data.Maybe
 -}
 createHierarchy :: Int -> IO (Array Int [Int])
 createHierarchy n = do
-  links <- mapM (const getLine) [1..n - 1]
+  links <- replicateM (n - 1) getLine
   let supes = map makeIntList (map words links) in do
     return $ treeToArray n $ edgesToTree(zip (map head supes)(map (\x -> x !! 1) supes))
 
 {-
   Get the subtree in tree anchored at the given root.
 -}
+descendents :: Array Int [Int] -> Int -> [Int]
 descendents tree root = case (tree ! root ) of
                           [] -> []
                           a -> a ++ concat(map (descendents tree) a)
+
+sortedDescendents :: Array Int [Int] -> Int -> Array Int Int -> [Int]
+sortedDescendents tree root sals = sortOn (sals!) (descendents tree root)
+
+sortOn :: (Ord a, Ord b) => (a -> b) -> [a] -> [a]
+sortOn f ls = map snd (sort (map (\i -> (f i, i)) ls))
 
 {-
   Represent a graph as an adjacency list given a list of (src, dest) pairs.
@@ -47,25 +55,18 @@ loadSalaries = do
 makeIntList :: [String] -> [Int]
 makeIntList = map read
 
-processQueries :: Array Int [Int] -> Array Int Int -> [[Int]] -> [Int]
-processQueries tree sals [[a, b]] = [quickSelectWithFunc (\x -> sals ! x) (descendents tree a) (b - 1)]
-processQueries tree sals ([a, b]:[x,y]:rest) = 
-  let hd = quickSelectWithFunc (\x -> sals ! x) (descendents tree a) (b - 1) in
-    hd:(processQueries tree sals ([hd + x, y]:rest))
+processQueries :: Map.Map Int [Int] -> [[Int]] -> [Int]
+processQueries sortdecs [[a, b]] = [(fromJust(Map.lookup a sortdecs)) !! (b - 1)]
+processQueries sortdecs ([a, b]:[x,y]:rest) =
+  let hd = (fromJust(Map.lookup a sortdecs)) !! (b - 1) in
+    hd:(processQueries sortdecs ([hd + x, y]:rest))
 
 printQueries :: Array Int [Int] -> Array Int Int -> Int -> IO [()]
 printQueries tree sals n = do
   stuff <- mapM (const getLine) [1..n]
   let input = map makeIntList (map words stuff) in do
-    mapM print $ processQueries tree sals input
-
-quickSelectWithFunc :: (Ord b) => (a-> b) -> [a] -> Int -> a
-quickSelectWithFunc foo (x:xs) ind 
-                     | ind < l     = quickSelectWithFunc foo ys ind
-                     | ind > l     = quickSelectWithFunc foo zs (ind - l - 1)
-                     | otherwise = x
-  where (ys, zs) = partition (\n -> foo n < foo x) xs
-        l = length ys
+    mapM print $ processQueries (Map.fromList
+      (map (\i -> (i, sortedDescendents tree i sals)) (indices tree))) input
 
 main :: IO [()]
 main = do
