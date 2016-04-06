@@ -1,5 +1,6 @@
 import Control.Monad
-import Data.Array.IArray
+import qualified Data.Vector as Vector
+import qualified Data.Vector.Unboxed as UVector
 import Data.List
 import qualified Data.Map as Map
 import Data.Maybe
@@ -44,6 +45,13 @@ makeSalmap orgChart (emp:emps) sals salmap =
     makeSalmap orgChart emps sals (Map.insert emp merged salmap)
 
 {-
+  Call makeSalmap and convert it to a better performing data structure.
+-}
+makeVectorSalmap :: Map.Map Int (Set.Set Int) -> [Int] -> (Int -> Int) -> Map.Map Int [Int] -> Map.Map Int (UVector.Vector Int)
+makeVectorSalmap orgChart emps sals salmap =
+  Map.map UVector.fromList (makeSalmap orgChart emps sals salmap)
+
+{-
   Merge n sorted sets into one given the key function.
 -}
 merge2 _ [] = []
@@ -81,20 +89,20 @@ toposort orgChart
 {-
   Convert the adjacency list to tree form.
 -}
-treeToArray :: Int -> (Map.Map Int [Int]) -> (Array Int [Int])
-treeToArray n a = array (1, n)(Map.assocs a ++ zip (filter (\x -> Map.notMember x a)[1..n])(repeat []))
+treeToArray :: Int -> (Map.Map Int [Int]) -> (Vector.Vector [Int])
+treeToArray n a = Vector.fromList (map snd $ sort $ Map.assocs a ++ zip (filter (\x -> Map.notMember x a)[1..n])(repeat []))
 
 tuplify2 [a,b] = (a, b)
 
-parseSalaries :: String -> Array Int Int
+parseSalaries :: String -> Vector.Vector Int
 parseSalaries line = 
   let dat = makeIntList (words line) in
-    array (1, length dat)(zip [1..] dat)
+    Vector.fromList dat
 
-processQueries :: Map.Map Int [Int] -> [[Int]] -> [Int]
-processQueries sortdecs [[a, b]] = [(fromJust(Map.lookup a sortdecs)) !! (b - 1)]
+processQueries :: Map.Map Int (UVector.Vector Int) -> [[Int]] -> [Int]
+processQueries sortdecs [[a, b]] = [(fromJust(Map.lookup a sortdecs)) UVector.! (b - 1)]
 processQueries sortdecs ([a, b]:[x,y]:rest) =
-  let hd = (fromJust(Map.lookup a sortdecs)) !! (b - 1) in
+  let hd = (fromJust(Map.lookup a sortdecs)) UVector.! (b - 1) in
     hd:(processQueries sortdecs ([hd + x, y]:rest))
 
 main :: IO ()
@@ -108,5 +116,5 @@ main = do
       salaries = parseSalaries sals in do
     input <- replicateM num_quers getLine
     let quers = map (makeIntList . words) input
-        salmap = makeSalmap tree (toposort tree) (salaries!) Map.empty in do
+        salmap = makeVectorSalmap tree (toposort tree) (\x -> salaries Vector.! (x - 1)) Map.empty in do
       mapM_ print (processQueries salmap quers)
