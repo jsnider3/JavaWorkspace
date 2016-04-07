@@ -8,9 +8,8 @@ import qualified Data.Set as Set
 
 {-
   Slowest test case takes me 30 times the cutoff to do.
-  This almost certainly means that I need a better data
-  structure.
   On the plus side, the results are 100% correct.
+  Currently, my code is bottlenecked by RAM.
 -}
 addLeaves :: (Ord a) => (Map.Map a (Set.Set a)) -> [a] -> (Map.Map a (Set.Set a))
 addLeaves a [] = a
@@ -78,13 +77,20 @@ readEdges lines = map (tuplify2 . makeIntList . words) lines
 sortOn :: (Ord a, Ord b) => (a -> b) -> [a] -> [a]
 sortOn f ls = map snd (sort (map (\i -> (f i, i)) ls))
 
-toposort :: Map.Map Int (Set.Set Int) -> [Int]
-toposort orgChart
-  | Map.null orgChart = []
-  | otherwise = let leaves = filter (isleaf orgChart) (Map.keys orgChart)
-                    prunedOrg = Map.filterWithKey (\k _ -> not (isleaf orgChart k)) orgChart 
-                    prunedOrg2 = Map.map (\v -> Set.difference v (Set.fromList leaves)) prunedOrg in
-    leaves ++ (toposort prunedOrg2) 
+nub_ seen [] = []
+nub_ seen (a:as) = case Set.member a seen of
+  True -> nub_ seen as
+  False -> a : (nub_ (Set.insert a seen) as)
+
+toposort_dfs :: Map.Map Int (Set.Set Int) -> [Int]
+toposort_dfs orgChart =
+  let roots = Set.difference (Set.fromList (Map.keys orgChart)) (Map.foldl Set.union Set.empty orgChart) in
+    (reverse.nub_ Set.empty.concat) (map (dfs orgChart) (Set.toList roots))
+
+dfs :: Map.Map Int (Set.Set Int) -> Int -> [Int]
+dfs orgChart source = case Map.lookup source orgChart of
+  Nothing -> []
+  Just a -> source:(Set.toList a ++ concat (map (dfs orgChart) (Set.toList a)))
 
 {-
   Convert the adjacency list to tree form.
@@ -116,5 +122,5 @@ main = do
       salaries = parseSalaries sals in do
     input <- replicateM num_quers getLine
     let quers = map (makeIntList . words) input
-        salmap = makeVectorSalmap tree (toposort tree) (\x -> salaries Vector.! (x - 1)) Map.empty in do
+        salmap = makeVectorSalmap tree (toposort_dfs tree) (\x -> salaries Vector.! (x - 1)) Map.empty in do
       mapM_ print (processQueries salmap quers)
