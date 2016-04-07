@@ -2,7 +2,7 @@ import Control.Monad
 import qualified Data.Vector as Vector
 import qualified Data.Vector.Unboxed as UVector
 import Data.List
-import qualified Data.Map as Map
+import qualified Data.Map.Strict as Map
 import Data.Maybe
 import qualified Data.Set as Set
 
