@@ -1,11 +1,19 @@
 #!/usr/bin/env python2
 
 from subprocess import Popen, PIPE
+from jamcoin import Primes
+import jamcoin
 import pancakes
 import sheep
 import unittest
 
 class Tests(unittest.TestCase):
+
+  def test_jamcoin(self):
+    assert jamcoin.is_jamcoin('100011')
+    assert jamcoin.is_jamcoin('111111')
+    assert jamcoin.is_jamcoin('111001')
+    assert not jamcoin.is_jamcoin('110111')
 
   def test_pancakes(self):
     assert pancakes.make_smiley('-') == 1
@@ -27,6 +35,19 @@ class Tests(unittest.TestCase):
     assert pancakes.flip('+-', 2) == '+-'
     assert pancakes.flip('--+-', 2) == '+++-'
     assert pancakes.flip('+++', 3) == '---'
+
+  def test_primes(self):
+    primes = Primes()
+    assert 0 not in primes
+    assert 1 not in primes
+    taketen = []
+    iprimes = iter(primes)
+    for _ in range(10):
+      taketen.append(next(iprimes))
+    correct = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+    assert taketen == correct
+    assert 104744 not in primes
+    assert 104743 in primes
 
   def test_sheep(self):
     assert sheep.count_sheep(0) == None
