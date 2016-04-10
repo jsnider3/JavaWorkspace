@@ -926,6 +926,26 @@ def closest_numbers(arr):
       pairs = [pair]
   return sorted(pairs)
 
+def closest_string(phrase, letters):
+  ''' Return phrase modified so that it only has
+      the given number of unique letters. The modified
+      version will change the smallest amount of the
+      original as possible and be as lexicographically
+      small as possible. '''
+  assert letters > 0
+  srtd = sorted(set(phrase))[::-1]
+  srtd.sort(key=phrase.count)
+  preserved = srtd[-letters:]
+  lowest = preserved[0]
+  print(phrase,letters,srtd,preserved,lowest)
+  nstr = []
+  for char in phrase:
+    if char in preserved:
+      nstr.append(char)
+    else:
+      nstr.append(lowest)
+  return "".join(nstr)
+
 def common_elements(*arrs):
   ''' Given a list of arrays return their common elements.'''
   sets = [set(arr) for arr in arrs]

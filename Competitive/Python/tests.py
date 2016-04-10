@@ -163,6 +163,13 @@ class Tests(unittest.TestCase):
     assert hacklib.closest_numbers([5, 4, 3, 2]) == [(2,3),(3,4),(4,5)]
     assert hacklib.closest_numbers([8, 6, 4, 9, 2]) == [(8, 9)]
 
+  def test_closest_string(self):
+    assert hacklib.closest_string('abbccc', 1) == 'cccccc'
+    assert hacklib.closest_string('abbccc', 2) == 'bbbccc'
+    assert hacklib.closest_string('aabbccc', 2) == 'aaaaccc'
+    assert hacklib.closest_string('bbaaccc', 2) == 'aaaaccc'
+    assert hacklib.closest_string('abbccc', 3) == 'abbccc'
+
   def test_collatz(self):
     col = hacklib.Collatz()
     assert col.depth(13) == 10
