@@ -663,6 +663,26 @@ class Tests(unittest.TestCase):
     assert not strings.is_pangram(
       'We promptly judged antique ivory buckles for the prize')
 
+  def test_parking_spot(self):
+    carDimensions = [3, 2]
+    parkingLot = [
+      [1, 0, 1, 0, 1, 0],
+      [0, 0, 0, 0, 1, 0],
+      [0, 0, 0, 0, 0, 1],
+      [1, 0, 1, 1, 1, 1]
+    ]
+
+    luckySpot = [1, 1, 2, 3]
+    assert hacklib.parking_access(carDimensions, parkingLot, luckySpot)
+    carDimensions = [4, 2]
+    parkingLot = [[0,0,0,1],
+                  [0,0,0,0],
+                  [0,0,1,1]]
+
+    luckySpot = [0, 0, 1, 3]
+    assert not hacklib.parking_access(carDimensions, parkingLot, luckySpot)
+
+
   def test_partition(self):
     arr = [3, 9, 8, 5 , 10, 3, 3, 2, 4]
     par = [2, 3, 3, 3, 9, 8, 5, 10, 4]

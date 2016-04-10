@@ -730,6 +730,16 @@ def accumulate(arr, tot):
       break
   return take
 
+def all_zeroes(grid, tl, br):
+  ''' Determine if the grid is all zeroes in the given area. '''
+  [tl_x, tl_y] = tl
+  [br_x, br_y] = br
+  for x in range(tl_x, br_x):
+    for y in range(tl_y, br_y):
+      if grid[x][y] != 0:
+        return False
+  return True
+
 def alphabet_score(word):
   ''' Sum the difference between
       each character + 1 and. '''
@@ -1612,6 +1622,25 @@ def pair_sums(arr, tot):
         elif other_ind < ind:
           pairs.add((other_ind, ind))
   return pairs
+
+def parking_access(carDimensions, parkingLot, luckySpot):
+  ''' Given a car's dimensions, a parking lot where
+      we can't drive through 1's, and the top left / bottom
+      right of a place we want to park, can we get there without
+      turning? '''
+  tl_x, tl_y = luckySpot[0], luckySpot[1]
+  br_x, br_y = luckySpot[2], luckySpot[3]
+  # Determine if we're going left/right or up/down
+  if carDimensions[1] == br_x - tl_x + 1:
+    left = all_zeroes(parkingLot, [tl_x, 0], [br_x+1,br_y+1])
+    right = all_zeroes(parkingLot, [tl_x, tl_y],
+                      [br_x+1,len(parkingLot[0])])
+    return left or right
+  else:
+    top = all_zeroes(parkingLot, [0, tl_y], [br_x+1,br_y+1])
+    bottom = all_zeroes(parkingLot, [tl_x,tl_y],
+                       [len(parkingLot),br_y+1])
+    return top or bottom
 
 def partition(arr):
   ''' Given an array [a, b...],
