@@ -414,6 +414,10 @@ class Tests(unittest.TestCase):
     assert hacklib.make_change([2, 5, 3, 6], 10) == 5
     assert hacklib.make_change([2, 5, 3, 6], 0) == 1
 
+  def test_manhattan_distance(self):
+    assert hacklib.manhattan_distance_2D([0.4, 1], [0.9, 3]) == 2.7
+    assert hacklib.manhattan_distance_2D([0.4, 1], [0.5, 3]) == 2.9
+
   def test_matrix(self):
     grid = [[0, 1, 2, 3],
             [4, 5, 6, 7],

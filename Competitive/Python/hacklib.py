@@ -1479,6 +1479,21 @@ def make_change(coins, total):
       solution[loop][index] = tX + tY
   return int(solution[total][num_coins - 1])
 
+def manhattan_distance_1D(start, end):
+  ''' Used by 2D for each axis. '''
+  if math.floor(start) == math.floor(end):
+    left = start - math.floor(start) + end - math.floor(end)
+    right = math.ceil(start) - start + math.ceil(end) - end
+    return min(left, right)
+  else:
+    return abs(start-end)
+
+def manhattan_distance_2D(start, end):
+  [x1, y1] = start
+  [x2, y2] = end
+  return (manhattan_distance_1D(x1, x2) +
+          manhattan_distance_1D(y1, y2))
+
 def max_subarray(arr):
   ''' Find the contiguous subarray in arr with the
       largest sum and return it.'''
