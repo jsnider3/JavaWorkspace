@@ -255,6 +255,15 @@ class Tests(unittest.TestCase):
     assert not pals.from_anagram('cdefghmnopqrstuvw')
     assert pals.from_anagram('cdcdcdcdeeeef')
 
+  def test_electronic_numbers(self):
+    assert hacklib.electronic_numbers(2) == 1
+    assert hacklib.electronic_numbers(5) == 2
+    assert hacklib.electronic_numbers(8) == 10
+    assert hacklib.electronic_numbers(10) == 22
+    assert hacklib.electronic_numbers(13) == 68
+    print hacklib.electronic_numbers(20)
+    assert hacklib.electronic_numbers(20) == 688
+
   def test_extract_order(self):
     assert hacklib.extract_order(['y', 'z', 'xy']) == 'yzx'
     assert hacklib.extract_order(['ba', 'ab', 'cb']) == 'bac'
@@ -405,6 +414,29 @@ class Tests(unittest.TestCase):
   def test_list_cover(self):
     assert hacklib.list_cover([[0], [1], [2], [3], [4]]) == hacklib.Segment(0, 4)
     assert hacklib.list_cover([[0, 4], [2], [-4, 3]]) == hacklib.Segment(2, 4)
+
+  def test_load_time_estimator(self):
+    sizes = [3, 1]
+    uploadingStart = [1, 2]
+    V = 2
+    assert hacklib.load_time_estimator(sizes, uploadingStart, V) == [3, 3]
+    sizes = [21, 10]
+    uploadingStart = [100, 105]
+    V = 2
+    assert hacklib.load_time_estimator(sizes, uploadingStart, V) == [116, 115]
+    sizes = [20, 10]
+    uploadingStart = [1, 1]
+    V = 1
+    assert hacklib.load_time_estimator(sizes, uploadingStart, V) == [31, 21]
+    sizes = []
+    uploadingStart = []
+    V = 100
+    assert hacklib.load_time_estimator(sizes, uploadingStart, V) == []
+    sizes = [21, 10]
+    uploadingStart = [100, 105]
+    V = 2
+    assert hacklib.load_time_estimator(sizes, uploadingStart, V) == [116, 115]
+
 
   def test_lonely_member(self):
     assert hacklib.lonely_member([1, 2, 3, 1, 2, 0, 3]) == 0

@@ -1008,6 +1008,60 @@ def eight_queens_solutions():
     if is_valid_eight_queens(soltn):
       yield soltn
 
+def electronic_numbers(n):
+  numbers = {}
+  numbers[0] = 6
+  numbers[1] = 2
+  numbers[2] = 5
+  #numbers[3] = 5
+  numbers[4] = 4
+  #numbers[5] = 5
+  numbers[6] = 6
+  numbers[7] = 3
+  numbers[8] = 7
+  numbers[10] = 8
+  numbers[22] = 10
+  numbers[68] = 13
+  #numbers[9] = 6
+  # There's no reason to use 3, 5, 9.
+  # 6 only beats out 0 when we can't use trailing zeros.
+  # 7 loses to 8 when n >= 7.
+  res = 0
+  while n > 0:
+    #assert n > 0
+    nxt = None
+    if n == 13:
+      nxt = 68
+    elif n % 2:
+      if n >= 7:
+        nxt = 8
+      elif n >= 5:
+        nxt = 2
+      elif n >= 3:
+        nxt = 7
+    elif n == 6 or res > 0:
+      nxt = 0
+    elif n == 10:
+      nxt = 22
+    elif n == 8:
+      nxt = 10
+    elif n >= 14:
+      nxt = 8
+    elif n >= 6:
+      nxt = 6
+    elif n >= 4:
+      nxt = 4
+    elif n == 2:
+      nxt = 1
+    n -= numbers[nxt]
+    res = res * (10 ** len(str(nxt))) + nxt
+  if res > 0:
+    snum = str(res)
+    nonzeroes = list(sorted(c for c in snum if c != '0'))
+    snum = [nonzeroes[0]] + [c for c in snum if c == '0'] + nonzeroes[1:]
+    res = int(''.join(snum))
+  return res
+
 def extract_order(words, graf=None):
   ''' Given a list of things which are sorted,
       return the elements that occur in the sorted way.'''
@@ -1427,6 +1481,39 @@ def list_cover(loc_lists):
                                                   + loc_lists[ind + 1:])
             return min(lo_cover, hi_cover)
   return min_cover
+
+def load_time_estimator(sizes, uploadingStart, bandwidth):
+  ''' Calculate the finish times for downloads of given
+      size and start time which share a fixed bandwidth. '''
+  def estimatorTick(done, downloads, amt):
+    for download in downloads:
+      done[download] += amt
+  times = [0] * len(sizes)
+  done = [0] * len(sizes)
+  downloading = set([])
+  starts = sorted(set(uploadingStart))
+  for sind in xrange(len(starts)):
+    start = starts[sind]
+    downloading.update([ind for ind in xrange(len(uploadingStart)) if uploadingStart[ind] == start])
+    rate = float(bandwidth) / len(downloading)
+    nind = min(downloading, key=lambda ind: sizes[ind] - done[ind])
+    finishtime = (sizes[nind] - done[nind]) / rate
+    curtime = starts[sind]
+    if len(downloading) and sind < len(starts) - 1 and finishtime >= starts[sind+1] - starts[sind]:
+      estimatorTick(done, downloading, rate * (starts[sind+1] - starts[sind]))
+    while len(downloading) and (sind == len(starts) - 1 or
+                                finishtime < starts[sind+1] - starts[sind]):
+      estimatorTick(done, downloading, rate * finishtime)
+      for ind in list(downloading):
+        if sizes[ind] - done[ind] <= 0:
+          times[ind] = int(math.ceil(curtime + finishtime))
+          downloading.remove(ind)
+      curtime += finishtime
+      if len(downloading):
+        rate = float(bandwidth) /  len(downloading)
+        nind = min(downloading, key=lambda ind: sizes[ind] - done[ind])
+        finishtime = (sizes[nind] - done[nind]) / rate
+  return times
 
 def lonely_member(b):
   ''' In a list b where
