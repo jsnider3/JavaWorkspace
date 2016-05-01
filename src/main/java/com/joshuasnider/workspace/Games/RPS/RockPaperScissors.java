@@ -9,6 +9,8 @@
  * @author Josh Snider
  */
 
+package com.joshuasnider.workspace.games.rps;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -22,9 +24,7 @@ public class RockPaperScissors {
   private JTextArea maintextarea;
   private JTextArea score;
   private Difficulty diff;
-  private int cwins;
-  private int uwins;
-  private int ties;
+  private ScoreBoard scoreboard;
   private GameStage gamestage;
 
   private String[] moves = {"rock", "paper", "scissors"};
@@ -33,9 +33,7 @@ public class RockPaperScissors {
 
   public RockPaperScissors(){
     generator = new Random();
-    cwins = 0;
-    uwins = 0;
-    ties = 0;
+    scoreboard = new ScoreBoard();
     gamestage = GameStage.MODE_SELECT;
     JFrame frame = new JFrame ("Rock, Paper, Scissors by Josh Snider");
     JPanel contentPanel = new JPanel();
@@ -68,21 +66,24 @@ public class RockPaperScissors {
    */
   private void adjustScore(int userPick, int compPick) {
     if (userPick == compPick - 1 || userPick == compPick + 2) {
-      uwins++;
+      scoreboard.recordPlayerWin();
       maintextarea.setText("You picked " + moves[userPick] +".\n" +
         "Kim Jong-il picks " + moves[compPick] +"\nYou win.");
     }
     else if (userPick == compPick) {
-      ties++;
+      scoreboard.recordTie();
       maintextarea.setText("You picked " + moves[userPick] +".\n" +
         "Kim Jong-il picks " + moves[compPick] +"\nIt's a tie.");
     }
     else if (compPick == userPick - 1 || compPick == userPick + 2) {
-      cwins++;
+      scoreboard.recordComputerWin();
       maintextarea.setText("You picked " + moves[userPick] +".\n" +
         "Kim Jong-il picks " + moves[compPick] +"\nKim Jong-il wins.");
     }
-    score.setText("The score is " + cwins +" for Kim Jong-il, " + uwins +" for you, and " + ties +" ties.");
+    score.setText("The score is " + scoreboard.getComputerWins() +
+                  " for Kim Jong-il, " + scoreboard.getPlayerWins() +
+                  " for you, and " + scoreboard.getTies() +
+                  " scoreboard.getTies().");
   }
 
   /**
@@ -92,7 +93,32 @@ public class RockPaperScissors {
     button.setText("Easy");
     button2.setText("Normal");
     button3.setText("Hard");
-    maintextarea.setText("How hard should this be? It can be easy, normal, or hard.");
+    maintextarea.setText(
+        "How hard should this be? It can be easy, normal, or hard.");
+  }
+
+  /**
+   * An ASCII art drawing of a nuclear explosion.
+   */
+  private String getASCIINuke() {
+    return ("                             ____\n" +
+          "               ____  , -- -        ---   -.\n" +
+          "            (((   ((  ///   //   '  \\\\-\\ \\  )) ))\n" +
+          "        ///    ///  (( _        _   -- \\\\--     \\\\\\ \\)\n" +
+          "     ((( ==  ((  -- ((             ))  )- ) __   ))  ))) \n" +
+          "     ((  (( -=   ((  ---  (          _ ) ---  ))   ))  \n" +
+          "        (( __ ((    ()(((  \\  / ///     )) __ ))) \n" +
+          "              \\_ (( __  |     | __  ) _ ))  \n" +
+          "                        ,|  |  |\n" +
+          "                       `-._____,-'   \n" +
+          "                       `--.___,--'    \n" +
+          "                         |     |    \n" +
+          "                         |    || \n" +
+          "                         | ||  |     \n" +
+          "                 ,    _,   |   | | \n" +
+          "        (  ((  ((((  /,| __|     |  ))))  )))  )  ))\n" +
+          "      (()))       __/ ||(    ,,     ((//\\     )     ))))\n" +
+          "---((( ///_.___ _/    ||,,_____,_,,, (|\\ \\___.....__..  ))--");
   }
 
   /**
@@ -113,12 +139,22 @@ public class RockPaperScissors {
   private void handleUserMove(int userPick) {
     int compPick = getCompPick(userPick);
     adjustScore(userPick, compPick);
-    if (cwins == 3 && uwins < 3 && gamestage == GameStage.PLAYING_STORY) {
-      maintextarea.setText("No! This...\n This cannot be!\n You've failed!\n You've failed everyone!\n                             ____\n               ____  , -- -        ---   -.\n            (((   ((  ///   //   '  \\\\-\\ \\  )) ))\n        ///    ///  (( _        _   -- \\\\--     \\\\\\ \\)\n     ((( ==  ((  -- ((             ))  )- ) __   ))  ))) \n     ((  (( -=   ((  ---  (          _ ) ---  ))   ))  \n        (( __ ((    ()(((  \\  / ///     )) __ ))) \n              \\_ (( __  |     | __  ) _ ))  \n                        ,|  |  |\n                       `-._____,-'   \n                       `--.___,--'    \n                         |     |    \n                         |    || \n                         | ||  |     \n                 ,    _,   |   | | \n        (  ((  ((((  /,| __|     |  ))))  )))  )  ))\n      (()))       __/ ||(    ,,     ((//\\     )     ))))\n---((( ///_.___ _/    ||,,_____,_,,, (|\\ \\___.....__..  ))--");
+    if (scoreboard.getComputerWins() == 3 &&
+        scoreboard.getPlayerWins() < 3 &&
+        gamestage == GameStage.PLAYING_STORY) {
+      String failMessage =
+          "No! This...\n This cannot be!\n You've failed!\n" +
+          "You've failed everyone!\n" + getASCIINuke();
+
+      maintextarea.setText(failMessage);
       gamestage = GameStage.STORY_OVER;
-    }
-    else if (uwins == 3 && cwins < 3 && gamestage == GameStage.PLAYING_STORY) {
-      maintextarea.setText("I can't believe it!\n You've won!\n You've saved everyone!\n You're a hero!");
+    } else if (scoreboard.getPlayerWins() == 3 &&
+               scoreboard.getComputerWins() < 3 &&
+               gamestage == GameStage.PLAYING_STORY) {
+      String winMessage =
+          "I can't believe it!\n You've won!\n" +
+          " You've saved everyone!\n You're a hero!";
+      maintextarea.setText(winMessage);
       gamestage = GameStage.STORY_OVER;
     }
   }
@@ -145,19 +181,22 @@ public class RockPaperScissors {
         button.setText("Yes");
         button2.setText("");
         button3.setText("No");
-        maintextarea.setText("The President has chosen you for a special mission.\n Your mission if you choose to accept it is to defeat Kim Jong-il in rock, paper, scissors.\n If you succeed Kim Jong-il will halt his nuclear program.\n If you fail...\n everyone dies.\n The winner is the first to 3 points. \n Do you accept the mission?");
-      }
-      else if (gamestage == GameStage.MISSION_OFFER) {
+        String offerMessage =
+            "The President has chosen you for a special mission.\n" +
+            " Your mission if you choose to accept it is to defeat Kim Jong-il in rock, paper, scissors.\n" +
+            " If you succeed Kim Jong-il will halt his nuclear program.\n" +
+            " If you fail...\n everyone dies.\n" +
+            " The winner is the first to 3 points. \n Do you accept the mission?";
+        maintextarea.setText(offerMessage);
+      } else if (gamestage == GameStage.MISSION_OFFER) {
         //This code is executed when you press "Yes"
         gamestage = GameStage.STORY_DIFFICULTY;
         askDifficulty();
-      }
-      else if (gamestage == GameStage.STORY_DIFFICULTY ||
-          gamestage == GameStage.FREE_DIFFICULTY) {
+      } else if (gamestage == GameStage.STORY_DIFFICULTY ||
+                 gamestage == GameStage.FREE_DIFFICULTY) {
         setDifficulty(Difficulty.EASY);
-      }
-      else if (gamestage == GameStage.PLAYING_FREELY ||
-          gamestage == GameStage.PLAYING_STORY) {
+      } else if (gamestage == GameStage.PLAYING_FREELY ||
+                 gamestage == GameStage.PLAYING_STORY) {
         handleUserMove(0);
       }
     }
@@ -180,18 +219,23 @@ public class RockPaperScissors {
   class button3Listener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       if (gamestage == GameStage.MISSION_OFFER) {
-        maintextarea.setText("After you turned down the mission the U.N. dispatched General Specific.\n After 4 rounds both were tied with 2 points...\n The next round would determine the fate of the world.\n In this moment of truth, General Specific failed. Kim's rock crushed not only the General' scissors\n but also the hopes and dreams of the human race.\n Thus, Kim Jong-il was free to start the first and the last global thermonuclear war.\n                              ____\n                ____  , -- -        ---   -.\n             (((   ((  ///   //   '  \\\\-\\ \\  )) ))\n         ///    ///  (( _        _   -- \\\\--     \\\\\\ \\)\n      ((( ==  ((  -- ((             ))  )- ) __   ))  ))) \n      ((  (( -=   ((  ---  (          _ ) ---  ))   ))  \n         (( __ ((    ()(((  \\  / ///     )) __ ))) \n               \\_ (( __  |     | __  ) _ ))  \n                         ,|  |  |\n                        `-._____,-'\n                        `--.___,--'\n                            |     |\n                            |    ||\n                            | ||  |\n                            | ||  |\n         (  ((  ((((  /, | __|     |  ))))  )))  )  ))\n       (()))       __/ ||(    ,,     ((//\\     )     ))))\n ---((( ///_.___ _/    ||,,_____,_,,, (|\\ \\___.....__..  ))--\n");
+        String rejectMessage =
+            "After you turned down the mission the U.N. dispatched General Specific.\n" +
+            " After 4 rounds both were tied with 2 points...\n" +
+            " The next round would determine the fate of the world.\n" +
+            " In this moment of truth, General Specific failed. Kim's rock crushed not only the General' scissors\n" +
+            " but also the hopes and dreams of the human race.\n" +
+            " Thus, Kim Jong-il was free to start the first and the last global thermonuclear war.\n" +
+            getASCIINuke();
+        maintextarea.setText(rejectMessage);
         score.setText("You lose.");
-      }
-      if (gamestage == GameStage.MODE_SELECT) {
+      } else if (gamestage == GameStage.MODE_SELECT) {
         gamestage = GameStage.FREE_DIFFICULTY;
         askDifficulty();
-      }
-      else if (gamestage == GameStage.STORY_DIFFICULTY ||
-          gamestage == GameStage.FREE_DIFFICULTY) {
+      } else if (gamestage == GameStage.STORY_DIFFICULTY ||
+                 gamestage == GameStage.FREE_DIFFICULTY) {
         setDifficulty(Difficulty.HARD);
-      }
-      else if (gamestage == GameStage.PLAYING_FREELY ||
+      } else if (gamestage == GameStage.PLAYING_FREELY ||
           gamestage == GameStage.PLAYING_STORY) {
         handleUserMove(2);
       }

@@ -4,6 +4,9 @@
  *
  * @author Josh Snider
  */
+
+package com.joshuasnider.workspace.games.rps;
+
 public enum GameStage {
   MODE_SELECT,
   MISSION_OFFER,
