@@ -1,3 +1,12 @@
+/**
+ * This class provides a GUI to calculate the odds of rolling certain
+ *  numbers of "successes" using the New World of Darkness system.
+ *
+ * @author Josh Snider
+ */
+
+package com.joshuasnider.workspace.nwoddice;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +38,7 @@ public class DiceRollerImproved {
 
   public DiceRollerImproved() {
     _GUI = new JFrame("Josh Snider's New and Improved Dice Roller for the New World of Darkness");
-    _GUI.setSize(500,400);
+    _GUI.setSize(500, 400);
     _Panel = new JPanel();
     makeButtonsAndLabels();
     makeHelpMenu();

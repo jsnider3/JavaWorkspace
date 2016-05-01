@@ -2,6 +2,8 @@
  * Class to simulate rolling a single D10 in nWoD.
  */
 
+package com.joshuasnider.workspace.nwoddice;
+
 import java.util.Random;
 
 public class D10 {

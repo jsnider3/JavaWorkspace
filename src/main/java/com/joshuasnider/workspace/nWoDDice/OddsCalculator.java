@@ -4,6 +4,9 @@
  *
  * @author Josh Snider
  */
+
+package com.joshuasnider.workspace.nwoddice;
+
 public class OddsCalculator {
 
   private int again;
@@ -113,9 +116,6 @@ public class OddsCalculator {
       double result = calc.calculateEndAt(10, x);
       total += result;
       System.out.println(x + " Result: " + result);
-      /*if(x > 8){
-        break;
-      }*/
       x++;
     }
   }
