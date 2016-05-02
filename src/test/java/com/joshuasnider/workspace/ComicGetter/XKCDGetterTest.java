@@ -15,14 +15,14 @@ public class XKCDGetterTest {
   @Test
   public void testFirst() {
     XKCDImageGetter xkcd = new XKCDImageGetter();
-    assertEquals(xkcd.getFirst(), "1");
+    assertEquals("1", xkcd.getFirst());
   }
 
   @Test
   public void testNext() {
     XKCDImageGetter xkcd = new XKCDImageGetter();
-    assertEquals(xkcd.getNext("1"), "2");
-    assertEquals(xkcd.getNext("403"), "405");
+    assertEquals("2", xkcd.getNext("1"));
+    assertEquals("405", xkcd.getNext("403"));
   }
 
 }
