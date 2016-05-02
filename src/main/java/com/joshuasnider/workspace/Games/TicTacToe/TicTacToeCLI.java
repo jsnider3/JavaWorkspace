@@ -7,6 +7,8 @@
   * @author: Josh Snider
   */
 
+package com.joshuasnider.workspace.games.tictactoe;
+
 import java.util.Scanner;
 
 public class TicTacToeCLI implements Runnable {

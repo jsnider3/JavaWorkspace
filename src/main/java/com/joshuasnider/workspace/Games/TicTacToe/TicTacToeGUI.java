@@ -9,6 +9,8 @@
   * @author: Josh Snider
   */
 
+package com.joshuasnider.workspace.games.tictactoe;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
