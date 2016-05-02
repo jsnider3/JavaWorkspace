@@ -8,12 +8,26 @@ import java.util.List;
 
 public class TicTacToeBoard {
 
+	public static final String[][] BLANK_ARRAY=
+    {{" ", " ", " "},
+     {" ", " ", " "},
+     {" ", " ", " "}};
+
   private String[][] state = new String[3][3];
   private short score;
   private short recentMove;
   private boolean XJustMoved;
   //X is max. O is min.
   //If it's Xs Turn then the next piece put on the board will be an O and all children will have XsTurn=false.
+
+  public TicTacToeBoard(boolean b) {
+    state[0] = BLANK_ARRAY[0].clone();
+    state[1] = BLANK_ARRAY[1].clone();
+    state[2] = BLANK_ARRAY[2].clone();
+    XJustMoved = b;
+    tidyUpState();
+    score = score();
+  }
 
   public TicTacToeBoard(String[][] array, boolean b) {
     state[0] = array[0].clone();
