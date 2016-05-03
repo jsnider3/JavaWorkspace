@@ -4,10 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CheckersBoard {
+
+  /**
+   * An 8x8 grid with checkers on it. White is at the top.
+   */
   private String[][] state;
+
+  /**
+   * Higher values are good for w, lower for b. 0 is tie.
+   */
   private int score;
   private int recentMove;
-  private boolean XJustMoved;
+  private boolean BToMove;
 
   public CheckersBoard(boolean b) {
     state = new String[8][8];
@@ -38,38 +46,61 @@ public class CheckersBoard {
       }
     }
 
-    XJustMoved = b;
+    BToMove = b;
     score = score();
   }
 
+  /**
+   * Copy a game state with the given person's turn.
+   */
   public CheckersBoard(String[][] array, boolean b) {
     state = new String[8][8];
     for (int x = 0; x < 8; x++) {
       state[x] = array[x].clone();
     }
-    XJustMoved = b;
+    BToMove = b;
     score = score();
   }
 
   /**
-   * Provides best move for X.
+   * Provides best move for white.
    */
   public final CheckersBoard max(List<CheckersBoard> input) {
-    //TODO
-    return this;
+    int best = -2;
+    CheckersBoard next = null;
+    for (CheckersBoard move : input) {
+      if (move.score() > best) {
+        best = move.score();
+        next = move;
+      }
+    }
+    return next;
   }
 
   /**
-   * Provides best move for O.
+   * Provides best move for black.
    */
   public final CheckersBoard min(List<CheckersBoard> input) {
-    //TODO
-    return this;
+    int best = 2;
+    CheckersBoard next = null;
+    for (CheckersBoard move : input) {
+      if (move.score() < best) {
+        best = move.score();
+        next = move;
+      }
+    }
+    return next;
   }
 
+  /**
+   * Get the possible next game states.
+   * Jumping is mandatory if possible.
+   * If multiple jumps are possible, any of them is legal.
+   * Otherwise, pick a checkers place and move it diagonally.
+   */
   public final List<CheckersBoard> children() {
     //TODO
-    return null;
+    return new ArrayList<CheckersBoard>();
   }
 
   public final void Move(int s) {
@@ -113,13 +144,16 @@ public class CheckersBoard {
     return hasWon("w") || hasWon("b");
   }
 
+  /**
+   * What is the min-max score of this position.
+   */
   public final int score() {
-    //TODO
     if (hasWon("w")) {
       return 1;
     } else if (hasWon("b")) {
       return -1;
     } else {
+      //TODO
       return 0;
     }
   }
