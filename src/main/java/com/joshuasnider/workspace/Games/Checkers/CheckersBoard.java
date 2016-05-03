@@ -18,34 +18,7 @@ public class CheckersBoard {
   private boolean BToMove;
 
   public CheckersBoard(boolean b) {
-    state = new String[8][8];
-    for (int y = 0; y < 8; y++) {
-      state[y] = new String[8];
-    }
-    for (int y = 0; y < 8; y++) {
-      for (int x = 0; x < 3; x++) {
-        String spot = "-";
-        if (isPlayableSquare(x, y)) {
-          spot = "w";
-        }
-        state[x][y] = spot;
-      }
-      for (int x = 3; x < 5; x++) {
-        String spot = "-";
-        if (isPlayableSquare(x, y)) {
-          spot = "+";
-        }
-        state[x][y] = spot;
-      }
-      for (int x = 5; x < 8; x++) {
-        String spot = "-";
-        if (isPlayableSquare(x, y)) {
-          spot = "b";
-        }
-        state[x][y] = spot;
-      }
-    }
-
+    state = makeStartingState();
     BToMove = b;
     score = score();
   }
@@ -78,6 +51,40 @@ public class CheckersBoard {
   }
 
   /**
+   * Get a board laid out for a new game.
+   */
+  private String[][] makeStartingState() {
+    String[][] start = new String[8][8];
+    for (int y = 0; y < 8; y++) {
+      start[y] = new String[8];
+    }
+    for (int y = 0; y < 8; y++) {
+      for (int x = 0; x < 3; x++) {
+        String spot = "-";
+        if (isPlayableSquare(x, y)) {
+          spot = "w";
+        }
+        start[x][y] = spot;
+      }
+      for (int x = 3; x < 5; x++) {
+        String spot = "-";
+        if (isPlayableSquare(x, y)) {
+          spot = "+";
+        }
+        start[x][y] = spot;
+      }
+      for (int x = 5; x < 8; x++) {
+        String spot = "-";
+        if (isPlayableSquare(x, y)) {
+          spot = "b";
+        }
+        start[x][y] = spot;
+      }
+    }
+    return start;
+  }
+
+  /**
    * Provides best move for black.
    */
   public final CheckersBoard min(List<CheckersBoard> input) {
@@ -99,12 +106,18 @@ public class CheckersBoard {
    * Otherwise, pick a checkers place and move it diagonally.
    */
   public final List<CheckersBoard> children() {
+    List<Move> moves = new ArrayList<Move>();
     //TODO
-    return new ArrayList<CheckersBoard>();
-  }
-
-  public final void Move(int s) {
-    //TODO
+    //Find the positions of the current player's pieces.
+    //Find the list of jump moves for them.
+    if (moves.size() == 0) {
+      //If there are none, get the list of simple moves.
+    }
+    List<CheckersBoard> children = new ArrayList<CheckersBoard>();
+    for (Move move : moves) {
+      //For the list of moves, create a checkers board with it.
+    }
+    return children;
   }
 
   /**
@@ -160,7 +173,13 @@ public class CheckersBoard {
 
   public final String toString() {
     StringBuffer buf = new StringBuffer();
+    buf.append("-");
     for (int x = 0; x < 8; x++) {
+      buf.append(x);
+    }
+    buf.append("\n");
+    for (int x = 0; x < 8; x++) {
+      buf.append(x);
       for (int y = 0; y < 8; y++) {
         buf.append(state[x][y]);
       }
@@ -171,10 +190,9 @@ public class CheckersBoard {
     return buf.toString();
   }
 
-  public final void printVerbose() {
-    System.out.println(this);
-  }
-
+  /**
+   * Have the computer make its move.
+   */
   public void compMove() {
     //TODO
   }
