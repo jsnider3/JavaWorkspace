@@ -57,7 +57,7 @@ public class GirlGeniusImageGetter extends ComicGetter {
    * If it isn't or we can't find it, return null.
    */
   public String getDoublePage(String url) {
-    String link = null
+    String link = null;
     try {
       Document doc = Jsoup.connect(url).get();
       Elements els = doc.select("a[href*=doublespreads]");
