@@ -7,12 +7,16 @@
 package com.joshuasnider.workspace.comicgetter;
 
 import java.io.File;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class GirlGeniusImageGetter extends ComicGetter{
+public class GirlGeniusImageGetter extends ComicGetter {
 
-  public static String title = "http://www.girlgeniusonline.com/ggmain/strips/ggmain";
+  public static String home = "http://www.girlgeniusonline.com";
+  public static String title = home + "/ggmain/strips/ggmain";
 
   public static void main(String[] args) {
     new File("Webcomics/GirlGenius").mkdirs();
@@ -48,10 +52,34 @@ public class GirlGeniusImageGetter extends ComicGetter{
     return date;
   }
 
+  /**
+   * Try to find the link to the double page if the given comic is one.
+   * If it isn't or we can't find it, return null.
+   */
+  public String getDoublePage(String url) {
+    String link = null
+    try {
+      Document doc = Jsoup.connect(url).get();
+      Elements els = doc.select("a[href*=doublespreads]");
+      if (els.size() > 0) {
+        link = home + els.get(0).attr("href");
+        link = link.substring(0, link.lastIndexOf('.')) + ".jpg";
+      }
+    } catch (Exception e) {
+      System.err.println(url + " failed");
+    }
+    return link;
+  }
+
   public String[] getToFrom(String index) {
     String[] tofrom = new String[2];
     tofrom[0] = title + index + ".jpg";
     tofrom[1] = "Webcomics/GirlGenius/" + index + ".jpg";
+    String doublePage = getDoublePage(
+      "http://www.girlgeniusonline.com/comic.php?date=" + index);
+    if (doublePage != null) {
+      tofrom[0] = doublePage;
+    }
     return tofrom;
   }
 }
