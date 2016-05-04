@@ -1,5 +1,3 @@
-package com.joshuasnider.workspace.internetio;
-
 /**
 * The purpose of this program is to download some old Joseph McCabe books from
 *   http://www.infidels.org/library/historical/joseph_mccabe/big_blue_books/, so
@@ -11,74 +9,63 @@ package com.joshuasnider.workspace.internetio;
 * @author Josh Snider.
 */
 
+package com.joshuasnider.workspace.internetio;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import java.util.List;
 import java.util.ArrayList;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class JosephMcCabeGetter {
-  public static void main(String[] args) throws Exception{
+
+  public static void main(String[] args) {
     String root = "http://www.infidels.org/library/historical/joseph_mccabe/big_blue_books/";
-    for(int count = 1; count < 20; count++){
+    for (int count = 1; count < 20; count++) {
       String chapter = String.format("book_%02d", count);
-      String page = CommonFunctions.getWebpageAsString(root + chapter + ".html");
-      int delete = page.indexOf("Order books by and about Joseph McCabe now.");
-      int len = "Order books by and about Joseph McCabe now.".length();
-      page = page.substring(delete + len);
-      ArrayList<String> pages = new ArrayList<>();
-      pages.add(page);
-      page = removeHtml(pages).get(0);
-      saveFile(page, count);
-    }
-  }
-
-  private static void print(ArrayList<String> s){
-    for (String str : s)
-    {
-      System.out.println(str);
-    }
-  }
-
-  private static ArrayList<String> removeHtml(ArrayList<String> p){
-    //TODO This doesn't remove the ending properly.
-    int x;
-    for (x = 0; x < p.size(); x++) {
-      String str = p.get(x);
-      /*if(str.contains("Top of Page")){
-        break;
-        //TODO There's a bug that makes my program get stuck near the end of the page.
-        //  This code is my solution
-      }*/
-      int start = str.indexOf("<");
-      int cnt = 0;
-      while (str.contains("<") && cnt < 5)
-      {
-        int end = str.indexOf(">");
-        //TODO This line is terrible.
-        str = str.substring(start, end).equals("<P") ? 
-          str.substring(0, start) + "\n\n\t" + str.substring(end + 1) : 
-          str.substring(0, start) + str.substring(end + 1);
-        start = str.indexOf("<");
-        cnt++;
+      try {
+        Document doc =
+          Jsoup.connect(root + chapter + ".html").get();
+        String page = doc.select("div[id=webpage]").get(0).toString();
+        page = removeHtml(page);
+        try {
+          saveFile(page, count);
+        } catch (IOException e) {
+          System.err.println("Could not save book " + count + ".");
+        }
+      } catch (IOException e) {
+        System.err.println("Could not get chapter " + chapter + ".");
       }
-      p.set(x, str);
     }
-    p = new ArrayList<String>(p.subList(0, x));
-    return p;
   }
 
-  private static void saveFile(String page, int x) throws IOException{
-    //TODO This regex looks broken.
-    String title = page.substring(0, page.indexOf("\n"));
-    title.trim();
-    if (title.equals("")) {
-      title = "JosephMcCabe";
+  /**
+   * Remove some html from the given string to make it prettier.
+   * @Deprecated: Should be possible to do with Jsoup.
+   */
+  private static String removeHtml(String str) {
+    int start = str.indexOf("<hr />");
+    return str.substring(start + 6);
+  }
+
+  /**
+   * Get the title for a page and save it there.
+   */
+  private static void saveFile(String page, int x)
+      throws IOException {
+    Document doc = Jsoup.parse(page);
+    Element header = doc.select("h1").get(0);
+    String title = header.html();
+    try (FileWriter txt = new FileWriter(x + "." + title + ".txt", false)) {
+      try (BufferedWriter out = new BufferedWriter(txt)) {
+        out.write(page);
+      }
     }
-    FileWriter txt = new FileWriter(x + "." + title + ".txt", false);
-    BufferedWriter out = new BufferedWriter(txt);
-    out.write(page);
-    out.close();
-    txt.close();
   }
 }
