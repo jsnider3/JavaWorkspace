@@ -12,7 +12,7 @@
  * @author Josh Snider
  */
 
-package com.joshuasnider.workspace.ChickenSort
+package com.joshuasnider.workspace.ChickenSort;
 
 import java.util.Random;
 

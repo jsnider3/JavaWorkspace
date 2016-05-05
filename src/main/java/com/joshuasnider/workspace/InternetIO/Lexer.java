@@ -5,6 +5,7 @@ import java.io.*;
 import javax.swing.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Lexer {
   protected URL url;
