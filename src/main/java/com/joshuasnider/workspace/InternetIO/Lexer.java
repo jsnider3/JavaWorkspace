@@ -14,7 +14,7 @@ public class Lexer {
 
   }
 
-  public Lexer(String input) throws MalformedURLException{
+  public Lexer(String input) throws MalformedURLException {
     try {
       url = new URL(input);
     } catch (MalformedURLException e) {
@@ -66,7 +66,7 @@ public class Lexer {
     URLConnection webpage = url.openConnection();
     BufferedReader in = new BufferedReader(
         new InputStreamReader(webpage.getInputStream()));
-    ArrayList<String> page = new ArrayList<String>();
+    List<String> page = new ArrayList<String>();
     String input;
     while ((input = in.readLine()) != null) {
       page.add(input);
@@ -78,7 +78,7 @@ public class Lexer {
   public List<String> getWebpage(URL get) throws IOException {
     URLConnection webpage = get.openConnection();
     BufferedReader in = new BufferedReader(new InputStreamReader(webpage.getInputStream()));
-    ArrayList<String> page = new ArrayList<String>();
+    List<String> page = new ArrayList<String>();
     String input;
     while ((input = in.readLine()) != null) {
       page.add(input);
@@ -189,7 +189,7 @@ public class Lexer {
     return result;
   }
 
-  public static void print(String file) throws IOException{
+  public static void print(String file) throws IOException {
     BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
     String string;
     while ((string = bufferedReader.readLine()) != null) {
@@ -198,7 +198,7 @@ public class Lexer {
     bufferedReader.close();
   }
 
-  public static void print(File file) throws IOException{
+  public static void print(File file) throws IOException {
     BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
     String string;
     while ((string = bufferedReader.readLine()) != null) {
@@ -234,10 +234,10 @@ public class Lexer {
     return file;
   }
 
-  public static ArrayList<String> getListOfLinks(File file) throws IOException {
+  public static List<String> getListOfLinks(File file) throws IOException {
     BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
     String string;
-    ArrayList<String> results = new ArrayList<String>();
+    List<String> results = new ArrayList<String>();
     while ((string = bufferedReader.readLine()) != null) {
       //String href="href\"";
       int num=string.indexOf("href=\"");
