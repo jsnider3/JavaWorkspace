@@ -6,7 +6,7 @@ public class Cipher {
     System.out.println("Basic Cipher by Josh Snider");
     System.out.println("Do you want to encode or decode?");
     String text = input.nextLine();
-    boolean encode = text.toLowerCase().equals("encode");
+    boolean encode = text.equalsIgnoreCase("encode");
     System.out.println("Type in the text.");
     text = input.nextLine();
     System.out.println("What's the key?");

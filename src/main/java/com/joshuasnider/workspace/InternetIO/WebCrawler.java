@@ -13,11 +13,11 @@ public class WebCrawler {
     crawl("http://www.cnn.com");
   }
 
-  public static void crawl(String url) throws IOException{
+  public static void crawl(String url) throws IOException {
     System.out.println(url);
     String page = CommonFunctions.getWebpageAsString(url);
     //System.out.println(page);
-    ArrayList<String> links = CommonFunctions.getLinks(page);
+    List<String> links = CommonFunctions.getLinks(page);
     links.removeAll(prevVisited);
     prevVisited.addAll(links);
     Collections.shuffle(links);

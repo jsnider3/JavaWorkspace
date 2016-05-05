@@ -10,7 +10,7 @@ package com.joshuasnider.workspace.nwoddice;
 public class OddsCalculator {
 
   private int again;
-  Double[][] memo;
+  private Double[][] memo;
 
   public OddsCalculator(int aAgain) {
     again = aAgain;
@@ -32,7 +32,7 @@ public class OddsCalculator {
       return 0;
     }
     if (getMemoValue(goal, dice) != null) {
-        return getMemoValue(goal, dice);
+      return getMemoValue(goal, dice);
     }
     double result = getFailProportion() * calculateEndAt(goal, dice - 1) +
          getSimpleSuccessProportion() * calculateEndAt(goal - 1, dice - 1) +

@@ -4,7 +4,6 @@
  * @author: Josh Snider
  */
 
-import java.lang.Math;
 import javax.swing.JOptionPane;
 
 public class PlanetaryMotion {

@@ -8,8 +8,7 @@ import javax.swing.*;
 
 public class ImageGetter {
 
-  //static BufferedImage image;
-  static URL imagesource;
+  public static URL imagesource;
 
   /* High-Level Design Intention Statement
    * Write a program that when given a URl

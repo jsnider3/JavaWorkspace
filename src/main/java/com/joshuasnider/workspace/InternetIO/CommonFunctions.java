@@ -9,6 +9,7 @@ import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,7 +48,7 @@ public class CommonFunctions {
     }
   }
 
-  public static ArrayList<String> getLinks(String page) throws IOException{
+  public static List<String> getLinks(String page) throws IOException{
     //TODO This isn't working.
     Pattern pattern = Pattern.compile("(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
     Matcher matcher = pattern.matcher(page);
