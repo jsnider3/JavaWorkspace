@@ -4,6 +4,9 @@
  *
  * @author Josh Snider
  */
+
+package com.joshuasnider.workspace.CountFromXtoY;
+
 import java.util.Scanner;
 
 public class CountfromXtoY {

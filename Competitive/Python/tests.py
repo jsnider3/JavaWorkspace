@@ -852,8 +852,8 @@ class Tests(unittest.TestCase):
 
   def test_squarechains(self):
     chain = hacklib.SquareChain()
-    chain.get_end(145) == 89
-    chain.get_end(44) == 1
+    assert chain.get_end(145) == 89
+    assert chain.get_end(44) == 1
 
   def test_squares(self):
     squares = hacklib.Squares()

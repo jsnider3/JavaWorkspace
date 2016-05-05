@@ -1187,7 +1187,7 @@ def freq_sort(lst):
       Ties are broken by the natural order of the elements.'''
   elms = set(lst)
   elms = sorted(list(elms))
-  return sorted(elms, key= lambda x: lst.count(x), reverse=True)
+  return sorted(elms, key=lst.count, reverse=True)
 
 def get_amicable_pair(num):
   ''' If low is the smallest number of an amicable pair

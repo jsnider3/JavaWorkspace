@@ -12,8 +12,9 @@
  * @author Josh Snider
  */
 
+package com.joshuasnider.workspace.ChickenSort
+
 import java.util.Random;
-import java.util.Arrays;
 
 public class ChickenSort {
 
@@ -27,13 +28,12 @@ public class ChickenSort {
       int tHigh = tRNG.nextInt(tSize);
       while(tHigh == tLow)
         tHigh = tRNG.nextInt(tSize);
-      if(tHigh < tLow)
-      {
+      if (tHigh < tLow) {
         int tSwap = tHigh;
         tHigh = tLow;
         tLow = tSwap;
       }
-      if(aArray[tHigh] < aArray[tLow]){
+      if (aArray[tHigh] < aArray[tLow]) {
         int tSwap = aArray[tHigh];
         aArray[tHigh] = aArray[tLow];
         aArray[tLow] = tSwap;
