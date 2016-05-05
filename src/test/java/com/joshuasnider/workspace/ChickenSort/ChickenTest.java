@@ -4,7 +4,7 @@
  * @author Josh Snider
  */
 
-package com.joshuasnider.workspace.ChickenSort
+package com.joshuasnider.workspace.ChickenSort;
 
 import static org.junit.Assert.*;
 
