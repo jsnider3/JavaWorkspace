@@ -8,10 +8,12 @@
 
 package com.joshuasnider.workspace.violationheap;
 
-public class ViolationNode implements Comparable {
+public class ViolationNode implements Comparable<ViolationNode> {
 
-    public ViolationNode child;//Points to the rightmost child
-    public ViolationNode left;//This is null for everyone in the root list.
+    //Points to the rightmost child
+    public ViolationNode child;
+    //This is null for everyone in the root list.
+    public ViolationNode left;
     public ViolationNode right;
     public int rank;
     //An integer for each node representing its rank.
@@ -34,22 +36,24 @@ public class ViolationNode implements Comparable {
       child = node;
     }
 
-    public int compareTo(Object o) {
+    /**
+     * Compare our key with another node.
+     */
+    public int compareTo(ViolationNode other) {
       int result = 0;
-      if (o instanceof ViolationNode) {
-        ViolationNode other = (ViolationNode) o;
-        if (key < other.key) {
-          result = -1;
-        } else if (key > other.key) {
-          result = 1;
-        }
+      if (key < other.key) {
+        result = -1;
+      } else if (key > other.key) {
+        result = 1;
       }
       return result;
     }
 
+    /**
+     * Is this node on the root list?
+     */
     public boolean onRootList() {
-      //This is terrible code.
-      return left == null && right.left == null && right.child != this;
+      return left == null && right.left == null && !isNthChild(1);
     }
 
     public boolean hasChild() {
@@ -60,7 +64,19 @@ public class ViolationNode implements Comparable {
      * A node is active if it's the first or second child of its parent.
      */
     public boolean isActive() {
-      return this.right.child == this || this.right.right.child == this.right;
+      return isNthChild(1) || isNthChild(2);
+    }
+
+    /**
+     * Is this node it's parent's nth child.
+     * 1-indexed.
+     */
+    public boolean isNthChild(int n) {
+      ViolationNode walk = this;
+      for (int cnt = 0; cnt < n - 1; cnt++) {
+        walk = walk.right;
+      }
+      return walk.right.child == walk;
     }
 
     /**
@@ -105,7 +121,7 @@ public class ViolationNode implements Comparable {
       temp.left = x.left;
       temp.right = x.right;
       if (x.left != null) {
-        x.left.right=temp;
+        x.left.right = temp;
       }
       if (x.right == parent) {
         parent.child = temp;
@@ -114,10 +130,12 @@ public class ViolationNode implements Comparable {
       }
     }
 
+   /**
+    * Get the left most child and destroy our children along the way.
+    * @return: the leftmost child.
+    */
     public ViolationNode getLeftMostChildDestr() {
-      //Post-condition:The left links on all of this's children are removed.
-      //Returns the leftmost child.
-      ViolationNode walk=this.child;
+      ViolationNode walk = this.child;
       while (walk != null && walk.left != null) {
         ViolationNode temp = walk.left;
         walk.left = null;
@@ -127,13 +145,26 @@ public class ViolationNode implements Comparable {
     }
 
     /**
+     * What would our rank be if we recalculated it?
+     */
+    public int calcRank() {
+      int calcRank = -2;
+      if (this.child != null) {
+        calcRank = this.child.rank;
+        if (this.child.left != null) {
+          calcRank += this.child.left.rank - 1;
+        }
+      }
+      calcRank = (int)Math.ceil(calcRank / 2.0) + 1;
+      return calcRank;
+    }
+
+    /**
      * Recalculate our rank and update it if necessary or ordered to.
-     * @return Whether our rank changed.
+     * @return: Whether our rank changed.
      */
     public boolean updateRank(boolean force) {
-      int calcRank = (this.child != null) ? this.child.rank : -1;
-      calcRank += (this.child != null && this.child.left != null) ? this.child.left.rank : -1;
-      calcRank = (int)Math.ceil(calcRank / 2.0) + 1;
+      int calcRank = calcRank();
       if (calcRank < rank || force) {
         rank = calcRank;
         return true;
