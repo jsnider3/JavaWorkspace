@@ -8,8 +8,6 @@
 package com.joshuasnider.workspace.comicgetter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class SchlockGetter extends ComicGetter {
 

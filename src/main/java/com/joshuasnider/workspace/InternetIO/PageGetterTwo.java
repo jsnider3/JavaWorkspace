@@ -3,11 +3,8 @@ package com.joshuasnider.workspace.internetio;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.net.MalformedURLException;
 import java.net.Socket;
-import java.net.URL;
 import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
 
 import javax.swing.JOptionPane;
 
@@ -24,8 +21,7 @@ public class PageGetterTwo {
 		if(sitename.charAt(sitename.length()-1)=='/'){
 			get ="/";
 			sitename=sitename.substring(0,sitename.length()-1);
-		}
-		else{
+		} else {
 			get = JOptionPane.showInputDialog("What file do you want to get?");//"/~sean/index.html HTTP/1.0";
 		}
 		//System.out.println(sitename);

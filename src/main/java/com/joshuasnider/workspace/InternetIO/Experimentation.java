@@ -1,7 +1,5 @@
 package com.joshuasnider.workspace.internetio;
 
-import java.util.Scanner;
-
 public class Experimentation {
   public static void main (String[] args){
     String max="20111230";

@@ -10,11 +10,7 @@ package com.joshuasnider.workspace.internetio;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.FileOutputStream;
 import java.io.IOException;
-
-import java.util.List;
-import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

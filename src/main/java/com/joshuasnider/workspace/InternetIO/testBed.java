@@ -8,8 +8,6 @@ import java.nio.channels.ReadableByteChannel;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
-import javax.imageio.ImageWriter;
-import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import javax.swing.text.html.HTMLDocument.Iterator;

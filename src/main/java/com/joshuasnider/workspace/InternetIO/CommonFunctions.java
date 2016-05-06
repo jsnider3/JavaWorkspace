@@ -13,11 +13,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-
 public class CommonFunctions {
 
   public static String getWebpageAsString(String url) throws IOException{
