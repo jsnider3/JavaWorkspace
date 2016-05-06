@@ -1,6 +1,77 @@
+/**
+ * Implements a modified Caesar Cipher.
+ * The key of the Caesar Cipher increases by one after each character.
+ * One of my first programs. Slightly refactored since.
+ */
+
+package com.joshuasnider.workspace.cipher;
 
 import java.util.Scanner;
 public class Cipher {
+
+  private int key;
+
+  public Cipher(int key) {
+    this.key = key;
+  }
+
+  /**
+   * Decode the text using the starting key.
+   */
+  public String decode(String text) {
+    StringBuffer out = new StringBuffer();
+    for (char c : text.toCharArray()) {
+      if (c >= 'a' && c <= 'z') {
+        c -= key;
+        c = moduluBounds(c, (int)'a', (int)'z');
+      } else if (c >= 'A' && c <= 'Z') {
+        c -= key;
+        c = moduluBounds(c, (int)'A', (int)'Z');
+      }
+      key++;
+      if (key > 25) {
+        key -= 26;
+      }
+      out.append(c);
+    }
+    return out.toString();
+  }
+
+  /**
+   * Encode the text using the starting key.
+   */
+  public String encode(String text) {
+    StringBuffer out = new StringBuffer();
+    for (char c : text.toCharArray()) {
+      if (c >= 'a' && c <= 'z'){
+        c += key;
+        c = moduluBounds(c, (int)'a', (int)'z');
+      } else if ( c >= 'A' && c <= 'Z') {
+        c += key;
+        c = moduluBounds(c, (int)'A', (int)'Z');
+      }
+      key++;
+      if (key > 25) {
+        key -= 26;
+      }
+      out.append(c);
+    }
+    return out.toString();
+  }
+
+  /**
+   * Make sure c is within the bounds [lo, hi].
+   */
+  public char moduluBounds(char c, int lo, int hi) {
+    int range = hi - lo;
+    if (c > hi) {
+      return (char)(c - range);
+    } else if (c < lo) {
+      return (char)(c + range);
+    }
+    return c;
+  }
+
   public static void main(String[] args) {
     Scanner input = new Scanner(System.in);
     System.out.println("Basic Cipher by Josh Snider");
@@ -11,48 +82,13 @@ public class Cipher {
     text = input.nextLine();
     System.out.println("What's the key?");
     int key = input.nextInt();
+    String output = "";
     if (encode)
     {
-      for (char c : text.toCharArray()) {
-        if (c >= 'a' && c <= 'z'){
-          c += key;
-          if (c > 122){
-            c -= 26;
-          }
-        }
-        else if ( c >= 'A' && c <= 'Z') {
-          c += key;
-          if (c > 90){
-            c -= 26;
-          }
-        }
-        key++;
-        if(key > 25){
-          key -= 26;
-        }
-        System.out.print(c);
-      }
+      output = new Cipher(key).encode(text);
     } else {
-      for (char c : text.toCharArray()) {
-        if (c >= 'a' && c <= 'z') {
-          c -= key;
-          if(c < 97){
-            c += 26;
-          }
-        }
-        else if(c >= 'A' && c <= 'Z') {
-          c -= key;
-          if (c < 65) {
-            c += 26;
-          }
-        }
-        key++;
-        if (key > 25) {
-          key -= 26;
-        }
-        System.out.print(c);
-      }
+      output = new Cipher(key).decode(text);
     }
-    System.out.println("");
+    System.out.println(output);
   }
 }
