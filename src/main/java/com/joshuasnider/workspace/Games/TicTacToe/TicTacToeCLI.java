@@ -34,7 +34,6 @@ public class TicTacToeCLI implements Runnable {
   public void run() {
     System.out.println("Do you want to go first? Yes/No");
     boolean playerFirst = sc.next().toLowerCase().startsWith("y");
-    //If the user types in Yes.
     System.out.println("0|1|2");
     System.out.println("-----");
     System.out.println("3|4|5");
@@ -45,23 +44,16 @@ public class TicTacToeCLI implements Runnable {
       System.out.print(board);
     }
     while (!board.isOver()) {
-      //While the game is not over
       board.Move(getMove());
       if (!board.isOver()) {
         board.compMove();
       }
       System.out.print(board);
     }
-    if (board.hasWon("X")) {
-      System.out.print("X wins.");
-    } else if (board.hasWon("O")) {
-      System.out.print("O wins.");
-    } else if (board.isDraw()) {
-      System.out.print("Draw.");
-    }
+    System.out.println(board.scoreToString());
   }
 
-  private short getMove(){
+  private short getMove() {
     System.out.println("Enter a number for your move.");
     short move = sc.nextShort();
     while (move > 8 || move < 0 ||

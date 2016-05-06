@@ -7,6 +7,7 @@
 package com.joshuasnider.workspace.games.tictactoe;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TicTacToeBoard {
@@ -132,15 +133,20 @@ public class TicTacToeBoard {
   }
 
   /**
-   * There are 8 possible ways for the given player to have won.
-   *  There are three rows, three columns, and two diagonals.
+   * Does the player have a winning column?
    */
-  public final boolean hasWon(String playerChar){
+  public final boolean hasWinningColumn(String playerChar) {
     for (int x = 0; x < 3; x++) {
-      if (hasWonColumn(playerChar, x) || hasWonRow(playerChar, x)) {
+      if (hasWonColumn(playerChar, x))
         return true;
-      }
     }
+    return false;
+  }
+
+  /**
+   * Does the player have a winning diagonal?
+   */
+  public final boolean hasWinningDiagonal(String playerChar) {
     if (state[1][1].equals(playerChar)) {
       if (state[0][0].equals(playerChar) && state[1][1].equals(state[2][2])) {
         return true;//Top-left to bottom-right.
@@ -150,6 +156,27 @@ public class TicTacToeBoard {
       }
     }
     return false;
+  }
+
+  /**
+   * Does the player have a winning row?
+   */
+  public final boolean hasWinningRow(String playerChar) {
+    for (int x = 0; x < 3; x++) {
+      if (hasWonRow(playerChar, x))
+        return true;
+    }
+    return false;
+  }
+
+  /**
+   * There are 8 possible ways for the given player to have won.
+   *  There are three rows, three columns, and two diagonals.
+   */
+  public final boolean hasWon(String playerChar){
+    return (hasWinningColumn(playerChar) ||
+        hasWinningRow(playerChar) ||
+        hasWinningDiagonal(playerChar));
   }
 
   /**
@@ -198,34 +225,58 @@ public class TicTacToeBoard {
     return empties;
   }
 
+  /**
+   * Get the score for this position.
+   * Higher is better for x. Range is [-2, 2].
+   */
   public final short score() {
     if (hasWon("X")) {
       return 2;
-    }
-    else if (hasWon("O")) {
+    } else if (hasWon("O")) {
       return -2;
-    }
-    else if (isDraw()) {
+    } else if (isDraw()) {
       return 0;
-    }
-    else if (!XJustMoved) {//X's turn
-      short highest = -1;
-      for (TicTacToeBoard child : children()) {
-        if (child.score > highest) {
-          highest = child.score;
-        }
-      }
+    } else if (!XJustMoved) {
+      short highest = Collections.max(scoreChildren());
       return highest == 2 ? 1 : highest;
-    }
-    else {//Not X's turn.
-      short lowest = 1;
-      for (TicTacToeBoard child : children()) {
-        if (child.score<lowest) {
-          lowest = child.score;
-        }
-      }
+    } else {
+      short lowest = Collections.min(scoreChildren());
       return lowest == -2 ? -1 : lowest;
     }
+  }
+
+  /**
+   * Collect the scores of our children.
+   */
+  public List<Short> scoreChildren() {
+    List<Short> scores = new ArrayList<>();
+    for (TicTacToeBoard child : children()) {
+      scores.add(child.score);
+    }
+    return scores;
+  }
+
+  /**
+   * What does our score mean in plain English?
+   */
+  public String scoreToString() {
+    String msg = "";
+    if (score == -2) {
+      msg = "O has won.";
+    } else if (score == -1) {
+      msg = "O will win.";
+    } else if (score == 0) {
+      if (isDraw()) {
+        msg = "Draw";
+      } else {
+        msg = "Eventual Draw";
+      }
+    } else if (score == 1) {
+      msg = "X will win.";
+    } else if (score == 2) {
+      msg = "X has won.";
+    }
+    return msg;
   }
 
   public final String toString() {
@@ -238,44 +289,25 @@ public class TicTacToeBoard {
     return str;
   }
 
-  public final void printVerbose(){
+  /**
+   * Print out the board and various debugging information.
+   */
+  public final void printVerbose() {
     System.out.println(this);
-    System.out.println(XJustMoved? "X just went" : "O just went");
-    score = score();
-    if (score == -2) {
-      System.out.println("O has won.");
-    }
-    else if (score == -1) {
-      System.out.println("O will win.");
-    }
-    else if (score == 0) {
-      if (isDraw()) {
-        System.out.println("Draw");
-      }
-      else {
-        System.out.println("Eventual Draw");
-      }
-    }
-    else if (score == 1) {
-      System.out.println("X will win.");
-    }
-    else if (score == 2) {
-      System.out.println("X has won.");
-    }
-    else {
-      System.out.println("Error!Error!");
-    }
-    System.out.println("");
+    System.out.println(XJustMoved ? "X just went" : "O just went");
+    System.out.println(scoreToString());
   }
 
+  /**
+   * Have the computer make its optimal move.
+   */
   public void compMove() {
+    short move = 0;
     if (XJustMoved) {
-      short move = min(children()).recentMove;
-      Move(move);
+      move = min(children()).recentMove;
+    } else {
+      move = max(children()).recentMove;
     }
-    else {
-      short move = max(children()).recentMove;
-      Move(move);
-    }
+    Move(move);
   }
 }
