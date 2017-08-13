@@ -5,8 +5,7 @@
   @author: Joshua Snider
 '''
 
-#TODO Convert html to pdf.
-
+import chardet
 from HTMLParser import HTMLParser
 import os
 import urllib2
@@ -25,29 +24,30 @@ class Post:
     if self.threadmark:
       self.threadmark = self.threadmark.find(class_='label').text.strip()
       self.threadmark = self.threadmark[self.threadmark.index(':') + 1:].strip()
+    else:
+      self.threadmark = ''
 
   def __len__(self):
     return len(str(self))
 
   def __str__(self):
-    text = ''
-    if self.threadmark:
-      text = str(self.threadmark)
-    text = text + str(self.body)
+    text = self.threadmark.encode('utf-8') + str(self.body)
     return text
 
   def is_threadmarked(self):
-    return self.threadmark != None
+    return self.threadmark != None and self.threadmark != ''
 
   def save_post(self, folder):
     if not os.path.exists(folder):
         os.makedirs(folder)
     print(self.threadmark, self.post_num, len(self))
-    filename = (folder + '/' + self.post_num + '_' +
+    filename = os.path.abspath(folder + '/' + self.post_num + '_' +
                 self.threadmark.replace(' ', '_') + '.html')
-    print(filename)
     with open(filename,'w') as f:
       f.write(str(self))
+      cmd = 'google-chrome --headless --disable-gpu --print-to-pdf={0} file://{1}'.format(
+        filename.replace('html','pdf'), filename)
+      os.system(cmd)
 
 class Thread:
 
