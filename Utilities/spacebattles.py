@@ -5,13 +5,15 @@
   @author: Joshua Snider
 '''
 
+#TODO Convert html to pdf.
+
 from HTMLParser import HTMLParser
+import os
 import urllib2
 
 from bs4 import BeautifulSoup
 
 root = "https://forums.spacebattles.com/threads/"
-first_page = root + "be-all-my-sins-40k-si.388340/"
 
 class Post:
 
@@ -24,76 +26,91 @@ class Post:
       self.threadmark = self.threadmark.find(class_='label').text.strip()
       self.threadmark = self.threadmark[self.threadmark.index(':') + 1:].strip()
 
+  def __len__(self):
+    return len(str(self))
+
   def __str__(self):
     text = ''
     if self.threadmark:
       text = str(self.threadmark)
-    #print(self.body.encode('utf-8')[330:340])
-    text = text + str(self.body)#.encode('utf-8')
-    return text#str(self.html)
+    text = text + str(self.body)
+    return text
 
-def filter_threadmarked(posts):
-  return [p for p in posts if p.threadmark != None]
+  def is_threadmarked(self):
+    return self.threadmark != None
 
-def get_all_pages():
-  num_pages = 89
-  pages = {}
-  for ind in range(1, num_pages + 1):
-    print(ind)
-    cur_str = get_page(ind)
-    pages[ind] = cur_str
-  return pages
+  def save_post(self, folder):
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    print(self.threadmark, self.post_num, len(self))
+    filename = (folder + '/' + self.post_num + '_' +
+                self.threadmark.replace(' ', '_') + '.html')
+    print(filename)
+    with open(filename,'w') as f:
+      f.write(str(self))
 
-def get_main_page():
-  test = urllib2.urlopen(first_page)
-  test_str = test.read()
+class Thread:
 
-  posts = filter_threadmarked(get_posts(test_str))
+  def __init__(self, thread_name):
+    self.first_page = root + thread_name
+    self.title = self.get_title()
 
-  for p in posts:
-    print(p)
+  def get_all_pages(self):
+    num_pages = self.get_num_pages()
+    pages = {}
+    for ind in range(1, num_pages + 1):
+      print(ind)
+      cur_str = self.get_page(ind)
+      pages[ind] = cur_str
+    return pages
 
-def get_page(ind):
-  cur_page = first_page + 'page-{0}'.format(ind)
+  def get_num_pages(self):
+    page_text = self.get_page(1)
+    soup = BeautifulSoup(page_text, 'html.parser')
+    lst = soup.find(class_="pageNavHeader")
+    num_pages = lst.string
+    num_pages = num_pages[num_pages.index('of') + 2:]
+    return int(num_pages.strip(' '))
 
-  connect = urllib2.urlopen(cur_page)
-  cur_str = connect.read()
-  return cur_str
+  def get_page(self, ind):
+    cur_page = self.first_page + 'page-{0}'.format(ind)
 
-def get_posts(page_text):
-  soup = BeautifulSoup(page_text, 'html.parser')
+    connect = urllib2.urlopen(cur_page)
+    cur_str = connect.read()
+    return cur_str
 
-  lst = soup.find(id="messageList")
-  posts = [Post(p) for p in lst.find_all(class_='message')]
-  return posts
+  def get_posts(self, page_text):
+    soup = BeautifulSoup(page_text, 'html.parser')
 
-def get_threadmarks_list(page):
-  #TODO Broken
-  threadmarks_page = first_page + "threadmarks"
-  print(threadmarks_page)
-  test = urllib2.urlopen(first_page)
-  test_str = test.read()
-  #test_str = test_str[test_str.index('<ol class="threadmarkList ThreadmarkCategory_1">'):]
-  print(test_str)
+    lst = soup.find(id="messageList")
+    posts = [Post(p) for p in lst.find_all(class_='message')]
+    return posts
 
-def get_story():
-  pages = get_all_pages()
-  posts = []
-  for page_num in pages:
-    posts.extend(get_posts(pages[page_num]))
-  posts = filter_threadmarked(posts)
-  for post in posts:
-    save_post(post)
+  def get_title(self):
+    test = urllib2.urlopen(self.first_page)
+    webpage = test.read()
+    soup = BeautifulSoup(webpage, 'html.parser')
+    title = soup.title.string
+    if '(' in title:
+      title = title[:title.index('(')]
+    if '[' in title:
+      title = title[:title.index('[')]
+    title = title.replace(' ', '')
+    print(title)
+    return title
 
-def save_post(post):
-  print(post.threadmark, post.post_num, len(str(post)))
-  filename = post.post_num + '_' + post.threadmark.replace(' ', '_') + '.html'
-  print(filename)
-  with open(filename,'w') as f:
-    f.write(str(post))
+  def get_story(self):
+    pages = self.get_all_pages()
+    posts = []
+    for page_num in pages:
+      posts.extend(self.get_posts(pages[page_num]))
+    posts = [p for p in posts if p.is_threadmarked()]
+    for post in posts:
+      post.save_post(self.title)
 
 def main():
-  get_story()
+  #Thread("be-all-my-sins-40k-si.388340/").get_story()
+  Thread("the-games-we-play-rwby-the-gamer-ryuugi-complete.351105/").get_story()
 
 if __name__ == '__main__':
   main()
