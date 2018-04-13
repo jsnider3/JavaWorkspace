@@ -6,8 +6,10 @@
 
 import argparse
 from datetime import datetime
+import sys
 
 def main():
+	assert sys.version_info > (3,0)
 	parser = argparse.ArgumentParser(description='Tool to track hours spent on a project.')
 	parser.add_argument('project', help="The name of the project you're working on.")
 	args = parser.parse_args()
@@ -18,6 +20,7 @@ def main():
 			com = input('')
 			time_s = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 			f.write('{0} {1}\n'.format(com, time_s))
+			f.flush()
 
 if __name__ == '__main__':
 	main()
