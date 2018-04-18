@@ -1,0 +1,15 @@
+def roadsBuilding(cities, roads):
+    complete = set([])
+    for m in range(cities):
+        for n in range(m+1, cities):
+            complete.add((m, n))
+    for [s, t] in roads:
+        if s > t:
+            s, t = t, s
+        complete.remove((s, t))
+    out = list(complete)
+    out.sort()
+    return out
+
+complete is a set of 2-tuples, yet out is a list or 2-element lists?
+Why is that?
