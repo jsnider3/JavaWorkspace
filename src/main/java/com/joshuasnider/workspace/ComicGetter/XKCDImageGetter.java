@@ -11,11 +11,12 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import org.jsoup.Jsoup;
 
 public class XKCDImageGetter extends ComicGetter {
 
   public static void main(String[] args) {
-    new File("Webcomics/XKCD").mkdirs();
+    new File("Webcomics"+ File.separator + "XKCD").mkdirs();
     new XKCDImageGetter().getAll();
   }
 
@@ -50,21 +51,12 @@ public class XKCDImageGetter extends ComicGetter {
    * Get the index of the newest xkcd comic.
    */
   public int getNewestComic() throws Exception {
-    URL xkcd = new URL("http://www.xkcd.com/");
-    URLConnection webpage = xkcd.openConnection();
-    BufferedReader in = new BufferedReader(
-      new InputStreamReader(webpage.getInputStream()));
-    String input;
-    StringBuffer html = new StringBuffer();
-    while ((input = in.readLine()) != null) {
-      html.append(input);
-    }
-    input = html.toString();
-    int num = input.indexOf("|&lt");
-    num = input.indexOf("href=", num);
-    int end = input.indexOf("/", num + 7);
-    int comicnumber = Integer.parseInt(input.substring(num + 7, end));
-    return comicnumber + 1;
+    String html = Jsoup.connect("http://www.xkcd.com").get().html();
+    int num = html.indexOf("Permanent link to this comic");
+    num = html.indexOf("com/", num) + 4;
+    int end = html.indexOf("/", num);
+    int comicnumber = Integer.parseInt(html.substring(num, end));
+    return comicnumber;
   }
 
   /**
@@ -73,16 +65,7 @@ public class XKCDImageGetter extends ComicGetter {
   public static String getHTML(String index) {
     String fileLoc = null;
     try {
-      URL url = new URL("http://www.xkcd.com/" + index);
-      URLConnection webpage = url.openConnection();
-      BufferedReader in = new BufferedReader(
-        new InputStreamReader(webpage.getInputStream()));
-      String input;
-      StringBuffer html = new StringBuffer();
-      while ((input = in.readLine()) != null) {
-        html.append(input);
-      }
-      input = html.toString();
+      String input = Jsoup.connect("http://www.xkcd.com/" + index).get().html();
       int start = input.indexOf("http://imgs.xkcd.com/comics");
       int end = input.indexOf('<', start);
       fileLoc = input.substring(start, end);
