@@ -13,8 +13,12 @@ import java.io.File;
 public class FoxhoundGetter extends ComicGetter {
 
   public static void main(String[] args) {
-    new File("Webcomics/Foxhound").mkdirs();
+    new File(getDir()).mkdirs();
     new FoxhoundGetter().getAll();
+  }
+
+  public String getDir() {
+    return "Webcomics/Foxhound/";
   }
 
   public String getFirst() {
@@ -33,7 +37,7 @@ public class FoxhoundGetter extends ComicGetter {
   public String[] getToFrom(String index) {
     String[] tofrom = new String[2];
     tofrom[0] = "http://www.doctorshrugs.com/foxhound/images/" + getImageName(index);
-    tofrom[1] = "Webcomics/Foxhound/" + getImageName(index);
+    tofrom[1] = getDir() + getImageName(index);
     return tofrom;
   }
 
