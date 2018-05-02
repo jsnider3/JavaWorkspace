@@ -9,6 +9,7 @@
 
 package com.joshuasnider.workspace.comicgetter;
 
+import com.google.common.reflect.ClassPath;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,6 +22,27 @@ import java.util.Calendar;
 
 public abstract class ComicGetter {
 
+  public static void main(String[] args) {
+    try {
+      Class cls = Class.forName("com.joshuasnider.workspace.comicgetter.ComicGetter");
+      // returns the ClassLoader object associated with this Class.
+      ClassLoader cLoader = cls.getClassLoader();
+      ClassPath class_path = ClassPath.from(cLoader);
+      System.out.println("ComicGetter.main");
+      for (ClassPath.ClassInfo clas : class_path.getTopLevelClasses("com.joshuasnider.workspace.comicgetter")) {
+        System.out.println("Class: " + clas.getSimpleName());
+        Class loaded = clas.load();
+        if (loaded != cls)
+        {
+          ComicGetter gtr = (ComicGetter)loaded.newInstance();
+          gtr.getAll();
+        }
+      }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+  }
+  
   /**
    * Download every comic.
    */
