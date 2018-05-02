@@ -8,21 +8,18 @@
 
 package com.joshuasnider.workspace.comicgetter;
 
-import java.io.File;
-
 public class FoxhoundGetter extends ComicGetter {
 
   public static void main(String[] args) {
-    new File(getDir()).mkdirs();
     new FoxhoundGetter().getAll();
-  }
-
-  public String getDir() {
-    return "Webcomics/Foxhound/";
   }
 
   public String getFirst() {
     return "001";
+  }
+
+  public String getName() {
+    return "Foxhound";
   }
 
   public String getNext(String index) {
@@ -50,3 +47,4 @@ public class FoxhoundGetter extends ComicGetter {
   }
 
 }
+

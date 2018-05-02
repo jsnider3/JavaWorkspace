@@ -9,6 +9,7 @@
 
 package com.joshuasnider.workspace.comicgetter;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +25,7 @@ public abstract class ComicGetter {
    * Download every comic.
    */
   public void getAll() {
+    new File(getDir()).mkdirs();
     String index = getFirst();
     while (index != null) {
       System.out.println(index);
@@ -36,9 +38,21 @@ public abstract class ComicGetter {
   }
 
   /**
+   * Get the directory for saving this webcomic.
+   */
+  public String getDir() {
+    return "Webcomics" + File.separator + getName() + File.separator;
+  }
+
+  /**
    * Get the index of the comic's first page.
    */
   public abstract String getFirst();
+
+  /**
+   * Get the name of the webcomic in string form.
+   */
+  public abstract String getName();
 
   /**
    * Given the index of a comic, get the next. null is the end.
@@ -88,16 +102,4 @@ public abstract class ComicGetter {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

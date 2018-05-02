@@ -16,7 +16,6 @@ import org.jsoup.Jsoup;
 public class XKCDImageGetter extends ComicGetter {
 
   public static void main(String[] args) {
-    new File("Webcomics"+ File.separator + "XKCD").mkdirs();
     new XKCDImageGetter().getAll();
   }
 
@@ -32,6 +31,10 @@ public class XKCDImageGetter extends ComicGetter {
 
   public String getFirst() {
     return "1";
+  }
+
+  public String getName() {
+    return "XKCD";
   }
 
   public String getNext(String index) {
@@ -79,22 +82,9 @@ public class XKCDImageGetter extends ComicGetter {
     if (html != null) {
       tofrom = new String[2];
       tofrom[0] = getHTML(index);
-      tofrom[1] = "Webcomics/XKCD/" + index + tofrom[0].substring(28);
+      tofrom[1] = getDir() + index + tofrom[0].substring(28);
     }
     return tofrom;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 

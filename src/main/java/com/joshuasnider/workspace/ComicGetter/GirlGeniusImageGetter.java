@@ -19,7 +19,6 @@ public class GirlGeniusImageGetter extends ComicGetter {
   public static String title = home + "/ggmain/strips/ggmain";
 
   public static void main(String[] args) {
-    new File("Webcomics/GirlGenius").mkdirs();
     new GirlGeniusImageGetter().getAll();
   }
 
@@ -71,10 +70,14 @@ public class GirlGeniusImageGetter extends ComicGetter {
     return link;
   }
 
+  public String getName() {
+    return "GirlGenius";
+  }
+
   public String[] getToFrom(String index) {
     String[] tofrom = new String[2];
     tofrom[0] = title + index + ".jpg";
-    tofrom[1] = "Webcomics/GirlGenius/" + index + ".jpg";
+    tofrom[1] = getDir() + index + ".jpg";
     String doublePage = getDoublePage(
       "http://www.girlgeniusonline.com/comic.php?date=" + index);
     if (doublePage != null) {
@@ -83,3 +86,4 @@ public class GirlGeniusImageGetter extends ComicGetter {
     return tofrom;
   }
 }
+
