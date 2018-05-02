@@ -10,14 +10,16 @@ import (
 // We want Grindea to be running and programmatically accessible.
 func isGrindeaReady() (ready bool) {
 	// Check that Grindea is running.
+	robotgo.ScrollMouse(50, "up")
+	robotgo.MouseClick("left", true)
 	// Move Grindea to foreground.
-	time.Sleep(10000 * time.Millisecond) // Debug
 	return true
 }
 
 func pressZ() () {
+	time.Sleep(100 * time.Millisecond)
 	fmt.Printf("Press Z.\n")
-	robotgo.KeyTap("z")
+	robotgo.TypeString("z")
 	/*kb, err := keybd_event.NewKeyBonding()
 	kb.SetKeys(keybd_event.VK_Z)
 	err = kb.Launching() 
@@ -28,12 +30,22 @@ func pressZ() () {
 
 // Play the minigame as per http://secretsofgrindea.wikia.com/wiki/Fishing.
 func playMinigame() () {
+	for true {
 	// 1. Simulate a 'Z' keypress.
 	pressZ()
 	// 2. Wait until we have a fish on the hook.
 	// 3. Press 'Z' to start reeling in the fish.
 	pressZ()
 	// 4. Press the left and right keys to play the minigame.
+	}
+}
+
+func saveScreen() () {
+	w, h := robotgo.GetScreenSize()
+	bitmap := robotgo.CaptureScreen(0, 0, w, h)
+	fmt.Println("...", bitmap)
+
+	robotgo.SaveBitmap(bitmap, "test.png")
 }
 
 // main starts the fishing process.
@@ -44,4 +56,5 @@ func main() {
 		playMinigame()
 		// 3. Repeat step 2 until cancelled.
 	}
+	saveScreen()
 }
