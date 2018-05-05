@@ -8,6 +8,7 @@
 package com.joshuasnider.workspace.comicgetter;
 
 import java.io.File;
+import java.util.Iterator;
 
 public class SchlockGetter extends ComicGetter {
 
@@ -15,23 +16,8 @@ public class SchlockGetter extends ComicGetter {
     new SchlockGetter().getAll();
   }
 
-  public String getFirst() {
-    return "20000612";
-  }
-
   public String getName() {
     return "Schlock";
-  }
-
-  /**
-   * This code generates FileNotFoundExceptions  on Sundays with multiple images.
-   */
-  public String getNext(String index) {
-    String next = getNextDay(index, "yyyyMMdd");
-    if (next.compareTo(getToday("yyyyMMdd")) > 0) {
-      next = null;
-    }
-    return next;
   }
 
   public String[] getToFrom(String index) {
@@ -41,5 +27,29 @@ public class SchlockGetter extends ComicGetter {
     return tofrom;
   }
 
-}
+  private class ComicIterator implements Iterator<String> {
 
+    private String index = "20000612";
+
+    @Override
+    public boolean hasNext() {
+      return index.compareTo(getToday("yyyyMMdd")) <= 0;
+    }
+
+    /**
+     * This code generates FileNotFoundExceptions on Sundays with multiple images.
+     */
+    @Override
+    public String next() {
+      String ret = index;
+      index = getNextDay(index, "yyyyMMdd");
+      return ret;
+    }
+
+  }
+
+  public Iterator<String> iterator() {
+    return new ComicIterator();
+  }
+
+}

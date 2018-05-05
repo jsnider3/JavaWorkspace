@@ -8,27 +8,16 @@
 
 package com.joshuasnider.workspace.comicgetter;
 
+import java.util.Iterator;
+
 public class FoxhoundGetter extends ComicGetter {
 
   public static void main(String[] args) {
     new FoxhoundGetter().getAll();
   }
 
-  public String getFirst() {
-    return "001";
-  }
-
   public String getName() {
     return "Foxhound";
-  }
-
-  public String getNext(String index) {
-    int num = Integer.parseInt(index) + 1;
-    String retval = null;
-    if (num <= 500) {
-      retval = String.format("%03d", num);
-    }
-    return retval;
   }
 
   public String[] getToFrom(String index) {
@@ -46,5 +35,26 @@ public class FoxhoundGetter extends ComicGetter {
     return  "foxhound_" + index + ".png";
   }
 
-}
+  private class ComicIterator implements Iterator<String> {
 
+    private int index = 1;
+
+    @Override
+    public boolean hasNext() {
+      return index <= 500;
+    }
+
+    @Override
+    public String next() {
+      String ret = String.format("%03d", index);
+      index = index + 1;
+      return ret;
+    }
+
+  }
+
+  public Iterator<String> iterator() {
+    return new ComicIterator();
+  }
+
+}

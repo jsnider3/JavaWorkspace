@@ -12,6 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
 
 public class GirlGeniusImageGetter extends ComicGetter {
 
@@ -22,38 +23,10 @@ public class GirlGeniusImageGetter extends ComicGetter {
     new GirlGeniusImageGetter().getAll();
   }
 
-  public String getFirst() {
-    return "20021104";
-  }
-
-  public String getNext(String index) {
-    String date = index;
-    try {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(new SimpleDateFormat("yyyyMMdd").parse(date));
-      switch (cal.get(Calendar.DAY_OF_WEEK)) {
-        case Calendar.FRIDAY:
-          date = getNextDay(date, "yyyyMMdd");
-        case Calendar.MONDAY:
-        case Calendar.WEDNESDAY:
-        case Calendar.SATURDAY:
-          date = getNextDay(date, "yyyyMMdd");
-        case Calendar.TUESDAY:
-        case Calendar.THURSDAY:
-        case Calendar.SUNDAY:
-          date = getNextDay(date, "yyyyMMdd");
-          break;
-      }
-    } catch (Exception e) {}
-    if (date.compareTo(getToday("yyyyMMdd")) > 0) {
-      date = null;
-    }
-    return date;
-  }
-
   /**
    * Try to find the link to the double page if the given comic is one.
    * If it isn't or we can't find it, return null.
+   * FIXME: This is a performance issue.
    */
   public String getDoublePage(String url) {
     String link = null;
@@ -78,12 +51,52 @@ public class GirlGeniusImageGetter extends ComicGetter {
     String[] tofrom = new String[2];
     tofrom[0] = title + index + ".jpg";
     tofrom[1] = getDir() + index + ".jpg";
-    String doublePage = getDoublePage(
+    /*String doublePage = getDoublePage(
       "http://www.girlgeniusonline.com/comic.php?date=" + index);
     if (doublePage != null) {
       tofrom[0] = doublePage;
-    }
+    }*/
     return tofrom;
   }
-}
 
+  private class ComicIterator implements Iterator<String> {
+
+    private String index = "20021104";
+
+    @Override
+    public boolean hasNext() {
+      return index.compareTo(getToday("yyyyMMdd")) <= 0;
+    }
+
+    @Override
+    public String next() {
+      String ret = index;
+      try {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new SimpleDateFormat("yyyyMMdd").parse(index));
+        switch (cal.get(Calendar.DAY_OF_WEEK)) {
+          case Calendar.FRIDAY:
+            index = getNextDay(index, "yyyyMMdd");
+          case Calendar.MONDAY:
+          case Calendar.WEDNESDAY:
+          case Calendar.SATURDAY:
+            index = getNextDay(index, "yyyyMMdd");
+          case Calendar.TUESDAY:
+          case Calendar.THURSDAY:
+          case Calendar.SUNDAY:
+            index = getNextDay(index, "yyyyMMdd");
+            break;
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return ret;
+    }
+
+  }
+
+  public Iterator<String> iterator() {
+    return new ComicIterator();
+  }
+
+}

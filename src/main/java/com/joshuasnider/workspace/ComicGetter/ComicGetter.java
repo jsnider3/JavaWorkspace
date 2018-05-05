@@ -19,8 +19,9 @@ import java.nio.channels.ReadableByteChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
 
-public abstract class ComicGetter {
+public abstract class ComicGetter implements Iterable<String> {
 
   public static void main(String[] args) {
     try {
@@ -42,20 +43,18 @@ public abstract class ComicGetter {
         e.printStackTrace();
     }
   }
-  
+
   /**
    * Download every comic.
    */
   public void getAll() {
     new File(getDir()).mkdirs();
-    String index = getFirst();
-    while (index != null) {
+    for (String index : this) {
       System.out.println(index);
       String[] tofrom = getToFrom(index);
-      if (tofrom != null) {
+      if (tofrom != null && !(new File(tofrom[0]).exists())) {
         saveImage(tofrom[0], tofrom[1]);
       }
-      index = getNext(index);
     }
   }
 
@@ -67,19 +66,9 @@ public abstract class ComicGetter {
   }
 
   /**
-   * Get the index of the comic's first page.
-   */
-  public abstract String getFirst();
-
-  /**
    * Get the name of the webcomic in string form.
    */
   public abstract String getName();
-
-  /**
-   * Given the index of a comic, get the next. null is the end.
-   */
-  public abstract String getNext(String index);
 
   /**
    * Get the place to download the image and the place to save it.
@@ -97,7 +86,9 @@ public abstract class ComicGetter {
       cal.setTime(dateFormat.parse(input));
       cal.add(Calendar.DATE, 1);
       result = dateFormat.format(cal.getTime());
-    } catch (ParseException e) { }
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
     return result;
   }
 
@@ -124,4 +115,3 @@ public abstract class ComicGetter {
     }
   }
 }
-

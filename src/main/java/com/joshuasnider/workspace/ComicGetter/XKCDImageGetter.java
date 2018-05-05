@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Iterator;
 import org.jsoup.Jsoup;
 
 public class XKCDImageGetter extends ComicGetter {
@@ -29,25 +30,8 @@ public class XKCDImageGetter extends ComicGetter {
     newest = recent;
   }
 
-  public String getFirst() {
-    return "1";
-  }
-
   public String getName() {
     return "XKCD";
-  }
-
-  public String getNext(String index) {
-    String next = null;
-    int num = Integer.parseInt(index);
-    num += 1;
-    if (num == 404) {
-      num += 1;
-    }
-    if (num <= newest) {
-      next = Integer.toString(num);
-    }
-    return next;
   }
 
   /**
@@ -86,5 +70,33 @@ public class XKCDImageGetter extends ComicGetter {
     }
     return tofrom;
   }
-}
 
+  private class ComicIterator implements Iterator<String> {
+
+    private String current = "1";
+
+    @Override
+    public boolean hasNext() {
+      return Integer.parseInt(current) <= newest;
+    }
+
+    @Override
+    public String next() {
+      String ret = current;
+      String next = null;
+      int num = Integer.parseInt(current);
+      num += 1;
+      if (num == 404) {
+        num += 1;
+      }
+      current = Integer.toString(num);
+      return ret;
+    }
+
+  }
+
+  public Iterator<String> iterator() {
+    return new ComicIterator();
+  }
+
+}
