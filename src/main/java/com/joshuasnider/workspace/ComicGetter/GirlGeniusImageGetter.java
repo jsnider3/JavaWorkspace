@@ -10,8 +10,10 @@ import java.io.File;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class GirlGeniusImageGetter extends ComicGetter {
@@ -61,42 +63,49 @@ public class GirlGeniusImageGetter extends ComicGetter {
 
   private class ComicIterator implements Iterator<String> {
 
-    private String index = "20021104";
+    private Calendar index = null;
+
+    public ComicIterator() throws ParseException {
+      index = Calendar.getInstance();
+      index.setTime(new SimpleDateFormat("yyyyMMdd").parse("20021104"));
+    }
 
     @Override
     public boolean hasNext() {
-      return index.compareTo(getToday("yyyyMMdd")) <= 0;
+      return index.compareTo(Calendar.getInstance()) <= 0;
     }
 
     @Override
     public String next() {
-      String ret = index;
-      try {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new SimpleDateFormat("yyyyMMdd").parse(index));
-        switch (cal.get(Calendar.DAY_OF_WEEK)) {
-          case Calendar.FRIDAY:
-            index = getNextDay(index, "yyyyMMdd");
-          case Calendar.MONDAY:
-          case Calendar.WEDNESDAY:
-          case Calendar.SATURDAY:
-            index = getNextDay(index, "yyyyMMdd");
-          case Calendar.TUESDAY:
-          case Calendar.THURSDAY:
-          case Calendar.SUNDAY:
-            index = getNextDay(index, "yyyyMMdd");
-            break;
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
+      String ret;
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+      ret = dateFormat.format(index.getTime());
+      switch (index.get(Calendar.DAY_OF_WEEK)) {
+        case Calendar.FRIDAY:
+          index.add(Calendar.DATE, 1);
+        case Calendar.MONDAY:
+        case Calendar.WEDNESDAY:
+        case Calendar.SATURDAY:
+          index.add(Calendar.DATE, 1);
+        case Calendar.TUESDAY:
+        case Calendar.THURSDAY:
+        case Calendar.SUNDAY:
+          index.add(Calendar.DATE, 1);
+          break;
       }
       return ret;
     }
 
   }
 
+  @Override
   public Iterator<String> iterator() {
-    return new ComicIterator();
+    try {
+      return new ComicIterator();
+    } catch (ParseException e) {
+      e.printStackTrace();
+      return Collections.emptyIterator();
+    }
   }
 
 }
