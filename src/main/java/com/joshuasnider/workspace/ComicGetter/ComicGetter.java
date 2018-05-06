@@ -23,6 +23,9 @@ import java.util.Iterator;
 
 public abstract class ComicGetter implements Iterable<String> {
 
+  /**
+   * Downloads every webcomic in this directory.
+   */
   public static void main(String[] args) {
     try {
       Class cls = Class.forName("com.joshuasnider.workspace.comicgetter.ComicGetter");
@@ -35,8 +38,17 @@ public abstract class ComicGetter implements Iterable<String> {
         Class loaded = clas.load();
         if (loaded != cls)
         {
-          ComicGetter gtr = (ComicGetter)loaded.newInstance();
-          gtr.getAll();
+          try {
+            ComicGetter gtr = (ComicGetter)loaded.newInstance();
+            gtr.getAll();
+          } catch (ClassCastException e) {
+            System.err.println("ERROR: Non-ComicGetter class in com.joshuasnider.workspace.comicgetter.ComicGetter: " + clas.getSimpleName());
+          } catch (InstantiationException e) {
+            System.err.println("ERROR: Could not instantiate class in com.joshuasnider.workspace.comicgetter.ComicGetter: " + clas.getSimpleName());
+          } catch (Exception e) {
+            System.err.println("ERROR: Failed to download " + clas.getSimpleName() + ".");
+            e.printStackTrace();
+          }
         }
       }
     } catch (Exception e) {
