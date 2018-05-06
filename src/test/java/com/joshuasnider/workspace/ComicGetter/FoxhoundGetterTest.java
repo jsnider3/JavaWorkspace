@@ -32,4 +32,12 @@ public class FoxhoundGetterTest {
     assertEquals("500", contents.get(contents.size() - 1));
   }
 
+  @Test
+  public void testSize() {
+    ComicGetter comic = new FoxhoundGetter();
+    List<String> contents = new ArrayList<>();
+    comic.iterator().forEachRemaining(contents::add);
+    assertTrue(contents.size() >= 500);
+  }
+
 }

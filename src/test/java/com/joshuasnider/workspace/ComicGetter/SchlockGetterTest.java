@@ -32,6 +32,14 @@ public class SchlockGetterTest {
     assertEquals(schlock.getToday("yyyyMMdd"), contents.get(contents.size() - 1));
   }
 
+  @Test
+  public void testSize() {
+    ComicGetter comic = new SchlockGetter();
+    List<String> contents = new ArrayList<>();
+    comic.iterator().forEachRemaining(contents::add);
+    assertTrue(contents.size() >= 365 * 17);
+  }
+
 }
 
 

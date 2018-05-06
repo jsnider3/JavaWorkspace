@@ -33,6 +33,14 @@ public class GirlGeniusGetterTest {
     assertEquals("20021111", contents.get(contents.indexOf("20021108") + 1));
   }
 
+  @Test
+  public void testSize() {
+    ComicGetter comic = new GirlGeniusImageGetter();
+    List<String> contents = new ArrayList<>();
+    comic.iterator().forEachRemaining(contents::add);
+    assertTrue(contents.size() >= 3 * 52 * 15);
+  }
+
 }
 
 

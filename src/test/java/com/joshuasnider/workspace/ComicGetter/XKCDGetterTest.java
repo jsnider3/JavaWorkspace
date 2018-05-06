@@ -31,6 +31,14 @@ public class XKCDGetterTest {
     assertEquals("405", contents.get(contents.indexOf("403") + 1));
   }
 
+  @Test
+  public void testSize() {
+    ComicGetter comic = new XKCDImageGetter();
+    List<String> contents = new ArrayList<>();
+    comic.iterator().forEachRemaining(contents::add);
+    assertTrue(contents.size() >= 1988);
+  }
+
 }
 
 
