@@ -9,6 +9,7 @@ package com.joshuasnider.workspace.comicgetter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Iterator;
@@ -26,14 +27,14 @@ public class XKCDImageGetter extends ComicGetter {
     int recent = -1;
     try {
       recent = getNewestComic();
-    } catch (Exception e) { }
+    } catch (IOException e) { }
     newest = recent;
   }
 
   public String getDest(String index) {
     String src = getSrc(index);
     if (src != null){
-      return getDir() + String.format("%04d", Integer.parseInt(index)) + "_" + getSrc(index).substring(29);
+      return String.format("%s%04d_%s", getDir(), Integer.parseInt(index), src.substring(29));
     }
     else {
       return null;
@@ -47,7 +48,7 @@ public class XKCDImageGetter extends ComicGetter {
   /**
    * Get the index of the newest xkcd comic.
    */
-  public int getNewestComic() throws Exception {
+  public int getNewestComic() throws IOException {
     String html = Jsoup.connect("http://www.xkcd.com").get().html();
     int num = html.indexOf("Permanent link to this comic");
     num = html.indexOf("com/", num) + 4;
@@ -56,24 +57,9 @@ public class XKCDImageGetter extends ComicGetter {
     return comicnumber;
   }
 
-  /**
-   * Get the image URL for the given comic number.
-   */
-  public static String getHTML(String index) {
-    String fileLoc = null;
-    try {
-      String input = Jsoup.connect("http://www.xkcd.com/" + index).get().html();
-      int start = input.indexOf("https://imgs.xkcd.com/comics");
-      int end = input.indexOf('<', start);
-      fileLoc = input.substring(start, end);
-      fileLoc = fileLoc.trim();
-    } catch (Exception e) {}
-    return fileLoc;
-  }
-
   public String[] getToFrom(String index) {
     String[] tofrom = null;
-    String html = getHTML(index);
+    String html = getSrc(index);
     if (html != null) {
       tofrom = new String[2];
       tofrom[0] = getSrc(index);
@@ -82,8 +68,19 @@ public class XKCDImageGetter extends ComicGetter {
     return tofrom;
   }
 
+  /**
+   * Get the image URL for the given comic number.
+   */
   public String getSrc(String index) {
-    return getHTML(index);
+    String fileLoc = null;
+    try {
+      String input = Jsoup.connect("http://www.xkcd.com/" + index).get().html();
+      int start = input.indexOf("https://imgs.xkcd.com/comics");
+      int end = input.indexOf('<', start);
+      fileLoc = input.substring(start, end);
+      fileLoc = fileLoc.trim();
+    } catch (IOException e) {}
+    return fileLoc;
   }
 
   private class ComicIterator implements Iterator<String> {
