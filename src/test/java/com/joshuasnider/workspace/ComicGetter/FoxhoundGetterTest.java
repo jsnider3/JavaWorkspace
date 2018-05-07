@@ -8,6 +8,8 @@ package com.joshuasnider.workspace.comicgetter;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -38,6 +40,16 @@ public class FoxhoundGetterTest {
     List<String> contents = new ArrayList<>();
     comic.iterator().forEachRemaining(contents::add);
     assertTrue(contents.size() >= 500);
+  }
+
+  @Test
+  public void testConnection() {
+    ComicGetter comic = new FoxhoundGetter();
+    try {
+      new URL(comic.getSrc("001")).openStream();
+    } catch(Exception e) {
+      fail("Could not connect to " + comic.getSrc("001") + ".");
+    }
   }
 
 }

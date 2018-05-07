@@ -8,6 +8,7 @@ package com.joshuasnider.workspace.comicgetter;
 
 import static org.junit.Assert.*;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -40,6 +41,14 @@ public class SchlockGetterTest {
     assertTrue(contents.size() >= 365 * 17);
   }
 
+  @Test
+  public void testConnection() {
+    ComicGetter comic = new SchlockGetter();
+    try {
+      new URL(comic.getSrc("20000612")).openStream();
+    } catch(Exception e) {
+      fail("Could not connect to " + comic.getSrc("20000612") + ".");
+    }
+  }
+
 }
-
-

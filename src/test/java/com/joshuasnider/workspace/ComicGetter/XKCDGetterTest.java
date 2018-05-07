@@ -8,6 +8,7 @@ package com.joshuasnider.workspace.comicgetter;
 
 import static org.junit.Assert.*;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -39,6 +40,15 @@ public class XKCDGetterTest {
     assertTrue(contents.size() >= 1988);
   }
 
+  @Test
+  public void testConnection() {
+    ComicGetter comic = new XKCDImageGetter();
+    try {
+      new URL(comic.getSrc("1")).openStream();
+    } catch(Exception e) {
+      e.printStackTrace();
+      fail("Could not connect to " + comic.getSrc("1") + ".");
+    }
+  }
+
 }
-
-

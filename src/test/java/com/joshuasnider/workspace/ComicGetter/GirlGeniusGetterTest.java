@@ -8,6 +8,7 @@ package com.joshuasnider.workspace.comicgetter;
 
 import static org.junit.Assert.*;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -41,6 +42,14 @@ public class GirlGeniusGetterTest {
     assertTrue(contents.size() >= 3 * 52 * 15);
   }
 
+  @Test
+  public void testConnection() {
+    ComicGetter comic = new GirlGeniusImageGetter();
+    try {
+      new URL(comic.getSrc("20021106")).openStream();
+    } catch(Exception e) {
+      fail("Could not connect to " + comic.getSrc("20021106") + ".");
+    }
+  }
+
 }
-
-
