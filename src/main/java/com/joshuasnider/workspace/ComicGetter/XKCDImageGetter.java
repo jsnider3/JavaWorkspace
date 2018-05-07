@@ -31,7 +31,13 @@ public class XKCDImageGetter extends ComicGetter {
   }
 
   public String getDest(String index) {
-    return getDir() + index + getSrc(index).substring(28);
+    String src = getSrc(index);
+    if (src != null){
+      return getDir() + index + getSrc(index).substring(29);
+    }
+    else {
+      return null;
+    }
   }
 
   public String getName() {
@@ -57,7 +63,7 @@ public class XKCDImageGetter extends ComicGetter {
     String fileLoc = null;
     try {
       String input = Jsoup.connect("http://www.xkcd.com/" + index).get().html();
-      int start = input.indexOf("http://imgs.xkcd.com/comics");
+      int start = input.indexOf("https://imgs.xkcd.com/comics");
       int end = input.indexOf('<', start);
       fileLoc = input.substring(start, end);
     } catch (Exception e) {}
