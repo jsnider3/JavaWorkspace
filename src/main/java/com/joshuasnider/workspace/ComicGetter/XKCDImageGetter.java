@@ -30,6 +30,10 @@ public class XKCDImageGetter extends ComicGetter {
     newest = recent;
   }
 
+  public String getDest(String index) {
+    return getDir() + index + getSrc(index).substring(28);
+  }
+
   public String getName() {
     return "XKCD";
   }
@@ -65,10 +69,14 @@ public class XKCDImageGetter extends ComicGetter {
     String html = getHTML(index);
     if (html != null) {
       tofrom = new String[2];
-      tofrom[0] = getHTML(index);
-      tofrom[1] = getDir() + index + tofrom[0].substring(28);
+      tofrom[0] = getSrc(index);
+      tofrom[1] = getDest(index);
     }
     return tofrom;
+  }
+
+  public String getSrc(String index) {
+    return getHTML(index);
   }
 
   private class ComicIterator implements Iterator<String> {

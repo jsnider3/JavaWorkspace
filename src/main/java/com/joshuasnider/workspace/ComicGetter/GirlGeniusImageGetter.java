@@ -25,6 +25,10 @@ public class GirlGeniusImageGetter extends ComicGetter {
     new GirlGeniusImageGetter().getAll();
   }
 
+  public String getDest(String index) {
+    return getDir() + index + ".jpg";
+  }
+
   /**
    * Try to find the link to the double page if the given comic is one.
    * If it isn't or we can't find it, return null.
@@ -51,8 +55,8 @@ public class GirlGeniusImageGetter extends ComicGetter {
 
   public String[] getToFrom(String index) {
     String[] tofrom = new String[2];
-    tofrom[0] = title + index + ".jpg";
-    tofrom[1] = getDir() + index + ".jpg";
+    tofrom[0] = getSrc(index);
+    tofrom[1] = getDest(index);
     /*String doublePage = getDoublePage(
       "http://www.girlgeniusonline.com/comic.php?date=" + index);
     if (doublePage != null) {
@@ -61,18 +65,24 @@ public class GirlGeniusImageGetter extends ComicGetter {
     return tofrom;
   }
 
+  public String getSrc(String index) {
+    return title + index + ".jpg";
+  }
+
   private class ComicIterator implements Iterator<String> {
 
     private Calendar index = null;
+    private Calendar now = null;
 
     public ComicIterator() throws ParseException {
       index = Calendar.getInstance();
+      now = Calendar.getInstance();
       index.setTime(new SimpleDateFormat("yyyyMMdd").parse("20021104"));
     }
 
     @Override
     public boolean hasNext() {
-      return index.compareTo(Calendar.getInstance()) <= 0;
+      return index.compareTo(now) <= 0;
     }
 
     @Override

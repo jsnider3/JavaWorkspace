@@ -63,12 +63,18 @@ public abstract class ComicGetter implements Iterable<String> {
     new File(getDir()).mkdirs();
     for (String index : this) {
       System.out.println(index);
-      String[] tofrom = getToFrom(index);
-      if (tofrom != null && !(new File(tofrom[0]).exists())) {
-        saveImage(tofrom[0], tofrom[1]);
+      String src = getSrc(index);
+      String dest = getDest(index);
+      if (src != null && dest != null && !(new File(dest).exists())) {
+        saveImage(src, dest);
       }
     }
   }
+
+  /**
+   * Get the location to save the image corresponding to the given webcomic index.
+   */
+  public abstract String getDest(String index);
 
   /**
    * Get the directory for saving this webcomic.
@@ -103,6 +109,11 @@ public abstract class ComicGetter implements Iterable<String> {
     }
     return result;
   }
+
+  /**
+   * Get the location from which to download the image corresponding to the given webcomic index.
+   */
+  public abstract String getSrc(String index);
 
   /**
    * Get today as a formatted string.

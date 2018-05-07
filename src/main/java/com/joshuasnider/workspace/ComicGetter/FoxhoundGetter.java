@@ -16,15 +16,23 @@ public class FoxhoundGetter extends ComicGetter {
     new FoxhoundGetter().getAll();
   }
 
+  public String getDest(String index) {
+    return getDir() + getImageName(index);
+  }
+
   public String getName() {
     return "Foxhound";
   }
 
   public String[] getToFrom(String index) {
     String[] tofrom = new String[2];
-    tofrom[0] = "http://www.doctorshrugs.com/foxhound/images/" + getImageName(index);
-    tofrom[1] = getDir() + getImageName(index);
+    tofrom[0] = getSrc(index);
+    tofrom[1] = getDest(index);
     return tofrom;
+  }
+
+  public String getSrc(String index) {
+    return "http://www.doctorshrugs.com/foxhound/images/" + getImageName(index);
   }
 
   /**
