@@ -133,6 +133,7 @@ public abstract class ComicGetter implements Iterable<String> {
         new URL(fileLoc).openStream());
       FileOutputStream out = new FileOutputStream(title);
       out.getChannel().transferFrom(in1, 0, 1 << 24);
+      out.close();
     } catch (IOException e) {
       e.printStackTrace();
     }

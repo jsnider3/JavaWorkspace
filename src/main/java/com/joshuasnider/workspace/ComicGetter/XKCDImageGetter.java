@@ -33,7 +33,7 @@ public class XKCDImageGetter extends ComicGetter {
   public String getDest(String index) {
     String src = getSrc(index);
     if (src != null){
-      return getDir() + index + getSrc(index).substring(29);
+      return getDir() + String.format("%04d", Integer.parseInt(index)) + "_" + getSrc(index).substring(29);
     }
     else {
       return null;
@@ -66,6 +66,7 @@ public class XKCDImageGetter extends ComicGetter {
       int start = input.indexOf("https://imgs.xkcd.com/comics");
       int end = input.indexOf('<', start);
       fileLoc = input.substring(start, end);
+      fileLoc = fileLoc.trim();
     } catch (Exception e) {}
     return fileLoc;
   }
@@ -87,23 +88,20 @@ public class XKCDImageGetter extends ComicGetter {
 
   private class ComicIterator implements Iterator<String> {
 
-    private String current = "1";
+    private int current = 1;
 
     @Override
     public boolean hasNext() {
-      return Integer.parseInt(current) <= newest;
+      return current <= newest;
     }
 
     @Override
     public String next() {
-      String ret = current;
-      String next = null;
-      int num = Integer.parseInt(current);
-      num += 1;
-      if (num == 404) {
-        num += 1;
+      String ret = Integer.toString(current);
+      current += 1;
+      if (current == 404) {
+        current += 1;
       }
-      current = Integer.toString(num);
       return ret;
     }
 
