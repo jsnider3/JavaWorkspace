@@ -27,13 +27,14 @@ public abstract class ComicGetter implements Iterable<String> {
    * Downloads every webcomic in this directory.
    */
   public static void main(String[] args) {
+    String pkg_name = "com.joshuasnider.workspace.comicgetter";
     try {
-      Class cls = Class.forName("com.joshuasnider.workspace.comicgetter.ComicGetter");
+      Class cls = Class.forName(pkg_name + ".ComicGetter");
       // returns the ClassLoader object associated with this Class.
       ClassLoader cLoader = cls.getClassLoader();
       ClassPath class_path = ClassPath.from(cLoader);
       System.out.println("ComicGetter.main");
-      for (ClassPath.ClassInfo clas : class_path.getTopLevelClasses("com.joshuasnider.workspace.comicgetter")) {
+      for (ClassPath.ClassInfo clas : class_path.getTopLevelClasses(pkg_name)) {
         System.out.println("Class: " + clas.getSimpleName());
         Class loaded = clas.load();
         if (loaded != cls)
@@ -42,11 +43,14 @@ public abstract class ComicGetter implements Iterable<String> {
             ComicGetter gtr = (ComicGetter)loaded.newInstance();
             gtr.getAll();
           } catch (ClassCastException e) {
-            System.err.println("ERROR: Non-ComicGetter class in com.joshuasnider.workspace.comicgetter.ComicGetter: " + clas.getSimpleName());
+            System.err.println(String.format(
+              "ERROR: Non-ComicGetter class in %s.ComicGetter: %s", pkg_name, clas.getSimpleName()));
           } catch (InstantiationException e) {
-            System.err.println("ERROR: Could not instantiate class in com.joshuasnider.workspace.comicgetter.ComicGetter: " + clas.getSimpleName());
+            System.err.println(String.format(
+              "ERROR: Could not instantiate class in %s.ComicGetter: %s", pkg_name, clas.getSimpleName()));
           } catch (Exception e) {
-            System.err.println("ERROR: Failed to download " + clas.getSimpleName() + ".");
+            System.err.println(
+              String.format("ERROR: Failed to download %s.", clas.getSimpleName()));
             e.printStackTrace();
           }
         }
