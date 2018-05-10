@@ -47,18 +47,25 @@ public class OOTSGetter extends ComicGetter {
     return null;
   }
 
-  public static String getImageName(String index) {
-    return  "foxhound_" + index + ".png";
-  }
-
   private class ComicIterator implements Iterator<String> {
 
     private int index = 1;
+    private int newest;
+
+    public ComicIterator() {
+      try {
+        Document doc = Jsoup.connect("http://www.giantitp.com/comics/oots.html").get();
+        String comiclink = doc.getElementsByClass("ComicList").get(0).html();
+        newest = Integer.parseInt(comiclink.split(" ")[0]);
+      } catch (IOException e) {
+        e.printStackTrace();
+        newest = 1120;
+      }
+    }
 
     @Override
     public boolean hasNext() {
-      //FIXME
-      return index <= 1120;
+      return index <= newest;
     }
 
     @Override
