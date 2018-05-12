@@ -93,11 +93,6 @@ public abstract class ComicGetter implements Iterable<String> {
   public abstract String getName();
 
   /**
-   * Get the place to download the image and the place to save it.
-   */
-  public abstract String[] getToFrom(String index);
-
-  /**
    * Get the day immediately after the given day.
    */
   public static final String getNextDay(String input, String fmt) {
