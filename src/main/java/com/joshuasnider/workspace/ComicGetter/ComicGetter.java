@@ -83,7 +83,7 @@ public abstract class ComicGetter implements Iterable<String> {
   /**
    * Get the directory for saving this webcomic.
    */
-  public String getDir() {
+  public final String getDir() {
     return "Webcomics" + File.separator + getName() + File.separator;
   }
 
