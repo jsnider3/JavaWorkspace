@@ -70,7 +70,7 @@ public class PunchlineGetter extends ComicGetter {
   }
 
   public Iterator<String> iterator() {
-    return archive.keySet().iterator();//new ComicIterator();
+    return archive.keySet().iterator();
   }
 
 }
