@@ -6,6 +6,7 @@
 
 import argparse
 from datetime import datetime
+from datetime import timedelta
 import sys
 
 def main():
@@ -22,5 +23,22 @@ def main():
 			f.write('{0} {1}\n'.format(com, time_s))
 			f.flush()
 
+def sum_hours(fname):
+  start = None
+  dur = timedelta()
+  with open(fname) as f:
+    lines = f.readlines()
+    for line in lines:
+      line = line.strip(' \n')
+      print(line)
+      if "START" in line:
+        line = line[6:]
+        start = datetime.strptime(line, '%Y-%m-%d %H:%M:%S')
+      elif "STOP" in line:
+        line = line[5:]
+        stop = datetime.strptime(line, '%Y-%m-%d %H:%M:%S')
+        dur += stop - start
+  print(dur)
+
 if __name__ == '__main__':
-	main()
+  sum_hours(sys.argv[1])#	main()
