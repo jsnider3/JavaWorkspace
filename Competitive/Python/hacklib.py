@@ -1899,6 +1899,29 @@ def resilient_search(thresh):
     if resilience(guess * n) < thresh:
       return guess * n
 
+def reverse_in_parentheses(inputString):
+    out = ''
+    depth = 0
+    tmp = ''
+    for c in inputString:
+        if c not in ['(', ')'] and depth == 0:
+            out += c
+        elif c == '(' and depth == 0:
+            depth = 1
+        elif depth > 0:
+            tmp += c
+            if c == '(':
+                depth += 1
+            elif c == ')':
+                depth -= 1
+        if tmp != '' and depth == 0:
+            tmp = tmp[:-1]
+            tmp = tmp.replace('(','1').replace(')','(').replace('1',')')
+            print(tmp)
+            out += reverse_in_parentheses(tmp[::-1])
+            tmp = ''
+    return out
+
 def rod_cuts(length, cut_size):
   ''' Calculate how many possible
       ways to tile a 1d surface '''

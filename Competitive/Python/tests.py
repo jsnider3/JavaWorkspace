@@ -818,6 +818,11 @@ class Tests(unittest.TestCase):
     assert hacklib.resilience(12) == 4.0/11
     assert hacklib.resilient_search(4.0/10) == 12
 
+  def test_reverse_in_parentheses(self):
+    assert hacklib.reverse_in_parentheses("(bar)") == "rab"
+    assert hacklib.reverse_in_parentheses("foo(bar(baz))blim") == "foobazrabblim"
+    assert hacklib.reverse_in_parentheses("(abc)d(efg)") == "cbadgfe"
+
   def test_romans(self):
     roman = RomanNumeral("VI")
     assert int(roman) == 6
